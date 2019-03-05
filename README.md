@@ -9,3 +9,4 @@ An Android app for a school project.
 - Hicham el Marzgioui
 - Wesley de bestegit
 - Adil
+- Michael
