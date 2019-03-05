@@ -8,3 +8,4 @@ An Android app for a school project.
 - Maarten
 - Hicham el Marzgioui
 - Wesley de bestegit
+- Adil
