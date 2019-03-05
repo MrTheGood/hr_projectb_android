@@ -6,3 +6,4 @@ An Android app for a school project.
 
 # Members:
 - Maarten
+- Hicham el Marzgioui
