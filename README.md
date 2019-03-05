@@ -2,6 +2,9 @@
 An Android app for a school project. 
 
 # How to contribute
-[Contributing](./CONTRIBUTING.md)
-Wesley
-de bestegit
+[Contributing](./CONTRIBUTING.md)    
+
+# Members:
+- Maarten
+- Hicham el Marzgioui
+- Wesley de bestegit
