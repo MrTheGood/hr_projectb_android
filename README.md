@@ -10,3 +10,4 @@ An Android app for a school project.
 - Wesley de bestegit
 - Adil
 - Michael
+- Anass
