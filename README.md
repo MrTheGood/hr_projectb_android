@@ -3,4 +3,10 @@ An Android app for a school project.
 
 # How to contribute
 [Contributing](./CONTRIBUTING.md)    
-michael
+
+# Members:
+- Maarten
+- Hicham el Marzgioui
+- Wesley de bestegit
+- Adil
+- Michael
