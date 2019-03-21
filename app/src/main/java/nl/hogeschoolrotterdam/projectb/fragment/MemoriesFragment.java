@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.Memory;
@@ -24,24 +26,12 @@ public class MemoriesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_memories, container, false);
-        ((TextView) view.findViewById(R.id.textview)).setText(R.string.menu_memories);
-        return view;
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (getView() == null) return;
-
-        // get list of memories
         List<Memory> memories = Database.getInstance().getMemories();
+        RecyclerView recyclerView = view.findViewById(R.id.memorylist);
+        recyclerView.setAdapter(new Memories_Adapter(memories));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // get random memory
-        Memory memory = memories.get((int) (Math.random() * memories.size()));
-
-        // set memory texts
-        ((TextView) getView().findViewById(R.id.memory_date)).setText(memory.getDateText());
-        ((TextView) getView().findViewById(R.id.memory_title)).setText(memory.getTitle());
-        ((TextView) getView().findViewById(R.id.memory_description)).setText(memory.getDescription());
+        return view;
     }
 }
