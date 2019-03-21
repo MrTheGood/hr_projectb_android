@@ -19,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.Memory;
 
 /**
  * Created by maartendegoede on 20/03/2019.
@@ -64,8 +66,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(48.689247,-7044502)).title("statue of Liberty").snippet("hello"));
-        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247,-74.044502)).zoom(16).bearing(0).tilt(45).build();
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(52.1326,5.2913)).title("Nederland").snippet("WHIP app"));
+        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(52.1326,5.2913)).zoom(15).bearing(0).tilt(0).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
+        for (Memory memorie : Database.getInstance().getMemories()){
+            googleMap.addMarker(new MarkerOptions().position(memorie.getLocation()).title(memorie.getTitle()).snippet((String) memorie.getDateText()));
+
+        }
     }
 }
