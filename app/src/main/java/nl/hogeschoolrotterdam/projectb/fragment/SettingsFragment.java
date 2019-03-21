@@ -12,7 +12,7 @@ import nl.hogeschoolrotterdam.projectb.R;
 
 /**
  * Created by maartendegoede on 20/03/2019.
- * Copyright © 2019 Adil Yazor, Anass El Mahdaoui, Hicham El Marzgioui, Michaël van Asperen, Wesley de Man, Maarten de Goede all rights reserved.
+ * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Michaël van Asperen, Wesley de Man, Maarten de Goede all rights reserved.
  */
 public class SettingsFragment extends Fragment {
 
