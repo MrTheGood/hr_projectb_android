@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/deleteBtn"
+        android:icon="@drawable/ic_mode_deletememory"
+        android:title="Delete"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/shareBtn"
+        android:icon="@drawable/ic_mode_sharememory"
+        android:title="Share"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/editBtn"
+        android:icon="@drawable/ic_mode_editmemory"
+        android:title="Edit"
+        app:showAsAction="ifRoom" />
+</menu>
