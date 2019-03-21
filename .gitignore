@@ -181,6 +181,6 @@ fabric.properties
 .idea/misc.xml
 .idea/runConfigurations.xml
 .idea/modules.xml
-.idea/caches/build_file_checksums.ser
+.idea/caches
 .idea/assetWizardSettings.xml
 /app/google-services.json
