@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by maartendegoede on 20/03/2019.
@@ -50,7 +51,7 @@ public class Database {
 
 
     @NonNull
-    public ArrayList<Memory> getMemories() {
+    public List<Memory> getMemories() {
         return memories;
     }
 
