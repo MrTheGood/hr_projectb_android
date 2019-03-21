@@ -10,6 +10,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
 }
 
@@ -22,4 +23,6 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+    //google play services
+    implementation 'com.google.android.gms:play-services:11.4.0'
 }
