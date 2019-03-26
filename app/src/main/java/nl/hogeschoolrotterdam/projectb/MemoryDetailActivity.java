@@ -1,23 +1,58 @@
 package nl.hogeschoolrotterdam.projectb;
 
+import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.Memory;
+import org.w3c.dom.Text;
+
+import java.util.List;
 
 public class MemoryDetailActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_detail);
 
+        String id="12";
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        TextView memoryTitleTextView = findViewById(R.id.memoryTitleTextView);
+        TextView memoryDatetextView = findViewById(R.id.memoryDatetextView);
+        TextView memoryDescriptionTextView = findViewById(R.id.memoryDescriptionTextView);
+        ImageView imageView=findViewById(R.id.imageView);
+
+        Database database = Database.getInstance();
+
+        // get memories list (for in the memories list page)
+        List<Memory> memories = database.getMemories();
+        // getting a single memory (requires already having an id)
+        Memory memory = database.findMemory(id);
+
+
+        // showing content (images not included in demo content)
+        memoryDatetextView.setText(memory.getDateText());
+        memoryTitleTextView.setText(memory.getTitle());
+        memoryDescriptionTextView.setText(memory.getDescription());
+        //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
+       // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
+
+
+
+
     }
 
     @Override
@@ -46,7 +81,23 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 Toast.makeText(this,"Action Share selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.deleteBtn:
-                Toast.makeText(this, "Action Delete selected", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder deleteBtn = new AlertDialog.Builder(MemoryDetailActivity.this);
+                deleteBtn.setMessage("Are you sure you want to delete this memory? This action cannot be undone.")
+                        .setCancelable(false).setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = deleteBtn.create();
+                alert.setTitle("Delete Memory");
+                alert.show();
                 return true;
             case R.id.editBtn:
                 Toast.makeText(this, "Action Edit selected", Toast.LENGTH_LONG).show();
