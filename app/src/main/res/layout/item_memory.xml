@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        />
+
+    <TextView
+        android:id="@+id/Textviewtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TitleName"
+        android:layout_toRightOf="@id/imageView"
+        android:textColor="#000"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:id="@+id/Textviewdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Textviewtitle"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/imageView"
+        android:text="Date"
+        android:textColor="#000"
+        android:textSize="17sp"
+        />
+
+
+
+</RelativeLayout>
