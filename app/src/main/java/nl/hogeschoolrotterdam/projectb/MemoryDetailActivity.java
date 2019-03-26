@@ -1,6 +1,7 @@
 package nl.hogeschoolrotterdam.projectb;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -8,11 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.Memory;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -92,7 +91,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
                                 //todo: implement delete
                             }
                         })
-                        .setNegativeButton("Cancel", null);
+                        .setNegativeButton("Cancel", null)
                         .show();
                 return true;
             case R.id.editBtn:
