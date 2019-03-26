@@ -34,7 +34,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
         TextView memoryDatetextView = findViewById(R.id.memoryDatetextView);
         TextView memoryDescriptionTextView = findViewById(R.id.memoryDescriptionTextView);
         ImageView imageView=findViewById(R.id.imageView);
-
+        //change.
         Database database = Database.getInstance();
 
         // get memories list (for in the memories list page)
