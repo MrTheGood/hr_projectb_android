@@ -3,6 +3,9 @@ package nl.hogeschoolrotterdam.projectb.data;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.text.format.DateUtils;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nl.hogeschoolrotterdam.projectb.data.media.Image;
@@ -23,7 +26,7 @@ public class Memory {
     @NonNull
     private final String id;
     @NonNull
-    private Location location;
+    private LatLng location;
     @NonNull
     private Date date;
     @NonNull
@@ -33,7 +36,7 @@ public class Memory {
     @NonNull
     private ArrayList<Media> media;
 
-    public Memory(@NonNull String id, @NonNull Location location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media) {
+    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media) {
         this.id = id;
         this.location = location;
         this.date = date;
@@ -48,11 +51,11 @@ public class Memory {
     }
 
     @NonNull
-    public Location getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
-    public void setLocation(@NonNull Location location) {
+    public void setLocation(@NonNull LatLng location) {
         this.location = location;
     }
 
