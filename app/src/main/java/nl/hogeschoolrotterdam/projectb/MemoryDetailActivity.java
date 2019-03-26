@@ -81,23 +81,19 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 Toast.makeText(this,"Action Share selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.deleteBtn:
-                AlertDialog.Builder deleteBtn = new AlertDialog.Builder(MemoryDetailActivity.this);
-                deleteBtn.setMessage("Are you sure you want to delete this memory? This action cannot be undone.")
-                        .setCancelable(false).setPositiveButton("Discard", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(MemoryDetailActivity.this)
+                        .setTitle("Delete Memory")
+                        .setMessage("Are you sure you want to delete this memory? This action cannot be undone.")
+                        .setCancelable(false)
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
+                                //todo: implement delete
                             }
-                        });
-                AlertDialog alert = deleteBtn.create();
-                alert.setTitle("Delete Memory");
-                alert.show();
+                        })
+                        .setNegativeButton("Cancel", null);
+                        .show();
                 return true;
             case R.id.editBtn:
                 Toast.makeText(this, "Action Edit selected", Toast.LENGTH_LONG).show();
