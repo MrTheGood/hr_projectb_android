@@ -1,0 +1,63 @@
+package nl.hogeschoolrotterdam.projectb.fragment;
+
+import android.text.Layout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.core.widget.ListViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.Memory;
+
+import java.util.List;
+
+public class Memories_Adapter extends RecyclerView.Adapter<Memories_Adapter.Memories_Viewholder> {
+
+
+    private List<Memory> data;
+
+    public Memories_Adapter(List<Memory>data) {
+         this.data = data;
+
+    }
+
+    @NonNull
+    @Override
+    public Memories_Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.item_memory, parent, false);
+        return new Memories_Viewholder(view);
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull Memories_Viewholder holder, int position) {
+        Memory memory = data.get(position);
+        holder.Textviewtitle.setText(memory.getTitle());
+        holder.Textviewdate.setText(memory.getDateText());
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return data.size();
+    }
+
+    public class Memories_Viewholder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView Textviewtitle;
+        TextView Textviewdate;
+
+        public Memories_Viewholder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.imageView);
+            Textviewtitle = itemView.findViewById(R.id.Textviewtitle);
+            Textviewdate = itemView.findViewById(R.id.Textviewdate);
+        }
+    }
+}

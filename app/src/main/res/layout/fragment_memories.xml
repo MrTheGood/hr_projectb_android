@@ -7,51 +7,10 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
-        android:id="@+id/textview"
-        style="@style/TextAppearance.MaterialComponents.Headline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem"
-        />
-
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview"
-        >
-
-        <TextView
-            android:id="@+id/memory_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            tools:text="@tools:sample/date/day_of_week"
-            />
-
-        <TextView
-            android:id="@+id/memory_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            tools:text="@tools:sample/lorem"
-            />
-
-        <TextView
-            android:id="@+id/memory_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            tools:text="@tools:sample/lorem/random"
-            />
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/memorylist"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

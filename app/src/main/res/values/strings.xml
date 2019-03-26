@@ -6,5 +6,5 @@
     <string name="menu_memories">Memories</string>
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
-    <string name = "google_aps_API">AIzaSyAotps9058bBZ64LSxx9SoM4wLxl1QTxoQ</string>
+    <string name="menu_memory">Memory</string>
 </resources>
