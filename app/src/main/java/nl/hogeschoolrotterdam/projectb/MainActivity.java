@@ -1,6 +1,9 @@
 package nl.hogeschoolrotterdam.projectb;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -14,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  */
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,5 +29,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(findViewById(R.id.nav_host));
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         NavigationUI.setupWithNavController(bottomNav, navController);
+
+
+        View button_add_memory = findViewById(R.id.button_add_memory);
+        button_add_memory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent (getApplicationContext(),MemoryDetailActivity.class);
+                startActivity(startIntent);
+            }
+        });
     }
+
 }
