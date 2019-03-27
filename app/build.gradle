@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 apply plugin: "androidx.navigation.safeargs"
 
 android {
@@ -23,6 +25,14 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    implementation "androidx.viewpager2:viewpager2:1.0.0-alpha01"
+
     //google play services
     implementation 'com.google.android.gms:play-services:11.4.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

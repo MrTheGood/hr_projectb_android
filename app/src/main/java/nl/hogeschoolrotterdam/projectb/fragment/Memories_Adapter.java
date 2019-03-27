@@ -22,9 +22,7 @@ public class Memories_Adapter extends RecyclerView.Adapter<Memories_Adapter.Memo
 
     public Memories_Adapter(List<Memory>data) {
          this.data = data;
-
     }
-
     @NonNull
     @Override
     public Memories_Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

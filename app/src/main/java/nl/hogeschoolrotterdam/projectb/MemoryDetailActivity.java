@@ -1,6 +1,7 @@
 package nl.hogeschoolrotterdam.projectb;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,20 +11,27 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.Memory;
 
 import java.util.List;
 
 public class MemoryDetailActivity extends AppCompatActivity {
-
+    Intent shareIntent;
+    Memory memory;
+    ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_detail);
+        viewPager2 = findViewById(R.id.viewPager2);
 
-        String id="12";
+        viewPager2.setAdapter(new ViewPagerAdapter());
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -35,12 +43,8 @@ public class MemoryDetailActivity extends AppCompatActivity {
         ImageView imageView=findViewById(R.id.imageView);
         //change.
         Database database = Database.getInstance();
-
-        // get memories list (for in the memories list page)
-        List<Memory> memories = database.getMemories();
-        // getting a single memory (requires already having an id)
-        Memory memory = database.findMemory(id);
-
+        String sessionId= getIntent().getStringExtra("EXTRA_SESSION_ID");
+        memory = database.findMemory(sessionId);
 
         // showing content (images not included in demo content)
         memoryDatetextView.setText(memory.getDateText());
@@ -48,9 +52,6 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryDescriptionTextView.setText(memory.getDescription());
         //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
        // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
-
-
-
 
     }
 
@@ -75,9 +76,14 @@ public class MemoryDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()){
             case R.id.shareBtn:
-                Toast.makeText(this,"Action Share selected", Toast.LENGTH_SHORT).show();
+                shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT,"My App");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getDescription());
+                startActivity(Intent.createChooser(shareIntent, "Share memories via"));
                 return true;
             case R.id.deleteBtn:
                 new AlertDialog.Builder(MemoryDetailActivity.this)
@@ -102,4 +108,5 @@ public class MemoryDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

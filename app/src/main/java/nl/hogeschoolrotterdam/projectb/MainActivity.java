@@ -35,8 +35,9 @@ public class MainActivity extends AppCompatActivity {
         button_add_memory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent (getApplicationContext(),MemoryDetailActivity.class);
-                startActivity(startIntent);
+                Intent intent = new Intent(getBaseContext(), MemoryDetailActivity.class);
+                intent.putExtra("EXTRA_SESSION_ID", "12");
+                startActivity(intent);
             }
         });
     }
