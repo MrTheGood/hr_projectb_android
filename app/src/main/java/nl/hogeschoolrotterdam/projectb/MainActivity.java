@@ -3,7 +3,6 @@ package nl.hogeschoolrotterdam.projectb;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -35,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
         button_add_memory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MemoryDetailActivity.class);
-                intent.putExtra("EXTRA_SESSION_ID", "12");
+                Intent intent = new Intent(getBaseContext(), MemoryEditActivity.class);
                 startActivity(intent);
             }
         });
