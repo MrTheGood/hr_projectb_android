@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,36 +9,37 @@
 
     <ImageView
         android:id="@+id/imageView"
+        android:scaleType="centerCrop"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:srcCompat="@mipmap/ic_launcher"
+        android:src="@mipmap/ic_launcher"
+        tools:src="@tools:sample/backgrounds/scenic"
         />
 
     <TextView
         android:id="@+id/Textviewtitle"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TitleName"
-        android:layout_toRightOf="@id/imageView"
-        android:textColor="#000"
         android:layout_alignTop="@id/imageView"
         android:layout_marginLeft="20dp"
-        android:textSize="18sp"
+        android:layout_toRightOf="@id/imageView"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="@tools:sample/lorem"
         />
 
     <TextView
         android:id="@+id/Textviewdate"
+        style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/Textviewtitle"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="0dp"
         android:layout_toRightOf="@id/imageView"
-        android:text="Date"
-        android:textColor="#000"
-        android:textSize="17sp"
+        tools:text="@tools:sample/date/day_of_week"
         />
-
 
 
 </RelativeLayout>
