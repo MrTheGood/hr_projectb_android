@@ -5,22 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import android.widget.Toast;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
@@ -57,7 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMapView = (MapView) mView.findViewById(R.id.map);
+        mMapView = mView.findViewById(R.id.map);
         if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
@@ -70,15 +62,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
-        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public void onInfoWindowClick(Marker marker) {
                 String memoryId = (String) marker.getTag();
                 Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
                 intent.putExtra("EXTRA_SESSION_ID", memoryId);
                 startActivity(intent);
-                return false;
             }
         });
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
