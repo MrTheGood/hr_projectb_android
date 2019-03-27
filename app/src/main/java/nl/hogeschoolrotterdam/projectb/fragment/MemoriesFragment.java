@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class MemoriesFragment extends Fragment {
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class MemoriesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
         recyclerView.setAdapter(new Memories_Adapter(memories));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
 
         return view;
     }
