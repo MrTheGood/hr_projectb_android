@@ -22,7 +22,7 @@
         android:text="TitleName"
         android:layout_toRightOf="@id/imageView"
         android:textColor="#000"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@id/imageView"
         android:layout_marginLeft="20dp"
         android:textSize="18sp"
         />
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/Textviewtitle"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="0dp"
         android:layout_toRightOf="@id/imageView"
         android:text="Date"
         android:textColor="#000"
