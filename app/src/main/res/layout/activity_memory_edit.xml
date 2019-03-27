@@ -101,7 +101,18 @@
                     android:inputType="textMultiLine"
                     android:lines="8"
                     />
+
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/memory_save_button"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/action_save"
+                />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
