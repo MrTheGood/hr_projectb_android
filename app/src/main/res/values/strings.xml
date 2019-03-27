@@ -14,4 +14,6 @@
     <string name="hint_date">Date</string>
     <string name="hint_title">Memory Title</string>
     <string name="action_save">Save</string>
+    <string name="error_title_too_short">Title cannot be shorter than 2 characters.</string>
+    <string name="error_description_too_short">Description cannot be shorter than 2 characters.</string>
 </resources>
