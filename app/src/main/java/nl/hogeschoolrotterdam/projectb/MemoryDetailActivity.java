@@ -11,13 +11,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.Memory;
-
-import java.util.List;
 
 public class MemoryDetailActivity extends AppCompatActivity {
     Intent shareIntent;
@@ -89,7 +85,6 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 new AlertDialog.Builder(MemoryDetailActivity.this)
                         .setTitle("Delete Memory")
                         .setMessage("Are you sure you want to delete this memory? This action cannot be undone.")
-                        .setCancelable(false)
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
