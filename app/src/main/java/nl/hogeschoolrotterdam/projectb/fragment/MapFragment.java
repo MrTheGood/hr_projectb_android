@@ -72,7 +72,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(52.1326, 5.2913)).title("Nederland").snippet("WHIP app"));
         CameraPosition Liberty = CameraPosition.builder().target(new LatLng(52.1326, 5.2913)).zoom(10).bearing(0).tilt(0).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
         for (Memory memorie : Database.getInstance().getMemories()) {
