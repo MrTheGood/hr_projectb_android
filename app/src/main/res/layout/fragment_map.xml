@@ -19,7 +19,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginLeft="0dp"
         android:elevation="10dp"
-        android:background="#fff"
+        android:background ="@color/white"
         android:id="@+id/relLayout1">
 
         <ImageView
@@ -36,9 +36,9 @@
             android:layout_toRightOf="@id/ic_magnify"
             android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:textColor="#000"
+            android:textColor="@color/black"
             android:id="@+id/input_search"
-            android:hint="Enter adress"
+            android:hint="@string/str_enter_adress"
             />
 
 
