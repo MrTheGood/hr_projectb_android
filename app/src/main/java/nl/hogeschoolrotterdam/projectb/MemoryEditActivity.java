@@ -84,7 +84,7 @@ public class MemoryEditActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(final View v, boolean hasFocus) {
                 if (hasFocus) {
-                    new DatePickerDialog(
+                    DatePickerDialog dialog = new DatePickerDialog(
                             MemoryEditActivity.this,
                             new DatePickerDialog.OnDateSetListener() {
                                 @Override
@@ -98,7 +98,9 @@ public class MemoryEditActivity extends AppCompatActivity {
                             calendar.get(Calendar.YEAR), // picker dialog selected year
                             calendar.get(Calendar.MONTH), // picker dialog selected month
                             calendar.get(Calendar.DAY_OF_MONTH) // picker dialog selected day
-                    ).show();
+                    );
+                    dialog.getDatePicker().setMaxDate(System.currentTimeMillis()); // limit date picker to picking only past dates
+                    dialog.show();
                 }
             }
         });
