@@ -2,11 +2,14 @@ package nl.hogeschoolrotterdam.projectb;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.maps.model.LatLng;
@@ -14,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.Memory;
 import nl.hogeschoolrotterdam.projectb.data.media.Media;
+import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
 import java.util.ArrayList;
@@ -122,6 +126,21 @@ public class MemoryEditActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        // Get current location from the LocationManager
+        LocationManager.getInstance()
+                .initialize(this)
+                .updateLocation(this, new LocationManager.OnLocationResultListener() {
+                    @Override
+                    public void onLocationResult(@Nullable Location location) {
+                        if (location == null) {
+                            Toast.makeText(MemoryEditActivity.this, R.string.error_could_not_set_current_location, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        memory.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+                    }
+                });
     }
 
     private void setButtonEnabled() {

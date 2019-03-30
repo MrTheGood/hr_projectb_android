@@ -16,4 +16,8 @@
     <string name="action_save">Save</string>
     <string name="error_title_too_short">Title cannot be shorter than 2 characters.</string>
     <string name="error_description_too_short">Description cannot be shorter than 2 characters.</string>
+    <string name="warn_enable_permissions">Enable location permissions</string>
+    <string name="warn_enable_permissions_message">WHIB needs to know your location to save memories near you!</string>
+    <string name="action_ok">Got it!</string>
+    <string name="error_could_not_set_current_location">Could not set memory location to current.</string>
 </resources>

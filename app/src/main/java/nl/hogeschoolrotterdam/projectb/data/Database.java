@@ -12,7 +12,6 @@ import java.util.List;
  * Created by maartendegoede on 20/03/2019.
  * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Michaël van Asperen, Wesley de Man, Maarten de Goede all rights reserved.
  */
-@SuppressWarnings("unused")
 public class Database {
     private static Database ourInstance = new Database();
     private final ArrayList<Memory> memories = new ArrayList<>();
