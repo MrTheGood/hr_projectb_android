@@ -89,7 +89,7 @@ public class MemoryEditActivity extends AppCompatActivity {
                             new DatePickerDialog.OnDateSetListener() {
                                 @Override
                                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                    calendar.set(year, month - 1, day, 0, 0); // set calendar to the selected time
+                                    calendar.set(year, month, day, 0, 0); // set calendar to the selected time
                                     memory.setDate(new Date(calendar.getTimeInMillis())); // update memory date
                                     dateInput.getEditText().setText(memory.getDateText()); // set input text
                                     findViewById(v.getNextFocusDownId()).requestFocus(); // request focus for the next input
