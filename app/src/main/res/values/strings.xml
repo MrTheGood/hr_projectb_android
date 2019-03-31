@@ -8,6 +8,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_memory">Memory</string>
     <string name="menu_add_memory">New memory</string>
+    <string name="str_enter_adress">Enter adress</string>
 
     <!-- hint -->
     <string name="hint_description">Description</string>

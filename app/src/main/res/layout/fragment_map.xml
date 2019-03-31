@@ -11,6 +11,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginLeft="0dp"
+        android:elevation="10dp"
+        android:background ="@color/white"
+        android:id="@+id/relLayout1">
+
+        <ImageView
+            android:id="@+id/ic_magnify"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_magnify"
+            />
+        <EditText
+            android:id="@+id/input_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/ic_magnify"
+            android:background="@null"
+            android:hint="@string/str_enter_adress"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            />
+
+
+        </RelativeLayout>
 
 
 
