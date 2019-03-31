@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="nl.hogeschoolrotterdam.projectb"
     >
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:glEsVersion="0x0020000"
+        android:required="true"
+        />
 
     <application
         android:allowBackup="true"
@@ -16,7 +21,14 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         >
-        <activity android:name=".MemoryDetailActivity" android:label="@string/menu_memory">
+        <activity
+            android:name=".MemoryEditActivity"
+            android:label="@string/menu_add_memory"
+            />
+        <activity
+            android:name=".MemoryDetailActivity"
+            android:label="@string/menu_memory"
+            >
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -26,13 +38,15 @@
             </intent-filter>
         </activity>
 
-        <!--//maps-->
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"
+            />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAotps9058bBZ64LSxx9SoM4wLxl1QTxoQ"/>
+            android:value="AIzaSyAotps9058bBZ64LSxx9SoM4wLxl1QTxoQ"
+            />
     </application>
-<uses-feature
-    android:glEsVersion="0x0020000"
-    android:required="true"/>
+
 </manifest>
