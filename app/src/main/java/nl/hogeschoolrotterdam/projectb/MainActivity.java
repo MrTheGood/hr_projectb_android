@@ -1,15 +1,17 @@
 package nl.hogeschoolrotterdam.projectb;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 
 /**
  * Created by maartendegoede on 05/03/2019.
@@ -35,11 +37,22 @@ public class MainActivity extends AppCompatActivity {
         button_add_memory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MemoryDetailActivity.class);
-                intent.putExtra("EXTRA_SESSION_ID", "12");
+                Intent intent = new Intent(getBaseContext(), MemoryEditActivity.class);
                 startActivity(intent);
             }
         });
+
+        LocationManager
+                .getInstance()
+                .initialize(this)
+                .updateLocation(this, new LocationManager.OnLocationResultListener() {
+                    @Override
+                    public void onLocationResult(@Nullable Location location) {
+                        if (location != null) {
+                            Toast.makeText(MainActivity.this, "Your location is: " + location, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
 }

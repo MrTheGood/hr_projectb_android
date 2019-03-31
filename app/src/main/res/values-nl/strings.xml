@@ -4,4 +4,12 @@
     <string name="menu_memories">Herinneringen</string>
     <string name="menu_search">Zoeken</string>
     <string name="menu_settings">Instellingen</string>
+    <string name="menu_memory">Herinnering</string>
+    <string name="menu_add_memory">Nieuwe herinnering</string>
+
+    <!-- hint -->
+    <string name="hint_description">Beschrijving</string>
+    <string name="hint_date">Datum</string>
+    <string name="hint_title">Herinnering Titel</string>
+    <string name="action_save">Oplsaan</string>
 </resources>
