@@ -7,4 +7,18 @@
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_memory">Memory</string>
+    <string name="menu_add_memory">New memory</string>
+    <string name="str_enter_adress">Enter adress</string>
+
+    <!-- hint -->
+    <string name="hint_description">Description</string>
+    <string name="hint_date">Date</string>
+    <string name="hint_title">Memory Title</string>
+    <string name="action_save">Save</string>
+    <string name="error_title_too_short">Title cannot be shorter than 2 characters.</string>
+    <string name="error_description_too_short">Description cannot be shorter than 2 characters.</string>
+    <string name="warn_enable_permissions">Enable location permissions</string>
+    <string name="warn_enable_permissions_message">WHIB needs to know your location to save memories near you!</string>
+    <string name="action_ok">Got it!</string>
+    <string name="error_could_not_set_current_location">Could not set memory location to current.</string>
 </resources>
