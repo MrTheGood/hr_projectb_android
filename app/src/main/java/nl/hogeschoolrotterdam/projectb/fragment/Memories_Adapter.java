@@ -68,6 +68,8 @@ public class Memories_Adapter extends RecyclerView.Adapter<Memories_Adapter.Memo
             imageView = itemView.findViewById(R.id.imageView);
             Textviewtitle = itemView.findViewById(R.id.Textviewtitle);
             Textviewdate = itemView.findViewById(R.id.Textviewdate);
+
+
         }
     }
 }

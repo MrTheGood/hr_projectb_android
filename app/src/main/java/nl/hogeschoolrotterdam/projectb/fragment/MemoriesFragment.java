@@ -36,6 +36,7 @@ public class MemoriesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
         recyclerView.setAdapter(new Memories_Adapter(memories));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
@@ -43,6 +44,8 @@ public class MemoriesFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(tb);
 
         return view;
+
+
 
     }
 }
