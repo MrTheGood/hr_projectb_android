@@ -27,6 +27,7 @@ public class WhibApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
         themeId = PreferenceManager.getDefaultSharedPreferences(this).getInt("themeId", R.style.AppTheme_Light);
         isDarkTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isDarkTheme", false);
         setCurrentTheme(themeId, isDarkTheme);
@@ -62,7 +63,7 @@ public class WhibApp extends Application {
         setTheme(themeId);
         PreferenceManager.getDefaultSharedPreferences(this)
                 .edit()
-                .putInt("defaultTheme", themeId)
+                .putInt("themeId", themeId)
                 .apply();
         PreferenceManager.getDefaultSharedPreferences(this)
                 .edit()
