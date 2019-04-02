@@ -19,12 +19,41 @@
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/theme_selector"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
         android:entries="@array/themes"
         android:spinnerMode="dropdown"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:listitem="@layout/support_simple_spinner_dropdown_item"
+        />
+
+    <ImageView
+        android:id="@+id/theme_preview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#8ddd"
+        android:scaleType="centerInside"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintTop_toBottomOf="@id/theme_selector"
+        tools:src="@tools:sample/backgrounds/scenic"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/theme_apply"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/action_apply_theme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/theme_preview"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
