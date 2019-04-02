@@ -20,6 +20,7 @@ import nl.hogeschoolrotterdam.projectb.util.SimpleOnItemSelectedListener;
 public class SettingsFragment extends Fragment {
     private static final int LIGHT = 0;
     private static final int DARK = 1;
+    private static final int LIGHT_PURPLE = 2;
 
     @Nullable
     @Override
@@ -33,9 +34,18 @@ public class SettingsFragment extends Fragment {
 
         Spinner spinner = getView().findViewById(R.id.theme_selector);
         int themeId = WhibApp.getInstance().getThemeId();
-        spinner.setSelection(
-                themeId == R.style.AppTheme_Light ? LIGHT : DARK,
-                false);
+        switch (themeId) {
+            case R.style.AppTheme_Light:
+                spinner.setSelection(LIGHT, true);
+                break;
+            case R.style.AppTheme_Dark:
+                spinner.setSelection(DARK, true);
+                break;
+            case R.style.AppTheme_Light_Purple:
+                spinner.setSelection(LIGHT_PURPLE, true);
+                break;
+        }
+
         spinner.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -46,6 +56,10 @@ public class SettingsFragment extends Fragment {
                         break;
                     case DARK: // Dark theme
                         WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Dark, true);
+                        requireActivity().recreate();
+                        break;
+                    case LIGHT_PURPLE: // Light Purple theme
+                        WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Light_Purple, false);
                         requireActivity().recreate();
                         break;
                 }

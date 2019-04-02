@@ -53,4 +53,18 @@
         <item name="colorOnError">@color/colorOnError</item>
     </style>
 
+
+    <style name="AppTheme.Light.Purple">
+        <!-- Primary colours -->
+        <item name="colorPrimary">#ffaa66cc</item>
+        <item name="colorPrimaryVariant">#7B1FA2</item>
+
+        <!-- Secondary colours -->
+        <item name="colorSecondary">#4CAF50</item>
+        <item name="colorSecondaryVariant">#388E3C</item>
+
+        <item name="colorPrimaryDark">#7B1FA2</item>
+        <item name="colorAccent">#4CAF50</item>
+    </style>
+
 </resources>

@@ -3,5 +3,6 @@
     <string-array name="themes">
         <item>Light mode</item>
         <item>Dark mode</item>
+        <item>Purple mode</item>
     </string-array>
 </resources>
