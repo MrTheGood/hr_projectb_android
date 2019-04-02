@@ -74,7 +74,7 @@ public class LocationManager {
         locationRequest = LocationRequest.create()
                 .setInterval(5 * 60 * 1000) // 5*60 seconds (5min)
                 .setFastestInterval(60 * 1000) // 60 seconds
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY); // approximately 100m accuracy
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // Accurate within a few meters
 
         locationSettingsRequest = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest)
@@ -113,7 +113,7 @@ public class LocationManager {
     }
 
     private void requestLocationPermission(final Activity activity) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION)) {
             new AlertDialog.Builder(activity)
                     .setTitle(R.string.warn_enable_permissions)
                     .setMessage(R.string.warn_enable_permissions_message)
@@ -130,7 +130,7 @@ public class LocationManager {
     }
 
     private void actualRequestLocationPermission(final Activity activity) {
-        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION);
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
     }
 
     private void stopUpdatingLocation() {
@@ -139,7 +139,7 @@ public class LocationManager {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean hasLocationPermission(Context context) {
-        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     public void updateLocation(Activity activity, OnLocationResultListener listener) {
