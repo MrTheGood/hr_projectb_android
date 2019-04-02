@@ -2,6 +2,7 @@ package nl.hogeschoolrotterdam.projectb;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.Memory;
@@ -22,6 +24,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(WhibApp.getInstance().getThemeId());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_detail);
         viewPager2 = findViewById(R.id.viewPager2);
@@ -32,6 +35,8 @@ public class MemoryDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Drawable homeAsUpIndicator = ContextCompat.getDrawable(this, R.drawable.ic_action_close); // Workaround for a bug in MaterialComponents
+        getSupportActionBar().setHomeAsUpIndicator(WhibApp.getInstance().tintDrawable(homeAsUpIndicator));
 
         TextView memoryTitleTextView = findViewById(R.id.memoryTitleTextView);
         TextView memoryDatetextView = findViewById(R.id.memoryDatetextView);
@@ -61,6 +66,8 @@ public class MemoryDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_main_memorydetail_top);
+        WhibApp.getInstance().tintMenuItems(menu); // Workaround for a Material Components bug
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

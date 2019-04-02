@@ -14,6 +14,9 @@
     <color name="colorSurface">@color/white</color>
     <color name="colorOnSurface">@color/black</color>
 
+    <color name="colorSurfaceDark">#111</color>
+    <color name="colorOnSurfaceDark">@color/white</color>
+
     <color name="colorError">#C51162</color>
     <color name="colorOnError">@color/white</color>
 
