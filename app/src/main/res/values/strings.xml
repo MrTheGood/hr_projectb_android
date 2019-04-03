@@ -21,4 +21,5 @@
     <string name="warn_enable_permissions_message">WHIB needs to know your location to save memories near you!</string>
     <string name="action_ok">Got it!</string>
     <string name="error_could_not_set_current_location">Could not set memory location to current.</string>
+    <string name="action_apply_theme">Apply Theme</string>
 </resources>
