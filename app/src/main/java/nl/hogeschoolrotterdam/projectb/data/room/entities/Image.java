@@ -1,4 +1,4 @@
-package nl.hogeschoolrotterdam.projectb.data.media;
+package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

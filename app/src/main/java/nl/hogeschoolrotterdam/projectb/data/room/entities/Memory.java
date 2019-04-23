@@ -1,15 +1,10 @@
-package nl.hogeschoolrotterdam.projectb.data;
+package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.text.format.DateUtils;
-
-import com.google.android.gms.maps.model.LatLng;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import nl.hogeschoolrotterdam.projectb.data.media.Image;
-import nl.hogeschoolrotterdam.projectb.data.media.Media;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Calendar;

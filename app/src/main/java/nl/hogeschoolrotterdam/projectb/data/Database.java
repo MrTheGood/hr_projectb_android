@@ -3,6 +3,7 @@ package nl.hogeschoolrotterdam.projectb.data;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.gms.maps.model.LatLng;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 
 import java.util.ArrayList;
 import java.util.Date;
