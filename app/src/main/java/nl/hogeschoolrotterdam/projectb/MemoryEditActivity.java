@@ -1,16 +1,22 @@
 package nl.hogeschoolrotterdam.projectb;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -22,15 +28,24 @@ import nl.hogeschoolrotterdam.projectb.data.media.Media;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class MemoryEditActivity extends AppCompatActivity {
+    public static final int GALLERY_REQUEST = 20;
+    public static final int IMAGE_CAMERA_REQUEST = 21;
+    public static final int VIDEO_CAMERA_REQUEST=22;
     private TextInputLayout titleInput;
     private TextInputLayout dateInput;
     private TextInputLayout descriptionInput;
     private Button saveButton;
+    private ImageButton cameraButton1,cameraButton2,cameraButton3;
+    private ImageButton lastClick;
 
     private Boolean isTitleValid = false;
     private Boolean isDescriptionValid = false;
@@ -55,6 +70,61 @@ public class MemoryEditActivity extends AppCompatActivity {
         dateInput = findViewById(R.id.memory_add_date);
         descriptionInput = findViewById(R.id.memory_add_description);
         saveButton = findViewById(R.id.memory_save_button);
+
+
+        View.OnClickListener cameraClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 lastClick= (ImageButton) v;
+                new AlertDialog.Builder(MemoryEditActivity.this)
+                        .setTitle("Add Media")
+                        .setMessage("How do you want to add the media?")
+                        .setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent mediaIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                                String pictureDirectoryPath = pictureDirectory.getPath();
+                                Uri data = Uri.parse(pictureDirectoryPath);
+                                mediaIntent.setDataAndType(data,"image/* video/*");
+                                startActivityForResult(mediaIntent,GALLERY_REQUEST);
+                            }
+
+                        })
+                        .setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new AlertDialog.Builder(MemoryEditActivity.this)
+                                        .setTitle("Camera")
+                                        .setMessage("How would you like to capture the media?")
+                                        .setPositiveButton("Video", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                                                startActivityForResult(intent,VIDEO_CAMERA_REQUEST);
+                                            }
+                                        })
+                                        .setNegativeButton("Image", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                startActivityForResult(intent2,IMAGE_CAMERA_REQUEST);
+                                            }
+                                        }).show();
+                            }
+                        })
+                        .show();
+            }
+        };
+
+        cameraButton1 = findViewById(R.id.memory_camera_button1);
+        cameraButton2 = findViewById(R.id.memory_camera_button2);
+        cameraButton3 = findViewById(R.id.memory_camera_button3);
+
+        cameraButton1.setOnClickListener(cameraClick);
+        cameraButton2.setOnClickListener(cameraClick);
+        cameraButton3.setOnClickListener(cameraClick);
+
 
 
         // create a memory with calendar to today
@@ -147,7 +217,54 @@ public class MemoryEditActivity extends AppCompatActivity {
                         memory.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
                     }
                 });
+
+
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode == RESULT_OK){
+            if (requestCode==GALLERY_REQUEST){
+                Uri imageUri = data.getData();
+
+                InputStream inputStream;
+
+                try {
+                    inputStream = getContentResolver().openInputStream(imageUri);
+                    Bitmap image = BitmapFactory.decodeStream(inputStream);
+
+                    lastClick.setImageBitmap(image);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this,"Unable to open image",Toast.LENGTH_LONG).show();
+                }
+            }
+            else if (requestCode==VIDEO_CAMERA_REQUEST){
+                Uri imageUri = data.getData();
+
+                InputStream inputStream;
+
+                try {
+                    inputStream = getContentResolver().openInputStream(imageUri);
+                    Bitmap image = BitmapFactory.decodeStream(inputStream);
+
+                    lastClick.setImageBitmap(image);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this,"Unable to open image",Toast.LENGTH_LONG).show();
+                }
+            }
+            else if (requestCode==IMAGE_CAMERA_REQUEST){
+                Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                lastClick.setImageBitmap(bitmap);
+            }
+        }
+        else{
+        super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
     private void setButtonEnabled() {
         saveButton.setEnabled(isDescriptionValid && isTitleValid);
