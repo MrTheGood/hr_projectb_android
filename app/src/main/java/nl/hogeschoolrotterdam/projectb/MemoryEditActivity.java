@@ -59,7 +59,7 @@ public class MemoryEditActivity extends AppCompatActivity {
 
         // create a memory with calendar to today
         final Calendar calendar = Calendar.getInstance();
-        ArrayList<Media> media = null;
+        ArrayList<Media> media = new ArrayList<>();
         memory = new Memory(
                 Database.getInstance().newId(),
                 new LatLng(0, 0),
