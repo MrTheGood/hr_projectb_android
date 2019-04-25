@@ -2,8 +2,6 @@ package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.os.Bundle;
 import android.view.*;
-import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 
@@ -26,7 +25,7 @@ import java.util.List;
  */
 public class MemoriesFragment extends Fragment {
     private List<Memory> memories;
-    private Memories_Adapter adapter;
+    private MemoriesAdapter adapter;
 
     @Nullable
     @Override
@@ -35,7 +34,7 @@ public class MemoriesFragment extends Fragment {
         setHasOptionsMenu(true);
 
         memories = Database.getInstance().getMemories();
-        adapter = new Memories_Adapter(memories);
+        adapter = new MemoriesAdapter(memories);
 
 
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
@@ -48,19 +47,19 @@ public class MemoriesFragment extends Fragment {
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         Toolbar tb = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(tb);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(tb);
 
         return view;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_memory_listsort, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.Newest:
                 Collections.sort(memories, new Comparator<Memory>() {
