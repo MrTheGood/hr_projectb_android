@@ -58,7 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
     private void geoLocate(){
 
-        String searchingString =mSearchText.getText().toString();
+        String searchingString = mSearchText.getText().toString();
         Geocoder geocoder = new Geocoder(getActivity());
         List<Address> list = new ArrayList<>();
         try{
