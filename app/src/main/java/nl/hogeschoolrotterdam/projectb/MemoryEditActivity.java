@@ -6,15 +6,23 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.textfield.TextInputLayout;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.Memory;
@@ -22,15 +30,18 @@ import nl.hogeschoolrotterdam.projectb.data.media.Media;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class MemoryEditActivity extends AppCompatActivity {
+    private static final String TAG = "AutoCompleteAdapter";
+    public static final int LOCATION_EDIT = 23;
+
+
     private TextInputLayout titleInput;
     private TextInputLayout dateInput;
     private TextInputLayout descriptionInput;
     private Button saveButton;
+    private TextInputLayout locationInput;
 
     private Boolean isTitleValid = false;
     private Boolean isDescriptionValid = false;
@@ -42,6 +53,8 @@ public class MemoryEditActivity extends AppCompatActivity {
         setTheme(WhibApp.getInstance().getThemeId());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_edit);
+
+
 
         // initialise views
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -55,6 +68,7 @@ public class MemoryEditActivity extends AppCompatActivity {
         dateInput = findViewById(R.id.memory_add_date);
         descriptionInput = findViewById(R.id.memory_add_description);
         saveButton = findViewById(R.id.memory_save_button);
+        locationInput = findViewById(R.id.memory_change_location);
 
 
         // create a memory with calendar to today
@@ -108,6 +122,18 @@ public class MemoryEditActivity extends AppCompatActivity {
                 }
             }
         });
+        // Open location picker if location input was selected
+        locationInput.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, boolean hasFocus) {
+                if (hasFocus) {
+                   //todo
+                    Intent i = new Intent( MemoryEditActivity.this,LocationEditActivity.class);
+                    startActivityForResult(i,LOCATION_EDIT);
+
+                }
+            }
+        });
 
         // check if the description is valid when the text has changed
         descriptionInput.getEditText().addTextChangedListener(new SimpleTextWatcher() {
@@ -154,8 +180,15 @@ public class MemoryEditActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        memory.setLocation((LatLng) data.getExtras().get("result"));
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+
 }

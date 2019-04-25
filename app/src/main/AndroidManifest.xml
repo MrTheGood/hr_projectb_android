@@ -23,6 +23,8 @@
         android:theme="@style/AppTheme.Light"
         tools:ignore="GoogleAppIndexingWarning"
         >
+        <activity android:name=".LocationEditActivity">
+        </activity>
         <activity
             android:name=".MemoryEditActivity"
             android:label="@string/menu_add_memory"
