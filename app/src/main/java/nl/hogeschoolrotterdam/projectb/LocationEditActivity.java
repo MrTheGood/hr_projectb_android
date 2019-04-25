@@ -86,7 +86,7 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
         }
         if (list.size() > 0) {
             Address address = list.get(0);
-            Log.d(TAG, "locate adress:" + address.toString());
+            Log.d(TAG, "Locate adress:" + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
             CameraPosition search = CameraPosition.builder().target(new LatLng(address.getLatitude(),
                     address.getLongitude())).zoom(10).bearing(0).tilt(0).build();
