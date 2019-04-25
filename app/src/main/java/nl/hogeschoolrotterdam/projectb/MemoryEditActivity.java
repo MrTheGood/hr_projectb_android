@@ -34,7 +34,6 @@ import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 import java.util.*;
 
 public class MemoryEditActivity extends AppCompatActivity {
-    private static final String TAG = "AutoCompleteAdapter";
     public static final int LOCATION_EDIT = 23;
 
 

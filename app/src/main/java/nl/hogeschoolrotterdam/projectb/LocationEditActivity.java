@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by maartendegoede on 20/03/2019.
+ * Created by Wesley de man on 24/04/2019.
  * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Michaël van Asperen, Wesley de Man, Maarten de Goede all rights reserved.
  */
 public class LocationEditActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -32,7 +32,6 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
     GoogleMap mGoogleMap;
     MapView mMapView;
     private EditText mSearchText;
-    private static final String TAG = "Location";
     private Button button;
     LatLng latLng;
 
@@ -74,11 +73,6 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
         }
         if (list.size() > 0) {
             Address address = list.get(0);
-            Log.d(TAG, "Locate adress:" + address.toString());
-            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-            CameraPosition search = CameraPosition.builder().target(new LatLng(address.getLatitude(),
-                    address.getLongitude())).zoom(10).bearing(0).tilt(0).build();
-            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
             latLng = new LatLng(address.getLatitude(), address.getLongitude());
             setMarker(latLng);
 
@@ -87,6 +81,9 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void setMarker(LatLng latLng) {
+        CameraPosition search = CameraPosition.builder().target(latLng
+                ).zoom(10).bearing(0).tilt(0).build();
+        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
         mGoogleMap.clear();
         MarkerOptions options = new MarkerOptions().position(latLng);
         mGoogleMap.addMarker(options);
@@ -110,11 +107,10 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
             }
         });
         mMapView = findViewById(R.id.map);
-        if (mMapView != null) {
-            mMapView.onCreate(null);
-            mMapView.onResume();
-            mMapView.getMapAsync(this);
-        }
+        mMapView.onCreate(null);
+        mMapView.onResume();
+        mMapView.getMapAsync(this);
+
 
     }
 
