@@ -93,6 +93,7 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(WhibApp.getInstance().getThemeId());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_edit);
         button = findViewById(R.id.memory_save_location_button);
