@@ -10,6 +10,15 @@
     <string name="menu_add_memory">New memory</string>
     <string name="str_enter_adress">Enter adress</string>
 
+    <!--Alert dialog-->
+    <string name="dialog_add_memory_media_title1">Add Media</string>
+    <string name="dialog_add_memory_media_description1">How do you want to add the media?</string>
+    <string name="dialog_add_memory_media_positive1">Gallery</string>
+    <string name="dialog_add_memory_media_title2">Camera</string>
+    <string name="dialog_add_memory_media_description2">How would you like to capture the media?</string>
+    <string name="dialog_add_memory_media_positive2">Video</string>
+    <string name="dialog_add_memory_media_negative2">Image</string>
+
     <!-- hint -->
     <string name="hint_description">Description</string>
     <string name="hint_date">Date</string>

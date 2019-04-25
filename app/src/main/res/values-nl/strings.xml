@@ -7,6 +7,15 @@
     <string name="menu_memory">Herinnering</string>
     <string name="menu_add_memory">Nieuwe herinnering</string>
 
+    <!--Alert dialog-->
+    <string name="dialog_add_memory_media_title1">Voeg Media</string>
+    <string name="dialog_add_memory_media_description1">Hoe wilt u de media toevoegen?</string>
+    <string name="dialog_add_memory_media_positive1">Galerij</string>
+    <string name="dialog_add_memory_media_title2">Camera</string>
+    <string name="dialog_add_memory_media_description2">Hoe wilt u de media vastleggen?</string>
+    <string name="dialog_add_memory_media_positive2">Video</string>
+    <string name="dialog_add_memory_media_negative2">Foto</string>
+
     <!-- hint -->
     <string name="hint_description">Beschrijving</string>
     <string name="hint_date">Datum</string>

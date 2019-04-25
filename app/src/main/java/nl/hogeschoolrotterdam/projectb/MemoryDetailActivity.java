@@ -85,7 +85,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
             case R.id.shareBtn:
                 shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT,"My App");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT,memory.getTitle());
                 shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getDescription());
                 startActivity(Intent.createChooser(shareIntent, "Share memories via"));
                 return true;
@@ -96,6 +96,8 @@ public class MemoryDetailActivity extends AppCompatActivity {
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                //todo: implement delete
                                // SQLiteDatabase db = this.getWritableDatabase();
                                 // return db.delete(TABLE_NAME, "ID =?", new String[]{id});
                             }

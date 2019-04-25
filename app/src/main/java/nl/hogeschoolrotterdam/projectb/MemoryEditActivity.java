@@ -70,6 +70,9 @@ public class MemoryEditActivity extends AppCompatActivity {
         dateInput = findViewById(R.id.memory_add_date);
         descriptionInput = findViewById(R.id.memory_add_description);
         saveButton = findViewById(R.id.memory_save_button);
+        cameraButton1 = findViewById(R.id.memory_camera_button1);
+        cameraButton2 = findViewById(R.id.memory_camera_button2);
+        cameraButton3 = findViewById(R.id.memory_camera_button3);
 
 
         View.OnClickListener cameraClick = new View.OnClickListener() {
@@ -77,9 +80,9 @@ public class MemoryEditActivity extends AppCompatActivity {
             public void onClick(View v) {
                  lastClick= (ImageButton) v;
                 new AlertDialog.Builder(MemoryEditActivity.this)
-                        .setTitle("Add Media")
-                        .setMessage("How do you want to add the media?")
-                        .setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.dialog_add_memory_media_title1)
+                        .setMessage(R.string.dialog_add_memory_media_description1)
+                        .setPositiveButton(R.string.dialog_add_memory_media_positive1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent mediaIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -91,20 +94,20 @@ public class MemoryEditActivity extends AppCompatActivity {
                             }
 
                         })
-                        .setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.dialog_add_memory_media_title2, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 new AlertDialog.Builder(MemoryEditActivity.this)
-                                        .setTitle("Camera")
-                                        .setMessage("How would you like to capture the media?")
-                                        .setPositiveButton("Video", new DialogInterface.OnClickListener() {
+                                        .setTitle(R.string.dialog_add_memory_media_title2)
+                                        .setMessage(R.string.dialog_add_memory_media_description2)
+                                        .setPositiveButton(R.string.dialog_add_memory_media_positive2, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                                                 startActivityForResult(intent,VIDEO_CAMERA_REQUEST);
                                             }
                                         })
-                                        .setNegativeButton("Image", new DialogInterface.OnClickListener() {
+                                        .setNegativeButton(R.string.dialog_add_memory_media_negative2, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -116,10 +119,6 @@ public class MemoryEditActivity extends AppCompatActivity {
                         .show();
             }
         };
-
-        cameraButton1 = findViewById(R.id.memory_camera_button1);
-        cameraButton2 = findViewById(R.id.memory_camera_button2);
-        cameraButton3 = findViewById(R.id.memory_camera_button3);
 
         cameraButton1.setOnClickListener(cameraClick);
         cameraButton2.setOnClickListener(cameraClick);
