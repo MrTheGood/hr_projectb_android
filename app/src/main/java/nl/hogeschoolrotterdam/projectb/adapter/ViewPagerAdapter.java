@@ -1,4 +1,4 @@
-package nl.hogeschoolrotterdam.projectb;
+package nl.hogeschoolrotterdam.projectb.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,8 +6,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import nl.hogeschoolrotterdam.projectb.R;
 
-class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.PagerVH> {
+public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.PagerVH> {
 
     private int[] colors = new int[]{
             android.R.color.black,
@@ -18,7 +19,7 @@ class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.PagerVH> {
 
     @NonNull
     @Override
-    public PagerVH onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PagerVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, parent, false));
     }
 
@@ -28,7 +29,7 @@ class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.PagerVH> {
     }
 
     @Override
-    public void onBindViewHolder(PagerVH holder, int position) {
+    public void onBindViewHolder(@NonNull PagerVH holder, int position) {
         holder.tvTitle.setText("item " + position);
         holder.container.setBackgroundResource(colors[position]);
     }
