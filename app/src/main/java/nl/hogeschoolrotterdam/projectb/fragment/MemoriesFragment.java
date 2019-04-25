@@ -2,10 +2,9 @@ package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,34 +17,81 @@ import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.Memory;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by maartendegoede on 20/03/2019.
- * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Michaël van Asperen, Wesley de Man, Maarten de Goede all rights reserved.
+ * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Wesley de Man, Maarten de Goede all rights reserved.
  */
 public class MemoriesFragment extends Fragment {
-
+    private List<Memory> memories;
+    private Memories_Adapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_memories, container, false);
+        setHasOptionsMenu(true);
 
-        List<Memory> memories = Database.getInstance().getMemories();
+        memories = Database.getInstance().getMemories();
+        adapter = new Memories_Adapter(memories);
+
+
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
-        recyclerView.setAdapter(new Memories_Adapter(memories));
+        recyclerView.setAdapter(adapter);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
+
         Toolbar tb = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(tb);
 
         return view;
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_memory_listsort, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.Newest:
+                Collections.sort(memories, new Comparator<Memory>() {
+                    @Override
+                    public int compare(Memory a, Memory b) {
+                        return (int) (b.getDate().getTime() - a.getDate().getTime());
+                    }
+                });
+                adapter.setData(memories);
+                return true;
+            case R.id.Oldest:
+                Collections.sort(memories, new Comparator<Memory>() {
+                    @Override
+                    public int compare(Memory a, Memory b) {
+                        return (int) (a.getDate().getTime() - b.getDate().getTime());
+                    }
+                });
+                adapter.setData(memories);
+                return true;
+            case R.id.Alphabetical:
+                Collections.sort(memories, new Comparator<Memory>() {
+                    @Override
+                    public int compare(Memory a, Memory b) {
+                        return (a.getTitle().toLowerCase().compareTo(b.getTitle().toLowerCase()));
+                    }
+                });
+                adapter.setData(memories);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
