@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -49,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 .updateLocation(this, new LocationManager.OnLocationResultListener() {
                     @Override
                     public void onLocationResult(@Nullable Location location) {
-                        if (location != null) {
-                            Toast.makeText(MainActivity.this, "Your location is: " + location, Toast.LENGTH_LONG).show();
-                        }
+                        //initialized location
                     }
                 });
     }
