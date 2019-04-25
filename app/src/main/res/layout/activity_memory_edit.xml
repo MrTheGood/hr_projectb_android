@@ -84,10 +84,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/action_save"
+                android:text="@string/action_change_memory_location"
                 />
 
-            memory_change_location_input
+            
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/memory_add_description"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
