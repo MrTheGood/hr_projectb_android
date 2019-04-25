@@ -8,32 +8,20 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import nl.hogeschoolrotterdam.projectb.MainActivity;
-import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
-import nl.hogeschoolrotterdam.projectb.R;
-import nl.hogeschoolrotterdam.projectb.data.Database;
-import nl.hogeschoolrotterdam.projectb.data.Memory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by maartendegoede on 20/03/2019.
@@ -50,7 +38,7 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
 
 
     private void inity() {
-        mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener(){
+        mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
             @Override
             public void onMapLongClick(LatLng Longl) {
@@ -59,7 +47,7 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
 
             }
         });
-        mSearchText = (EditText) findViewById(R.id.input_search);
+        mSearchText = findViewById(R.id.input_search);
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
@@ -91,21 +79,19 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
             CameraPosition search = CameraPosition.builder().target(new LatLng(address.getLatitude(),
                     address.getLongitude())).zoom(10).bearing(0).tilt(0).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
-            latLng =  new LatLng(address.getLatitude(), address.getLongitude());
+            latLng = new LatLng(address.getLatitude(), address.getLongitude());
             setMarker(latLng);
-
-
 
 
         }
     }
-    private void setMarker(LatLng latLng){
-        mGoogleMap.clear();;
+
+    private void setMarker(LatLng latLng) {
+        mGoogleMap.clear();
         MarkerOptions options = new MarkerOptions().position(latLng);
         mGoogleMap.addMarker(options);
 
     }
-
 
 
     @Override
@@ -117,8 +103,8 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onClick(View v) {
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("result",latLng);
-                setResult(Activity.RESULT_OK,returnIntent);
+                returnIntent.putExtra("result", latLng);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
 
             }
@@ -133,14 +119,11 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
     }
 
 
-
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(this);
-        googleMap.setMapType(googleMap.MAP_TYPE_NORMAL);
-        latLng = (LatLng) getIntent().getExtras().get("location" );
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        latLng = (LatLng) getIntent().getExtras().get("location");
         mGoogleMap = googleMap;
         setMarker(latLng);
         inity();
