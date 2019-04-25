@@ -1,6 +1,5 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.TextView;
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
-import nl.hogeschoolrotterdam.projectb.data.Memory;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,8 +47,7 @@ public class MemoriesFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-
-        Toolbar tb = (Toolbar) view.findViewById(R.id.toolbar);
+        Toolbar tb = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(tb);
 
         return view;

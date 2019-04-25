@@ -17,8 +17,8 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputLayout;
 import nl.hogeschoolrotterdam.projectb.data.Database;
-import nl.hogeschoolrotterdam.projectb.data.Memory;
-import nl.hogeschoolrotterdam.projectb.data.media.Media;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
@@ -59,7 +59,7 @@ public class MemoryEditActivity extends AppCompatActivity {
 
         // create a memory with calendar to today
         final Calendar calendar = Calendar.getInstance();
-        ArrayList<Media> media = null;
+        ArrayList<Media> media = new ArrayList<>();
         memory = new Memory(
                 Database.getInstance().newId(),
                 new LatLng(0, 0),

@@ -1,19 +1,16 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.content.Intent;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.widget.ListViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
-import nl.hogeschoolrotterdam.projectb.data.Database;
-import nl.hogeschoolrotterdam.projectb.data.Memory;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 
 import java.util.List;
 

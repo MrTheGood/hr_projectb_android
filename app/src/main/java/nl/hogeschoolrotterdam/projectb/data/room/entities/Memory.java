@@ -1,15 +1,13 @@
-package nl.hogeschoolrotterdam.projectb.data;
+package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.text.format.DateUtils;
-
-import com.google.android.gms.maps.model.LatLng;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import nl.hogeschoolrotterdam.projectb.data.media.Image;
-import nl.hogeschoolrotterdam.projectb.data.media.Media;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,10 +18,11 @@ import java.util.List;
  * Created by maartendegoede on 20/03/2019.
  * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Michaël van Asperen, Wesley de Man, Maarten de Goede all rights reserved.
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@Entity
 public class Memory {
 
     @NonNull
+    @PrimaryKey
     private final String id;
     @NonNull
     private LatLng location;
@@ -34,7 +33,12 @@ public class Memory {
     @NonNull
     private String description;
     @NonNull
+    @Ignore
     private ArrayList<Media> media;
+
+    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description) {
+        this(id, location, date, title, description, null);
+    }
 
     public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media) {
         this.id = id;
@@ -118,6 +122,10 @@ public class Memory {
     @NonNull
     public List<Media> getMedia() {
         return media;
+    }
+
+    public void _initializeMedia(@NonNull ArrayList<Media> media) {
+        this.media = media;
     }
 
     public void addMedia(Media media) {

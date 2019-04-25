@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +19,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import nl.hogeschoolrotterdam.projectb.MainActivity;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
-import nl.hogeschoolrotterdam.projectb.data.Memory;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by maartendegoede on 20/03/2019.
@@ -97,7 +94,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mView = inflater.inflate(R.layout.fragment_map, container, false);
 
         // texten setten
-        mSearchText = (EditText) mView.findViewById(R.id.input_search);
+        mSearchText = mView.findViewById(R.id.input_search);
 
         return mView;
     }
