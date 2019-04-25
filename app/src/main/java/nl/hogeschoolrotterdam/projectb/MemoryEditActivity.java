@@ -1,5 +1,6 @@
 package nl.hogeschoolrotterdam.projectb;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -180,7 +181,12 @@ public class MemoryEditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        memory.setLocation((LatLng) data.getExtras().get("result"));
+        if (requestCode == LOCATION_EDIT) {
+            if(resultCode == Activity.RESULT_OK){
+                memory.setLocation((LatLng) data.getExtras().get("result"));
+            }
+        }
+
     }
 
     @Override

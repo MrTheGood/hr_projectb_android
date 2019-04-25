@@ -140,7 +140,9 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(this);
         googleMap.setMapType(googleMap.MAP_TYPE_NORMAL);
+        latLng = (LatLng) getIntent().getExtras().get("location" );
         mGoogleMap = googleMap;
+        setMarker(latLng);
         inity();
     }
 }
