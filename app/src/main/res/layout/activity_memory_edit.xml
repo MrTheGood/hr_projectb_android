@@ -87,7 +87,7 @@
                 android:text="@string/action_change_memory_location"
                 />
 
-            
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/memory_add_description"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

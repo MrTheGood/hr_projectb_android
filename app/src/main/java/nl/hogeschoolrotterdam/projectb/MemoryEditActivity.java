@@ -41,7 +41,7 @@ public class MemoryEditActivity extends AppCompatActivity {
     private TextInputLayout dateInput;
     private TextInputLayout descriptionInput;
     private Button saveButton;
-    private TextInputLayout locationInput;
+    private Button locationInput;
 
     private Boolean isTitleValid = false;
     private Boolean isDescriptionValid = false;
@@ -68,7 +68,7 @@ public class MemoryEditActivity extends AppCompatActivity {
         dateInput = findViewById(R.id.memory_add_date);
         descriptionInput = findViewById(R.id.memory_add_description);
         saveButton = findViewById(R.id.memory_save_button);
-        locationInput = findViewById(R.id.memory_change_location);
+        locationInput = findViewById(R.id.memory_change_location_input);
 
 
         // create a memory with calendar to today
@@ -123,15 +123,13 @@ public class MemoryEditActivity extends AppCompatActivity {
             }
         });
         // Open location picker if location input was selected
-        locationInput.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        locationInput.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(final View v, boolean hasFocus) {
-                if (hasFocus) {
-                   //todo
-                    Intent i = new Intent( MemoryEditActivity.this,LocationEditActivity.class);
-                    startActivityForResult(i,LOCATION_EDIT);
+            public void onClick(View v) {
 
-                }
+                Intent i = new Intent( MemoryEditActivity.this,LocationEditActivity.class);
+                i.putExtra("location", memory.getLocation());
+                startActivityForResult(i,LOCATION_EDIT);
             }
         });
 
