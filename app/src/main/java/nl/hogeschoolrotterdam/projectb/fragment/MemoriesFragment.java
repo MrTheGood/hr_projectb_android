@@ -2,6 +2,7 @@ package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.os.Bundle;
 import android.view.*;
+import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
