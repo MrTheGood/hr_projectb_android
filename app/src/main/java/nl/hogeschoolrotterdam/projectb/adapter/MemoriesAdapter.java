@@ -12,6 +12,7 @@ import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 

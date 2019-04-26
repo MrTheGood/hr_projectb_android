@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.google.firebase:firebase-perf:16.2.5'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     //map
     implementation 'com.google.android.libraries.places:places:1.1.0'
