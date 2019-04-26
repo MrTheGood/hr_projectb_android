@@ -1,17 +1,24 @@
-package nl.hogeschoolrotterdam.projectb.data.media;
+package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.Entity;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@Entity
 public class Image extends Media {
     @NonNull
-    private byte[] image;
+    private String imagePath;
 
-    public Image(@NonNull byte[] image) {
-        this.image = image;
+    public Image(int id, @NonNull String memoryId, @NonNull String imagePath) {
+        super(id, memoryId);
+        this.imagePath = imagePath;
+    }
+
+    @NonNull
+    public String getImagePath() {
+        return imagePath;
     }
 
     /**
@@ -27,6 +34,6 @@ public class Image extends Media {
      */
     @Nullable
     public Bitmap getImage() {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
+        return BitmapFactory.decodeFile(imagePath);
     }
 }

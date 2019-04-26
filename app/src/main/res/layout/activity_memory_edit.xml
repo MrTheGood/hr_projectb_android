@@ -75,9 +75,18 @@
                     android:layout_height="wrap_content"
                     android:inputType="date"
                     android:maxLines="1"
-                    android:nextFocusDown="@id/memory_add_description_input"
+                    android:nextFocusDown="@id/memory_change_location_input"
                     />
             </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/memory_change_location_input"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/action_change_memory_location"
+                />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -133,7 +142,7 @@
                     android:id="@+id/memory_add_description_input"
                     style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="182dp"
                     android:gravity="top"
                     android:inputType="textMultiLine"
                     android:lines="8"
@@ -153,3 +162,4 @@
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
+

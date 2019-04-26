@@ -2,10 +2,12 @@ package nl.hogeschoolrotterdam.projectb.data;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.google.android.gms.maps.model.LatLng;
+import androidx.room.Room;
+import nl.hogeschoolrotterdam.projectb.WhibApp;
+import nl.hogeschoolrotterdam.projectb.data.room.AppDatabase;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,32 +17,16 @@ import java.util.List;
 public class Database {
     private static Database ourInstance = new Database();
     private final ArrayList<Memory> memories = new ArrayList<>();
+    private AppDatabase database;
 
     private Database() {
-        memories.add(new Memory(newId(), new LatLng(52.1326, 5.2913), new Date(1546300800000L), "Happy new year!", "We had a lot of fun during the new year! We shot some people with fireworks, lost 21 fingers, ate some weird fried doughballs and killed Kenny.\nBasically just had a good time.", null));
-        memories.add(new Memory(newId(), new LatLng(52.0226, 5.2913), new Date(0L), "I'm sorry Dave", "I'm affraid I can't do that.", null));
-        memories.add(new Memory(newId(), new LatLng(52.2326, 5.2913), new Date(1546300700000L), "HI.", "It was a very fun night, hicham only now has a soa but he doesnt mind, he also.. nvm", null));
-        memories.add(new Memory(newId(), new LatLng(52.3326, 5.2913), new Date(1546300700000L), "HI.", "Hi how are you i am very ogoeood idk what is hould rwite so this iks josut some tpy ol riddled texct full of typos an dtedt and bullshit idk what else do youlw an tmee to say?! jusot give me some thing to say! stem partyt egen de bourger, sterven krijgkt de tegin gplease actuwola y dont i don't awoant that tho wn happeabnl now aphmake ikt stop", null));
-        memories.add(new Memory(newId(), new LatLng(52.4326, 5.2913), new Date(1524239892345L), "One Ring", "One ring to rule them all, one ring to find them. One ring to bring them all and in the darkness bind them.", null));
-        memories.add(new Memory(newId(), new LatLng(52.5326, 5.2913), new Date(1548423697889L), "KSLh iokjBS DLIOKbi KWBI olBS ifjkb wikahsbdf ikwba sidk", "sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw.", null));
-        memories.add(new Memory(newId(), new LatLng(52.6326, 5.2913), new Date(1524239892345L), "One Ring", "One ring to rule them all, one ring to find them. One ring to bring them all and in the darkness bind them.", null));
-        memories.add(new Memory(newId(), new LatLng(52.8326, 5.2913), new Date(0L), "I'm sorry Dave", "I'm affraid I can't do that.", null));
-        memories.add(new Memory(newId(), new LatLng(52.7326, 5.2913), new Date(1546300800000L), "Happy new year!", "We had a lot of fun during the new year! We shot some people with fireworks, lost 21 fingers, ate some weird fried doughballs and killed Kenny.\nBasically just had a good time.", null));
-        memories.add(new Memory(newId(), new LatLng(52.9326, 5.2913), new Date(1546323697889L), "Night Gathers.", "Night gathers and now my watch begins. It shall not end untill my death. I shall take no wives, hold no lands, father no children. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the light in the darkness, the sword that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I give my life and honor to the Nights Watch, for this night and all nights to come.", null));
-        memories.add(new Memory(newId(), new LatLng(52.9926, 5.2913), new Date(1548423697889L), "KSLh iokjBS DLIOKbi KWBI olBS ifjkb wikahsbdf ikwba sidk", "sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba ", null));
-        memories.add(new Memory(newId(), new LatLng(51.0326, 5.2913), new Date(1546323697889L), "Night Gathers.", "Night gathers and now my watch begins. It shall not end untill my death. I shall take no wives, hold no lands, father no children. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the light in the darkness, the sword that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I give my life and honor to the Nights Watch, for this night and all nights to come.", null));
-        memories.add(new Memory(newId(), new LatLng(51.1326, 5.2913), new Date(1546300800000L), "Happy new year!", "We had a lot of fun during the new year! We shot some people with fireworks, lost 21 fingers, ate some weird fried doughballs and killed Kenny.\nBasically just had a good time.", null));
-        memories.add(new Memory(newId(), new LatLng(51.2326, 5.2913), new Date(1546300800000L), "Happy new year!", "We had a lot of fun during the new year! We shot some people with fireworks, lost 21 fingers, ate some weird fried doughballs and killed Kenny.\nBasically just had a good time.", null));
-        memories.add(new Memory(newId(), new LatLng(51.3326, 5.2913), new Date(1546300700000L), "HI.", "Hi how are you i am very ogoeood idk what is hould rwite so this iks josut some tpy ol riddled texct full of typos an dtedt and bullshit idk what else do youlw an tmee to say?! jusot give me some thing to say! stem partyt egen de bourger, sterven krijgkt de tegin gplease actuwola y dont i don't awoant that tho wn happeabnl now aphmake ikt stop", null));
-        memories.add(new Memory(newId(), new LatLng(51.4326, 5.2913), new Date(0L), "I'm sorry Dave", "I'm affraid I can't do that.", null));
-        memories.add(new Memory(newId(), new LatLng(51.5326, 5.2913), new Date(1548423697889L), "KSLh iokjBS DLIOKbi KWBI olBS ifjkb wikahsbdf ikwba sidk", "sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw.", null));
-        memories.add(new Memory(newId(), new LatLng(51.6326, 5.2913), new Date(1524239892345L), "One Ring", "One ring to rule them all, one ring to find them. One ring to bring them all and in the darkness bind them.", null));
-        memories.add(new Memory(newId(), new LatLng(51.7326, 5.2913), new Date(1524239892345L), "One Ring", "One ring to rule them all, one ring to find them. One ring to bring them all and in the darkness bind them.", null));
-        memories.add(new Memory(newId(), new LatLng(51.8326, 5.2913), new Date(0L), "I'm sorry Dave", "I'm affraid I can't do that.", null));
-        memories.add(new Memory(newId(), new LatLng(51.9326, 5.2913), new Date(1546323697889L), "Night Gathers.", "Night gathers and now my watch begins. It shall not end untill my death. I shall take no wives, hold no lands, father no children. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the light in the darkness, the sword that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I give my life and honor to the Nights Watch, for this night and all nights to come.", null));
-        memories.add(new Memory(newId(), new LatLng(50.9326, 5.2913), new Date(1548423697889L), "KSLh iokjBS DLIOKbi KWBI olBS ifjkb wikahsbdf ikwba sidk", "sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb i lakewjbsd ifhkjnbwaiglduhkfj beiajhksd b.sJDKh wiokjnabsd oflhnb oiklasdnbf oupiwklhba sdifklhb ilkasdjbiuw jkbadiulkjhb.", null));
-        memories.add(new Memory(newId(), new LatLng(50.8326, 5.2913), new Date(1546323697889L), "Night Gathers.", "Night gathers and now my watch begins. It shall not end untill my death. I shall take no wives, hold no lands, father no children. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the light in the darkness, the sword that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I give my life and honor to the Nights Watch, for this night and all nights to come.", null));
-        memories.add(new Memory(newId(), new LatLng(50.7326, 5.2913), new Date(1546300700000L), "HI.", "Hi how are you i am very ogoeood idk what is hould rwite so this iks josut some tpy ol riddled texct full of typos an dtedt and bullshit idk what else do youlw an tmee to say?! jusot give me some thing to say! stem partyt egen de bourger, sterven krijgkt de tegin gplease actuwola y dont i don't awoant that tho wn happeabnl now aphmake ikt stop", null));
+        database = Room.databaseBuilder(WhibApp.getInstance(), AppDatabase.class, "whib-database").build();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                memories.addAll(database.memoryDao().getAllMemoriesWithMedia());
+            }
+        }).start();
     }
 
     public String newId() {
@@ -58,8 +44,34 @@ public class Database {
         return memories;
     }
 
-    public void addMemory(Memory memory) {
+    public void addMemory(final Memory memory) {
         memories.add(memory);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                database.memoryDao().insertMemoryWithMedia(memory);
+            }
+        }).start();
+    }
+
+    public void updateMemory(final Memory memory) {
+        memories.set(memories.indexOf(memory), memory);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                database.memoryDao().updateMemoryWithMedia(memory);
+            }
+        });
+    }
+
+    public void deleteMemory(final Memory memory) {
+        memories.remove(memory);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                database.memoryDao().deleteMemoryWithMedia(memory);
+            }
+        });
     }
 
     /**
