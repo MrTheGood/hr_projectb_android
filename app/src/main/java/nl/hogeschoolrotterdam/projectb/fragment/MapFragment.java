@@ -3,6 +3,7 @@ package nl.hogeschoolrotterdam.projectb.fragment;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,6 +116,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         MapsInitializer.initialize(requireContext());
         mGoogleMap = googleMap;
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -126,8 +129,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(52.1326, 5.2913)).zoom(10).bearing(0).tilt(0).build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
+        Location l = LocationManager.getInstance().lastLocation;
+        CameraPosition currentPosition = CameraPosition.builder().target(new LatLng(l.getLatitude(),l.getLongitude())).zoom(15).bearing(0).tilt().build();
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
         for (Memory memorie : Database.getInstance().getMemories()) {
             Marker marker = googleMap.addMarker(new MarkerOptions().position(memorie.getLocation()).title(memorie.getTitle()).snippet((String) memorie.getDateText()));
             marker.setTag(memorie.getId());
