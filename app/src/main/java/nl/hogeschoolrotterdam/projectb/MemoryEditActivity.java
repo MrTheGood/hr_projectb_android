@@ -79,7 +79,8 @@ public class MemoryEditActivity extends AppCompatActivity {
             titleInput.getEditText().setText(memory.getTitle());
             descriptionInput.getEditText().setText(memory.getDescription());
             dateInput.getEditText().setText(memory.getDateText());
-
+            isTitleValid = true;
+            isDescriptionValid = true;
 
         } else {
             // create a memory with calendar to today
