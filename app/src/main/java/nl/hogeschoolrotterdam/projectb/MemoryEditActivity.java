@@ -35,7 +35,7 @@ import java.util.*;
 
 public class MemoryEditActivity extends AppCompatActivity {
     public static final int LOCATION_EDIT = 23;
-
+    private boolean isEditMode = false;
 
     private TextInputLayout titleInput;
     private TextInputLayout dateInput;
@@ -70,19 +70,48 @@ public class MemoryEditActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.memory_save_button);
         locationInput = findViewById(R.id.memory_change_location_input);
 
-
-        // create a memory with calendar to today
         final Calendar calendar = Calendar.getInstance();
-        ArrayList<Media> media = new ArrayList<>();
-        memory = new Memory(
-                Database.getInstance().newId(),
-                new LatLng(0, 0),
-                new Date(calendar.getTimeInMillis()),
-                "",
-                "",
-                media
-        );
+        if (getIntent().getStringExtra("ID") != null) {
+            isEditMode = true;
+            Database database = Database.getInstance();
+            String sessionId = getIntent().getStringExtra("ID");
+            memory = database.findMemory(sessionId);
+            titleInput.getEditText().setText(memory.getTitle());
+            descriptionInput.getEditText().setText(memory.getDescription());
+            dateInput.getEditText().setText(memory.getDateText());
 
+
+        } else {
+            // create a memory with calendar to today
+            ArrayList<Media> media = new ArrayList<>();
+            memory = new Memory(
+                    Database.getInstance().newId(),
+                    new LatLng(0, 0),
+                    new Date(calendar.getTimeInMillis()),
+                    "",
+                    "",
+                    media
+            );
+
+            if (getIntent().getExtras() != null && getIntent().getExtras().get("location") != null) {
+                latLng = (LatLng) getIntent().getExtras().get("location");
+                memory.setLocation(latLng);
+            } else {
+                // Get current location from the LocationManager
+                LocationManager.getInstance()
+                        .initialize(this)
+                        .updateLocation(this, new LocationManager.OnLocationResultListener() {
+                            @Override
+                            public void onLocationResult(@Nullable Location location) {
+                                if (location == null) {
+                                    Toast.makeText(MemoryEditActivity.this, R.string.error_could_not_set_current_location, Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                memory.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+                            }
+                        });
+            }
+        }
 
         setButtonEnabled(); // save button should be disabled when input not yet valid
 
@@ -148,34 +177,17 @@ public class MemoryEditActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Database.getInstance().addMemory(memory);
-
-                Intent intent = new Intent(MemoryEditActivity.this, MemoryDetailActivity.class);
-                intent.putExtra("EXTRA_SESSION_ID", memory.getId());
-                startActivity(intent);
+                if (isEditMode) {
+                    Database.getInstance().updateMemory(memory);
+                } else {
+                    Database.getInstance().addMemory(memory);
+                    Intent intent = new Intent(MemoryEditActivity.this, MemoryDetailActivity.class);
+                    intent.putExtra("EXTRA_SESSION_ID", memory.getId());
+                    startActivity(intent);
+                }
                 finish();
             }
         });
-
-
-        if (getIntent().getExtras() != null && getIntent().getExtras().get("location") != null) {
-            latLng = (LatLng) getIntent().getExtras().get("location");
-            memory.setLocation(latLng);
-        } else {
-            // Get current location from the LocationManager
-            LocationManager.getInstance()
-                    .initialize(this)
-                    .updateLocation(this, new LocationManager.OnLocationResultListener() {
-                        @Override
-                        public void onLocationResult(@Nullable Location location) {
-                            if (location == null) {
-                                Toast.makeText(MemoryEditActivity.this, R.string.error_could_not_set_current_location, Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            memory.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
-                        }
-                    });
-        }
     }
 
     private void setButtonEnabled() {
