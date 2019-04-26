@@ -23,6 +23,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
     Memory memory;
     ViewPager2 viewPager2;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(WhibApp.getInstance().getThemeId());
@@ -42,10 +43,10 @@ public class MemoryDetailActivity extends AppCompatActivity {
         TextView memoryTitleTextView = findViewById(R.id.memoryTitleTextView);
         TextView memoryDatetextView = findViewById(R.id.memoryDatetextView);
         TextView memoryDescriptionTextView = findViewById(R.id.memoryDescriptionTextView);
-        ImageView imageView=findViewById(R.id.imageView);
+        ImageView imageView = findViewById(R.id.imageView);
         //change.
         Database database = Database.getInstance();
-        String sessionId= getIntent().getStringExtra("EXTRA_SESSION_ID");
+        String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
         memory = database.findMemory(sessionId);
 
         // showing content (images not included in demo content)
@@ -53,7 +54,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryTitleTextView.setText(memory.getTitle());
         memoryDescriptionTextView.setText(memory.getDescription());
         //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
-       // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
+        // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
 
     }
 
@@ -81,11 +82,11 @@ public class MemoryDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.shareBtn:
                 shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT,"My App");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My App");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getDescription());
                 startActivity(Intent.createChooser(shareIntent, "Share memories via"));
                 return true;
