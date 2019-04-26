@@ -111,10 +111,6 @@ public abstract class MemoryDao {
     }
 
     public void deleteMemoryWithMedia(Memory memory) {
-        List<Media> media = memory.getMedia();
-        for (Media m : media)
-            m.setMemoryId(memory.getId());
-
         _deleteImageList(getImagesListFor(memory));
         _deleteVideoList(getVideoListFor(memory));
         _deleteMemory(memory);
