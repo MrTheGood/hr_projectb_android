@@ -66,7 +66,11 @@ public class MemoriesFragment extends Fragment {
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
-                        return (int) (b.getDate().getTime() - a.getDate().getTime());
+                        if (b.getDate().before(a.getDate()))
+                            return -1;
+                        if (b.getDate().after(a.getDate()))
+                            return 1;
+                        return 0;
                     }
                 });
                 adapter.setData(memories);
@@ -75,7 +79,11 @@ public class MemoriesFragment extends Fragment {
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
-                        return (int) (a.getDate().getTime() - b.getDate().getTime());
+                        if (b.getDate().before(a.getDate()))
+                            return 1;
+                        if (b.getDate().after(a.getDate()))
+                            return -1;
+                        return 0;
                     }
                 });
                 adapter.setData(memories);
