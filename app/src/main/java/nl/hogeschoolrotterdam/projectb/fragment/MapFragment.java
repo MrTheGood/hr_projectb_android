@@ -129,9 +129,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        Location l = LocationManager.getInstance().lastLocation;
-        CameraPosition currentPosition = CameraPosition.builder().target(new LatLng(l.getLatitude(),l.getLongitude())).zoom(15).bearing(0).tilt().build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+        final GoogleMap map = googleMap;
+        LocationManager.getInstance().updateLocation(getActivity(), new LocationManager.OnLocationResultListener() {
+            @Override
+            public void onLocationResult(@Nullable Location location) {
+                Location l = location;
+                CameraPosition currentPosition = CameraPosition.builder().target(new LatLng(l.getLatitude(),l.getLongitude())).zoom(15).bearing(0).tilt(0).build();
+                map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+                map.setMyLocationEnabled(true);
+
+            }
+        });
         for (Memory memorie : Database.getInstance().getMemories()) {
             Marker marker = googleMap.addMarker(new MarkerOptions().position(memorie.getLocation()).title(memorie.getTitle()).snippet((String) memorie.getDateText()));
             marker.setTag(memorie.getId());
