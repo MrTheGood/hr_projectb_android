@@ -56,7 +56,6 @@ public class MemoryEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_memory_edit);
 
 
-
         // initialise views
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -128,9 +127,9 @@ public class MemoryEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent( MemoryEditActivity.this,LocationEditActivity.class);
+                Intent i = new Intent(MemoryEditActivity.this, LocationEditActivity.class);
                 i.putExtra("location", memory.getLocation());
-                startActivityForResult(i,LOCATION_EDIT);
+                startActivityForResult(i, LOCATION_EDIT);
             }
         });
 
@@ -159,13 +158,11 @@ public class MemoryEditActivity extends AppCompatActivity {
         });
 
 
-        // Get current location from the LocationManager
-        latLng = (LatLng) getIntent().getExtras().get("location");
-        if (latLng != null){
+        if (getIntent().getExtras() != null && getIntent().getExtras().get("location") != null) {
+            latLng = (LatLng) getIntent().getExtras().get("location");
             memory.setLocation(latLng);
-        }
-
-        else{
+        } else {
+            // Get current location from the LocationManager
             LocationManager.getInstance()
                     .initialize(this)
                     .updateLocation(this, new LocationManager.OnLocationResultListener() {
@@ -189,7 +186,7 @@ public class MemoryEditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOCATION_EDIT) {
-            if(resultCode == Activity.RESULT_OK){
+            if (resultCode == Activity.RESULT_OK) {
                 memory.setLocation((LatLng) data.getExtras().get("result"));
             }
         }
