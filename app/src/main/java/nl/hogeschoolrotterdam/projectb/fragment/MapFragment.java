@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
+import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
@@ -40,11 +41,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     MapView mMapView;
     View mView;
     private EditText mSearchText;
+    LatLng latLng;
 
 
 
 
     private void inity() {
+        mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng laat) {
+                latLng = laat;
+                Intent i = new Intent(getActivity(), MemoryEditActivity.class);
+                i.putExtra("location",latLng );
+                startActivity(i);
+
+
+            }
+        });
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {

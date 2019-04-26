@@ -47,6 +47,7 @@ public class MemoryEditActivity extends AppCompatActivity {
     private Boolean isDescriptionValid = false;
 
     private Memory memory = null;
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,18 +160,25 @@ public class MemoryEditActivity extends AppCompatActivity {
 
 
         // Get current location from the LocationManager
-        LocationManager.getInstance()
-                .initialize(this)
-                .updateLocation(this, new LocationManager.OnLocationResultListener() {
-                    @Override
-                    public void onLocationResult(@Nullable Location location) {
-                        if (location == null) {
-                            Toast.makeText(MemoryEditActivity.this, R.string.error_could_not_set_current_location, Toast.LENGTH_LONG).show();
-                            return;
+        latLng = (LatLng) getIntent().getExtras().get("location");
+        if (latLng != null){
+            memory.setLocation(latLng);
+        }
+
+        else{
+            LocationManager.getInstance()
+                    .initialize(this)
+                    .updateLocation(this, new LocationManager.OnLocationResultListener() {
+                        @Override
+                        public void onLocationResult(@Nullable Location location) {
+                            if (location == null) {
+                                Toast.makeText(MemoryEditActivity.this, R.string.error_could_not_set_current_location, Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            memory.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
                         }
-                        memory.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
-                    }
-                });
+                    });
+        }
     }
 
     private void setButtonEnabled() {
