@@ -16,6 +16,12 @@
     <string name="dialog_add_memory_media_positive2">Video</string>
     <string name="dialog_add_memory_media_negative2">Foto</string>
 
+    <string name="dialog_add_memory_media_change_media">Verander Media</string>
+    <string name="dialog_add_memory_media_change_media_description">Weet u zeker dat u deze media wilt aanpassen?</string>
+    <string name="dialog_add_memory_media_change_media_positive">Verwijder</string>
+    <string name="dialog_add_memory_media_change_media_negative">Annuleren</string>
+
+
     <!-- hint -->
     <string name="hint_description">Beschrijving</string>
     <string name="hint_date">Datum</string>

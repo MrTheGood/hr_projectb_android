@@ -23,6 +23,15 @@
         android:theme="@style/AppTheme.Light"
         tools:ignore="GoogleAppIndexingWarning"
         >
+        <provider
+            android:name=".util.GenericFileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/provider_paths" />
+        </provider>
         <activity
             android:name=".MemoryEditActivity"
             android:label="@string/menu_add_memory"

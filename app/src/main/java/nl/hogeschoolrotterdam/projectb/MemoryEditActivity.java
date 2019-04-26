@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputLayout;
 import nl.hogeschoolrotterdam.projectb.data.Database;
@@ -49,6 +50,7 @@ public class MemoryEditActivity extends AppCompatActivity {
     private Boolean isDescriptionValid = false;
 
     private Memory memory = null;
+    private File mediaFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +81,20 @@ public class MemoryEditActivity extends AppCompatActivity {
                 lastClick = (ImageButton) v;
                 if (lastClick.getTag() != null) {
                     new AlertDialog.Builder(MemoryEditActivity.this)
-                            .setTitle("Change Media")
-                            .setMessage("Are you sure you want to change this media?")
-                            .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                            .setTitle(R.string.dialog_add_memory_media_change_media)
+                            .setMessage(R.string.dialog_add_memory_media_change_media_description)
+                            .setPositiveButton(R.string.dialog_add_memory_media_change_media_positive, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     lastClick.setImageResource(R.drawable.add_media_icon);
                                     lastClick.setTag(null);
                                 }
                             })
-                            .setNegativeButton("Cancel", null)
+                            .setNegativeButton(R.string.dialog_add_memory_media_change_media_negative, null)
                             .show();
                 } else {
-                    final File mediaFile = createImageFile();
+                    mediaFile = createImageFile();
+                    final Uri mediaUri = FileProvider.getUriForFile(v.getContext(), getApplicationContext().getPackageName() + ".fileProvider", mediaFile);
                     new AlertDialog.Builder(MemoryEditActivity.this)
                             .setTitle(R.string.dialog_add_memory_media_title1)
                             .setMessage(R.string.dialog_add_memory_media_description1)
@@ -99,9 +102,8 @@ public class MemoryEditActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent mediaIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                    String pictureDirectoryPath = mediaFile.getPath();
-                                    Uri data = Uri.parse(pictureDirectoryPath);
-                                    mediaIntent.setDataAndType(data, "image/* video/*");
+
+                                    mediaIntent.setDataAndType(mediaUri, "image/* video/*");
                                     startActivityForResult(mediaIntent, GALLERY_REQUEST);
                                 }
 
@@ -116,6 +118,8 @@ public class MemoryEditActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mediaUri);
                                                     startActivityForResult(intent, VIDEO_CAMERA_REQUEST);
                                                 }
                                             })
@@ -123,7 +127,8 @@ public class MemoryEditActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                                    intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mediaFile));
+                                                    intent2.putExtra(MediaStore.EXTRA_OUTPUT, mediaUri);
+                                                    intent2.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                     startActivityForResult(intent2, IMAGE_CAMERA_REQUEST);
                                                 }
                                             }).show();
@@ -238,43 +243,52 @@ public class MemoryEditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == GALLERY_REQUEST) {
-                Uri imageUri = data.getData();
-
                 InputStream inputStream;
 
                 try {
-                    inputStream = getContentResolver().openInputStream(imageUri);
+                    inputStream = new FileInputStream(mediaFile);
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
 
 
                     lastClick.setImageBitmap(image);
-                    lastClick.setTag(imageUri);
+                    lastClick.setTag(mediaFile);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Unable to open image", Toast.LENGTH_LONG).show();
                 }
             } else if (requestCode == VIDEO_CAMERA_REQUEST) {
-                Uri imageUri = data.getData();
-
                 InputStream inputStream;
 
                 try {
-                    inputStream = getContentResolver().openInputStream(imageUri);
+                    inputStream = new FileInputStream(mediaFile);
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
 
 
                     lastClick.setImageBitmap(image);
-                    lastClick.setTag(imageUri);
+                    lastClick.setTag(mediaFile);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Unable to open image", Toast.LENGTH_LONG).show();
                 }
             } else if (requestCode == IMAGE_CAMERA_REQUEST) {
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                //Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                //File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
-                lastClick.setImageBitmap(bitmap);
-                lastClick.setTag(bitmap);
+                //lastClick.setImageBitmap(bitmap);
+                //lastClick.setTag(bitmap);
+                InputStream inputStream;
+
+                try {
+                    inputStream = new FileInputStream(mediaFile);
+                    Bitmap image = BitmapFactory.decodeStream(inputStream);
+
+
+                    lastClick.setImageBitmap(image);
+                    lastClick.setTag(mediaFile);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Unable to open image", Toast.LENGTH_LONG).show();
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -297,7 +311,7 @@ public class MemoryEditActivity extends AppCompatActivity {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + ".jpg";
-        File image = new File(Environment.getExternalStorageDirectory(),  imageFileName);
+        File image = new File(Environment.getExternalStorageDirectory(), imageFileName);
         return image;
     }
 }

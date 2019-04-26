@@ -19,6 +19,11 @@
     <string name="dialog_add_memory_media_positive2">Video</string>
     <string name="dialog_add_memory_media_negative2">Image</string>
 
+    <string name="dialog_add_memory_media_change_media">Change Media</string>
+    <string name="dialog_add_memory_media_change_media_description">Are you sure you want to change this media?</string>
+    <string name="dialog_add_memory_media_change_media_positive">Remove</string>
+    <string name="dialog_add_memory_media_change_media_negative">Cancel</string>
+
     <!-- hint -->
     <string name="hint_description">Description</string>
     <string name="hint_date">Date</string>
