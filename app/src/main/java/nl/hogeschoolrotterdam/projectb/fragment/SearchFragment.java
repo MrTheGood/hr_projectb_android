@@ -19,6 +19,7 @@ import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,22 +52,10 @@ public class SearchFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         EditText input_search = view.findViewById(R.id.input_search);
-        input_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+        input_search.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 filter(s.toString());
-
-
             }
         });
         return view;
