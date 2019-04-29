@@ -3,44 +3,67 @@ package nl.hogeschoolrotterdam.projectb.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.PagerVH> {
+    final private int TYPE_VIDEO = 0;
+    final private int TYPE_IMAGE = 1;
+    private List<Media> media = new ArrayList<>();
 
-    private int[] colors = new int[]{
-            android.R.color.black,
-            android.R.color.holo_red_light,
-            android.R.color.holo_blue_dark,
-            android.R.color.holo_purple
-    };
+    public void setMedia(List<Media> media) {
+        this.media = media;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
     public PagerVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, parent, false));
+        if (viewType == TYPE_IMAGE)
+            return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, parent, false));
+        if (viewType == TYPE_VIDEO)
+            return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, parent, false));
+        throw new IllegalStateException("UNKOWN TYPE: " + viewType);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (media.get(position) instanceof Video)
+            return TYPE_VIDEO;
+        if (media.get(position) instanceof Image)
+            return TYPE_IMAGE;
+        return -1;
     }
 
     @Override
     public int getItemCount() {
-        return colors.length;
+        return media.size();
     }
 
     @Override
     public void onBindViewHolder(@NonNull PagerVH holder, int position) {
-        holder.tvTitle.setText("item " + position);
-        holder.container.setBackgroundResource(colors[position]);
+        Media m = media.get(position);
+        if (m instanceof Image)
+            holder.pageImage.setImageBitmap(((Image) m).getImage());
+        if (m instanceof Video)
+            holder.pageImage.setImageBitmap(((Video) m).getThumbnail());
     }
 
     class PagerVH extends RecyclerView.ViewHolder {
-        TextView tvTitle;
+        ImageView pageImage;
         View container;
 
         PagerVH(@NonNull View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
+            pageImage = itemView.findViewById(R.id.pageImage);
             container = itemView.findViewById(R.id.container);
         }
     }

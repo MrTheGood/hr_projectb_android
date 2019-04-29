@@ -7,14 +7,13 @@ import androidx.room.PrimaryKey;
 @Entity
 public abstract class Media {
 
-    @PrimaryKey
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private int id = 0;
 
     @NonNull
     private String memoryId;
 
-    Media(int id, @NonNull String memoryId) {
-        this.id = id;
+    Media(@NonNull String memoryId) {
         this.memoryId = memoryId;
     }
 

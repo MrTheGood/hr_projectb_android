@@ -8,20 +8,41 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_memory">Memory</string>
     <string name="menu_add_memory">New memory</string>
-    <string name="str_enter_adress">Enter adress</string>
+
+    <!-- Strings -->
+    <string name="str_enter_adress">Enter address</string>
+    <string name="str_search">Search…</string>
+
+
+    <!-- Alert dialog -->
+    <string name="dialog_add_media">Add Media</string>
+    <string name="dialog_add_media_description">How do you want to add the media?</string>
+    <string name="dialog_add_media_camera_description">How would you like to capture the media?</string>
+    <string name="dialog_remove_image">Change Media</string>
+    <string name="dialog_remove_image_description">Are you sure you want to change this media?</string>
+
+    <!-- Action -->
+    <string name="action_gallery">Gallery</string>
+    <string name="action_camera">Camera</string>
+    <string name="action_video">Video</string>
+    <string name="action_image">Image</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="action_ok">Got it!</string>
+    <string name="action_apply_theme">Apply Theme</string>
+    <string name="action_change_memory_location">Change location</string>
+
 
     <!-- hint -->
     <string name="hint_description">Description</string>
     <string name="hint_date">Date</string>
     <string name="hint_title">Memory Title</string>
-    <string name="action_save">Save</string>
+
+    <!-- errors -->
     <string name="error_title_too_short">Title cannot be shorter than 2 characters.</string>
     <string name="error_description_too_short">Description cannot be shorter than 2 characters.</string>
+    <string name="error_could_not_set_current_location">Could not set memory location to current.</string>
     <string name="warn_enable_permissions">Enable location permissions</string>
     <string name="warn_enable_permissions_message">WHIB needs to know your location to save memories near you!</string>
-    <string name="action_ok">Got it!</string>
-    <string name="error_could_not_set_current_location">Could not set memory location to current.</string>
-    <string name="action_apply_theme">Apply Theme</string>
-    <string name="str_search">search...</string>
-    <string name="action_change_memory_location">Change location</string>
 </resources>

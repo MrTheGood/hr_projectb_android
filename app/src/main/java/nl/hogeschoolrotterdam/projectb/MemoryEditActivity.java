@@ -1,37 +1,38 @@
 package nl.hogeschoolrotterdam.projectb;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.*;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.textfield.TextInputLayout;
+import net.alhazmy13.mediapicker.Image.ImagePicker;
+import net.alhazmy13.mediapicker.Video.VideoPicker;
 import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class MemoryEditActivity extends AppCompatActivity {
     public static final int LOCATION_EDIT = 23;
@@ -41,6 +42,8 @@ public class MemoryEditActivity extends AppCompatActivity {
     private TextInputLayout dateInput;
     private TextInputLayout descriptionInput;
     private Button saveButton;
+    private ViewGroup mediaList;
+    private ImageButton addMediaButton;
     private Button locationInput;
 
     private Boolean isTitleValid = false;
@@ -69,6 +72,8 @@ public class MemoryEditActivity extends AppCompatActivity {
         descriptionInput = findViewById(R.id.memory_add_description);
         saveButton = findViewById(R.id.memory_save_button);
         locationInput = findViewById(R.id.memory_change_location_input);
+        addMediaButton = findViewById(R.id.add_media);
+        mediaList = findViewById(R.id.images);
 
         final Calendar calendar = Calendar.getInstance();
         if (getIntent().getStringExtra("ID") != null) {
@@ -76,6 +81,17 @@ public class MemoryEditActivity extends AppCompatActivity {
             Database database = Database.getInstance();
             String sessionId = getIntent().getStringExtra("ID");
             memory = database.findMemory(sessionId);
+
+            for (Media m : memory.getMedia()) {
+                if (m instanceof Image) {
+                    Bitmap image = ((Image) m).getImage();
+                    addMediaImageView(image, m);
+                } else if (m instanceof Video) {
+                    Bitmap image = ((Video) m).getThumbnail();
+                    addMediaImageView(image, m);
+                }
+            }
+
             titleInput.getEditText().setText(memory.getTitle());
             descriptionInput.getEditText().setText(memory.getDescription());
             dateInput.getEditText().setText(memory.getDateText());
@@ -152,6 +168,42 @@ public class MemoryEditActivity extends AppCompatActivity {
                 }
             }
         });
+
+        addMediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new AlertDialog.Builder(MemoryEditActivity.this)
+                        .setTitle(R.string.action_camera)
+                        .setMessage(R.string.dialog_add_media_camera_description)
+                        .setPositiveButton(R.string.action_video, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new VideoPicker.Builder(MemoryEditActivity.this)
+                                        .mode(VideoPicker.Mode.CAMERA_AND_GALLERY)
+                                        .directory(VideoPicker.Directory.DEFAULT)
+                                        .extension(VideoPicker.Extension.MP4)
+                                        .enableDebuggingMode(true)
+                                        .build();
+                            }
+                        })
+                        .setNegativeButton(R.string.action_image, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new ImagePicker.Builder(MemoryEditActivity.this)
+                                        .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
+                                        .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
+                                        .directory(ImagePicker.Directory.DEFAULT)
+                                        .extension(ImagePicker.Extension.PNG)
+                                        .scale(600, 600)
+                                        .allowMultipleImages(false)
+                                        .enableDebuggingMode(true)
+                                        .build();
+                            }
+                        }).show();
+
+            }
+        });
+
         // Open location picker if location input was selected
         locationInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,19 +243,63 @@ public class MemoryEditActivity extends AppCompatActivity {
         });
     }
 
-    private void setButtonEnabled() {
-        saveButton.setEnabled(isDescriptionValid && isTitleValid);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LOCATION_EDIT) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == LOCATION_EDIT) {
                 memory.setLocation((LatLng) data.getExtras().get("result"));
-            }
-        }
+            } else if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE) {
+                List<String> paths = data.getStringArrayListExtra(ImagePicker.EXTRA_IMAGE_PATH);
+                for (String path : paths) {
+                    Image media = new Image(memory.getId(), path);
+                    Bitmap image = media.getImage();
 
+                    addMediaImageView(image, media);
+                    memory.addMedia(media);
+                }
+            } else if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE) {
+                List<String> paths = data.getStringArrayListExtra(VideoPicker.EXTRA_VIDEO_PATH);
+
+                for (String path : paths) {
+                    Video media = new Video(memory.getId(), path);
+                    Bitmap image = media.getThumbnail();
+
+                    addMediaImageView(image, media);
+                    memory.addMedia(media);
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    public void addMediaImageView(Bitmap bitmap, final Media media) {
+        final ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_memory_image_edit, mediaList, false);
+        mediaList.addView(imageView);
+        imageView.setImageBitmap(bitmap);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new AlertDialog.Builder(MemoryEditActivity.this)
+                        .setTitle(R.string.dialog_remove_image)
+                        .setMessage(R.string.dialog_remove_image_description)
+                        .setPositiveButton(R.string.action_remove, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                memory.removeMedia(media);
+                                mediaList.removeView(v);
+                            }
+                        })
+                        .setNegativeButton(R.string.action_cancel, null)
+                        .show();
+            }
+        });
+    }
+
+
+    private void setButtonEnabled() {
+        saveButton.setEnabled(isDescriptionValid && isTitleValid);
     }
 
     @Override
@@ -211,5 +307,4 @@ public class MemoryEditActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
 }
