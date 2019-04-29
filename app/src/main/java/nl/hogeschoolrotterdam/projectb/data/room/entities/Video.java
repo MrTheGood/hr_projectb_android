@@ -8,8 +8,8 @@ public class Video extends Media {
     @NonNull
     private String videoPath;
 
-    public Video(int id, @NonNull String memoryId, @NonNull String videoPath) {
-        super(id, memoryId);
+    public Video(@NonNull String memoryId, @NonNull String videoPath) {
+        super(memoryId);
         this.videoPath = videoPath;
     }
 

@@ -78,6 +78,7 @@
                     android:nextFocusDown="@id/memory_change_location_input"
                     />
             </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/memory_change_location_input"
                 style="@style/Widget.MaterialComponents.Button"
@@ -88,42 +89,28 @@
                 />
 
 
-            <LinearLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 >
 
+                <LinearLayout
+                    android:id="@+id/images"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
 
-                <ImageButton
-                    android:id="@+id/memory_camera_button1"
-                    android:src="@drawable/add_media_icon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Add Media"
-                    />
 
-                <ImageButton
-                    android:id="@+id/memory_camera_button2"
-                    android:src="@drawable/add_media_icon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Add Media"
-                    />
+                    <ImageButton
+                        android:id="@+id/add_media"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/add_media_icon"
+                        />
 
-                <ImageButton
-                    android:id="@+id/memory_camera_button3"
-                    android:src="@drawable/add_media_icon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Add Media"
-                    />
-            </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/memory_add_description"
