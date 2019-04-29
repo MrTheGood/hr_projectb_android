@@ -13,7 +13,41 @@
           "package_name": "nl.hogeschoolrotterdam.projectb"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "396758032848-srk2q66pb5d5ibsphags77d7d972qaf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPsTLEPmTGsQCZRT-H4QQC_8_l4qqpB-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396758032848-srk2q66pb5d5ibsphags77d7d972qaf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396758032848:android:a4b5cbd23ec90a87",
+        "android_client_info": {
+          "package_name": "nl.hogeschoolrotterdam.projectb.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396758032848-srk2q66pb5d5ibsphags77d7d972qaf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAPsTLEPmTGsQCZRT-H4QQC_8_l4qqpB-c"
