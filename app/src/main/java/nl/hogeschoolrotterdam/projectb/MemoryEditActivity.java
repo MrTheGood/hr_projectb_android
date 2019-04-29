@@ -1,5 +1,6 @@
 package nl.hogeschoolrotterdam.projectb;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -93,24 +94,24 @@ public class MemoryEditActivity extends AppCompatActivity {
                 lastClick = (ImageButton) v;
                 if (lastClick.getTag() != null) {
                     new AlertDialog.Builder(MemoryEditActivity.this)
-                            .setTitle(R.string.dialog_add_memory_media_change_media)
-                            .setMessage(R.string.dialog_add_memory_media_change_media_description)
-                            .setPositiveButton(R.string.dialog_add_memory_media_change_media_positive, new DialogInterface.OnClickListener() {
+                            .setTitle(R.string.dialog_remove_image)
+                            .setMessage(R.string.dialog_remove_image_description)
+                            .setPositiveButton(R.string.action_remove, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     lastClick.setImageResource(R.drawable.add_media_icon);
                                     lastClick.setTag(null);
                                 }
                             })
-                            .setNegativeButton(R.string.dialog_add_memory_media_change_media_negative, null)
+                            .setNegativeButton(R.string.action_cancel, null)
                             .show();
                 } else {
                     mediaFile = createImageFile();
                     final Uri mediaUri = FileProvider.getUriForFile(v.getContext(), getApplicationContext().getPackageName() + ".fileProvider", mediaFile);
                     new AlertDialog.Builder(MemoryEditActivity.this)
-                            .setTitle(R.string.dialog_add_memory_media_title1)
-                            .setMessage(R.string.dialog_add_memory_media_description1)
-                            .setPositiveButton(R.string.dialog_add_memory_media_positive1, new DialogInterface.OnClickListener() {
+                            .setTitle(R.string.dialog_add_media)
+                            .setMessage(R.string.dialog_add_media_description)
+                            .setPositiveButton(R.string.action_gallery, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent mediaIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -120,13 +121,13 @@ public class MemoryEditActivity extends AppCompatActivity {
                                 }
 
                             })
-                            .setNegativeButton(R.string.dialog_add_memory_media_title2, new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.action_camera, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     new AlertDialog.Builder(MemoryEditActivity.this)
-                                            .setTitle(R.string.dialog_add_memory_media_title2)
-                                            .setMessage(R.string.dialog_add_memory_media_description2)
-                                            .setPositiveButton(R.string.dialog_add_memory_media_positive2, new DialogInterface.OnClickListener() {
+                                            .setTitle(R.string.action_camera)
+                                            .setMessage(R.string.dialog_add_media_camera_description)
+                                            .setPositiveButton(R.string.action_video, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -135,7 +136,7 @@ public class MemoryEditActivity extends AppCompatActivity {
                                                     startActivityForResult(intent, VIDEO_CAMERA_REQUEST);
                                                 }
                                             })
-                                            .setNegativeButton(R.string.dialog_add_memory_media_negative2, new DialogInterface.OnClickListener() {
+                                            .setNegativeButton(R.string.action_image, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
