@@ -1,12 +1,10 @@
 package nl.hogeschoolrotterdam.projectb;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
@@ -14,22 +12,18 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.textfield.TextInputLayout;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
@@ -37,12 +31,14 @@ import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.*;
 
 public class MemoryEditActivity extends AppCompatActivity {
     public static final int GALLERY_REQUEST = 20;
@@ -68,7 +64,6 @@ public class MemoryEditActivity extends AppCompatActivity {
         setTheme(WhibApp.getInstance().getThemeId());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_edit);
-
 
 
         // initialise views
@@ -214,9 +209,9 @@ public class MemoryEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent( MemoryEditActivity.this,LocationEditActivity.class);
+                Intent i = new Intent(MemoryEditActivity.this, LocationEditActivity.class);
                 i.putExtra("location", memory.getLocation());
-                startActivityForResult(i,LOCATION_EDIT);
+                startActivityForResult(i, LOCATION_EDIT);
             }
         });
 
@@ -266,7 +261,9 @@ public class MemoryEditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == GALLERY_REQUEST) {
+            if (requestCode == LOCATION_EDIT) {
+                memory.setLocation((LatLng) data.getExtras().get("result"));
+            } else if (requestCode == GALLERY_REQUEST) {
                 InputStream inputStream;
 
                 try {
@@ -322,17 +319,6 @@ public class MemoryEditActivity extends AppCompatActivity {
 
     private void setButtonEnabled() {
         saveButton.setEnabled(isDescriptionValid && isTitleValid);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LOCATION_EDIT) {
-            if(resultCode == Activity.RESULT_OK){
-                memory.setLocation((LatLng) data.getExtras().get("result"));
-            }
-        }
-
     }
 
     @Override
