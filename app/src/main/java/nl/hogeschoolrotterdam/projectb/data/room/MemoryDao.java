@@ -39,9 +39,6 @@ public abstract class MemoryDao {
     @Insert
     abstract void _insertImageList(List<Image> images);
 
-    @Update
-    abstract void _updateImageList(List<Image> images);
-
     @Delete
     abstract void _deleteImageList(List<Image> images);
 
@@ -53,9 +50,6 @@ public abstract class MemoryDao {
 
     @Insert
     abstract void _insertVideoList(List<Video> videos);
-
-    @Update
-    abstract void _updateVideoList(List<Video> videos);
 
     @Delete
     abstract void _deleteVideoList(List<Video> videos);
@@ -105,8 +99,14 @@ public abstract class MemoryDao {
         for (Media m : media)
             m.setMemoryId(memory.getId());
 
-        _updateImageList(getImagesListFor(memory));
-        _updateVideoList(getVideoListFor(memory));
+        // delete old media
+        _deleteVideoList(_getVideoList(memory.getId()));
+        _deleteImageList(_getImageList(memory.getId()));
+
+        // insert new media
+        _insertImageList(getImagesListFor(memory));
+        _insertVideoList(getVideoListFor(memory));
+
         _updateMemory(memory);
     }
 
