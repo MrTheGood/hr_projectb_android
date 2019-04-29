@@ -4,12 +4,10 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.Handler;
 import android.text.Editable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +81,17 @@ public class MemoryEditActivity extends AppCompatActivity {
             Database database = Database.getInstance();
             String sessionId = getIntent().getStringExtra("ID");
             memory = database.findMemory(sessionId);
+
+            for (Media m : memory.getMedia()) {
+                if (m instanceof Image) {
+                    Bitmap image = ((Image) m).getImage();
+                    addMediaImageView(image, m);
+                } else if (m instanceof Video) {
+                    Bitmap image = ((Video) m).getThumbnail();
+                    addMediaImageView(image, m);
+                }
+            }
+
             titleInput.getEditText().setText(memory.getTitle());
             descriptionInput.getEditText().setText(memory.getDescription());
             dateInput.getEditText().setText(memory.getDateText());
@@ -243,19 +252,21 @@ public class MemoryEditActivity extends AppCompatActivity {
             } else if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE) {
                 List<String> paths = data.getStringArrayListExtra(ImagePicker.EXTRA_IMAGE_PATH);
                 for (String path : paths) {
-                    Media media = new Image(memory.getId(), path);
-                    Bitmap image = BitmapFactory.decodeFile(path);
+                    Image media = new Image(memory.getId(), path);
+                    Bitmap image = media.getImage();
 
                     addMediaImageView(image, media);
+                    memory.addMedia(media);
                 }
             } else if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE) {
                 List<String> paths = data.getStringArrayListExtra(VideoPicker.EXTRA_VIDEO_PATH);
 
                 for (String path : paths) {
-                    Media media = new Video(memory.getId(), path);
-                    Bitmap image = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MICRO_KIND);
+                    Video media = new Video(memory.getId(), path);
+                    Bitmap image = media.getThumbnail();
 
                     addMediaImageView(image, media);
+                    memory.addMedia(media);
                 }
             }
         } else {
@@ -264,9 +275,14 @@ public class MemoryEditActivity extends AppCompatActivity {
     }
 
     public void addMediaImageView(Bitmap bitmap, final Media media) {
-        ImageView imageView = new ImageView(this);
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(addMediaButton.getWidth(), addMediaButton.getHeight()));
-        imageView.setBackgroundColor(0xFF888888);
+        final ImageView imageView = new ImageView(this);
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setLayoutParams(new LinearLayout.LayoutParams(addMediaButton.getWidth(), addMediaButton.getHeight()));
+            }
+        });
+        imageView.setBackgroundColor(0xFFAAAAAA);
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setImageBitmap(bitmap);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -286,7 +302,6 @@ public class MemoryEditActivity extends AppCompatActivity {
                         .show();
             }
         });
-        memory.addMedia(media);
         mediaList.addView(imageView);
     }
 
