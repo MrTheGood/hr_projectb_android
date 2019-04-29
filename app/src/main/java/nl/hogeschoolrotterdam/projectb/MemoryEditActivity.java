@@ -7,8 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -275,15 +275,8 @@ public class MemoryEditActivity extends AppCompatActivity {
     }
 
     public void addMediaImageView(Bitmap bitmap, final Media media) {
-        final ImageView imageView = new ImageView(this);
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                imageView.setLayoutParams(new LinearLayout.LayoutParams(addMediaButton.getWidth(), addMediaButton.getHeight()));
-            }
-        });
-        imageView.setBackgroundColor(0xFFAAAAAA);
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        final ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_memory_image_edit, mediaList, false);
+        mediaList.addView(imageView);
         imageView.setImageBitmap(bitmap);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,7 +295,6 @@ public class MemoryEditActivity extends AppCompatActivity {
                         .show();
             }
         });
-        mediaList.addView(imageView);
     }
 
 
