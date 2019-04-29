@@ -112,9 +112,15 @@ public class Memory {
      */
     @Nullable
     public Bitmap getThumbnail() {
+        Bitmap bitmap = null;
         for (Media image : media) {
             if (image instanceof Image)
-                return ((Image) image).getImage();
+                bitmap = ((Image) image).getImage();
+            if (image instanceof Video)
+                bitmap = ((Video) image).getThumbnail();
+
+            if (bitmap != null)
+                return bitmap;
         }
         return null;
     }
