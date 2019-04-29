@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,8 +28,10 @@ import androidx.core.content.FileProvider;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputLayout;
 import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
@@ -90,7 +93,7 @@ public class MemoryEditActivity extends AppCompatActivity {
 
         View.OnClickListener cameraClick = new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 lastClick = (ImageButton) v;
                 if (lastClick.getTag() != null) {
                     new AlertDialog.Builder(MemoryEditActivity.this)
@@ -106,17 +109,18 @@ public class MemoryEditActivity extends AppCompatActivity {
                             .setNegativeButton(R.string.action_cancel, null)
                             .show();
                 } else {
-                    mediaFile = createImageFile();
-                    final Uri mediaUri = FileProvider.getUriForFile(v.getContext(), getApplicationContext().getPackageName() + ".fileProvider", mediaFile);
                     new AlertDialog.Builder(MemoryEditActivity.this)
                             .setTitle(R.string.dialog_add_media)
                             .setMessage(R.string.dialog_add_media_description)
                             .setPositiveButton(R.string.action_gallery, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent mediaIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                    mediaFile = createMediaFile(false);
+                                    Uri mediaUri = FileProvider.getUriForFile(v.getContext(), getApplicationContext().getPackageName() + ".fileProvider", mediaFile);
 
+                                    Intent mediaIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                     mediaIntent.setDataAndType(mediaUri, "image/* video/*");
+                                    mediaIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     startActivityForResult(mediaIntent, GALLERY_REQUEST);
                                 }
 
@@ -130,19 +134,17 @@ public class MemoryEditActivity extends AppCompatActivity {
                                             .setPositiveButton(R.string.action_video, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mediaUri);
-                                                    startActivityForResult(intent, VIDEO_CAMERA_REQUEST);
+                                                    mediaFile = createMediaFile(true);
+                                                    Uri mediaUri = FileProvider.getUriForFile(v.getContext(), getApplicationContext().getPackageName() + ".fileProvider", mediaFile);
+                                                    captureMedia(true, mediaUri);
                                                 }
                                             })
                                             .setNegativeButton(R.string.action_image, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                                    intent2.putExtra(MediaStore.EXTRA_OUTPUT, mediaUri);
-                                                    intent2.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                    startActivityForResult(intent2, IMAGE_CAMERA_REQUEST);
+                                                    mediaFile = createMediaFile(false);
+                                                    Uri mediaUri = FileProvider.getUriForFile(v.getContext(), getApplicationContext().getPackageName() + ".fileProvider", mediaFile);
+                                                    captureMedia(false, mediaUri);
                                                 }
                                             }).show();
                                 }
@@ -264,6 +266,16 @@ public class MemoryEditActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (cameraButton1.getTag() != null) {
+                    File mediaFile = (File) cameraButton1.getTag();
+                    String path = mediaFile.getAbsolutePath();
+                    if (path.endsWith(".mp4")) {
+                        memory.addMedia(new Video(0, memory.getId(), path));
+                    } else {
+                        memory.addMedia(new Image(0, memory.getId(), path));
+                    }
+                }
+
                 if (isEditMode) {
                     Database.getInstance().updateMemory(memory);
                 } else {
@@ -283,46 +295,14 @@ public class MemoryEditActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == LOCATION_EDIT) {
                 memory.setLocation((LatLng) data.getExtras().get("result"));
-            } else if (requestCode == GALLERY_REQUEST) {
+            } else if (requestCode == GALLERY_REQUEST || requestCode == VIDEO_CAMERA_REQUEST || requestCode == IMAGE_CAMERA_REQUEST) {
                 InputStream inputStream;
 
                 try {
                     inputStream = new FileInputStream(mediaFile);
-                    Bitmap image = BitmapFactory.decodeStream(inputStream);
-
-
-                    lastClick.setImageBitmap(image);
-                    lastClick.setTag(mediaFile);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Unable to open image", Toast.LENGTH_LONG).show();
-                }
-            } else if (requestCode == VIDEO_CAMERA_REQUEST) {
-                InputStream inputStream;
-
-                try {
-                    inputStream = new FileInputStream(mediaFile);
-                    Bitmap image = BitmapFactory.decodeStream(inputStream);
-
-
-                    lastClick.setImageBitmap(image);
-                    lastClick.setTag(mediaFile);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Unable to open image", Toast.LENGTH_LONG).show();
-                }
-            } else if (requestCode == IMAGE_CAMERA_REQUEST) {
-                //Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                //File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-
-                //lastClick.setImageBitmap(bitmap);
-                //lastClick.setTag(bitmap);
-                InputStream inputStream;
-
-                try {
-                    inputStream = new FileInputStream(mediaFile);
-                    Bitmap image = BitmapFactory.decodeStream(inputStream);
-
+                    Bitmap image = requestCode == VIDEO_CAMERA_REQUEST
+                            ? ThumbnailUtils.createVideoThumbnail(mediaFile.getAbsolutePath(), MediaStore.Video.Thumbnails.MICRO_KIND)
+                            : BitmapFactory.decodeStream(inputStream);
 
                     lastClick.setImageBitmap(image);
                     lastClick.setTag(mediaFile);
@@ -347,11 +327,19 @@ public class MemoryEditActivity extends AppCompatActivity {
         return true;
     }
 
+    private void captureMedia(boolean isVideo, Uri mediaUri) {
+        Intent intent = new Intent(
+                isVideo ? MediaStore.ACTION_VIDEO_CAPTURE : MediaStore.ACTION_IMAGE_CAPTURE
+        );
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mediaUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, isVideo ? VIDEO_CAMERA_REQUEST : IMAGE_CAMERA_REQUEST);
+    }
 
-    private File createImageFile() {
-        // Create an image file name
+    private File createMediaFile(boolean isVideo) {
+        @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        String imageFileName = "MEDIA_" + timeStamp + (isVideo ? ".mp4" : ".jpg");
         File image = new File(Environment.getExternalStorageDirectory(), imageFileName);
         return image;
     }
