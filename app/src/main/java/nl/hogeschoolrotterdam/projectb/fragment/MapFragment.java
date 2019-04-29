@@ -1,5 +1,6 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -144,13 +145,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         final GoogleMap map = googleMap;
         LocationManager.getInstance().updateLocation(getActivity(), new LocationManager.OnLocationResultListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onLocationResult(@Nullable Location location) {
-                Location l = location;
-                CameraPosition currentPosition = CameraPosition.builder().target(new LatLng(l.getLatitude(),l.getLongitude())).zoom(15).bearing(0).tilt(0).build();
-                map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
-                map.setMyLocationEnabled(true);
-
+                if (location != null) {
+                    CameraPosition currentPosition = CameraPosition.builder().target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15).bearing(0).tilt(0).build();
+                    map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+                    map.setMyLocationEnabled(true);
+                }
             }
         });
         for (Memory memorie : Database.getInstance().getMemories()) {

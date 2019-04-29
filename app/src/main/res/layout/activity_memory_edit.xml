@@ -78,6 +78,7 @@
                     android:nextFocusDown="@id/memory_change_location_input"
                     />
             </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/memory_change_location_input"
                 style="@style/Widget.MaterialComponents.Button"
@@ -87,6 +88,29 @@
                 android:text="@string/action_change_memory_location"
                 />
 
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <LinearLayout
+                    android:id="@+id/images"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+
+                    <ImageButton
+                        android:id="@+id/add_media"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/add_media_icon"
+                        />
+
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/memory_add_description"

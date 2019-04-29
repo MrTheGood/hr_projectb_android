@@ -12,7 +12,6 @@ import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,6 +43,7 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
         final Memory memory = data.get(position);
         holder.Textviewtitle.setText(memory.getTitle());
         holder.Textviewdate.setText(memory.getDateText());
+        holder.imageView.setImageBitmap(memory.getThumbnail());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,8 +72,6 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
             imageView = itemView.findViewById(R.id.imageView);
             Textviewtitle = itemView.findViewById(R.id.Textviewtitle);
             Textviewdate = itemView.findViewById(R.id.Textviewdate);
-
-
         }
     }
 }

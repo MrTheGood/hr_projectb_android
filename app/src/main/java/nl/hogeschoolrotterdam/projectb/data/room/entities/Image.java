@@ -11,8 +11,8 @@ public class Image extends Media {
     @NonNull
     private String imagePath;
 
-    public Image(int id, @NonNull String memoryId, @NonNull String imagePath) {
-        super(id, memoryId);
+    public Image(@NonNull String memoryId, @NonNull String imagePath) {
+        super(memoryId);
         this.imagePath = imagePath;
     }
 
