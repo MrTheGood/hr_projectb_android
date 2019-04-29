@@ -27,5 +27,6 @@
     <string name="hint_date">Datum</string>
     <string name="hint_title">Herinnering Titel</string>
     <string name="action_save">Oplsaan</string>
+    <string name="str_search">search...</string>
     <string name="action_change_memory_location">Locatie veranderen</string>
 </resources>

@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Created by Wesley de man on 24/04/2019.
- * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Michaël van Asperen, Wesley de Man, Maarten de Goede all rights reserved.
+ * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Wesley de Man, Maarten de Goede all rights reserved.
  */
 public class LocationEditActivity extends AppCompatActivity implements OnMapReadyCallback {
 

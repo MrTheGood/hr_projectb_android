@@ -61,7 +61,7 @@ public class Database {
             public void run() {
                 database.memoryDao().updateMemoryWithMedia(memory);
             }
-        });
+        }).start();
     }
 
     public void deleteMemory(final Memory memory) {
@@ -71,7 +71,7 @@ public class Database {
             public void run() {
                 database.memoryDao().deleteMemoryWithMedia(memory);
             }
-        });
+        }).start();
     }
 
     /**

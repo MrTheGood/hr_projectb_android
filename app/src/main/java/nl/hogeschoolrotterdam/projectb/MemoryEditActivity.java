@@ -45,6 +45,8 @@ public class MemoryEditActivity extends AppCompatActivity {
     public static final int IMAGE_CAMERA_REQUEST = 21;
     public static final int VIDEO_CAMERA_REQUEST = 22;
     public static final int LOCATION_EDIT = 23;
+    private boolean isEditMode = false;
+
     private TextInputLayout titleInput;
     private TextInputLayout dateInput;
     private TextInputLayout descriptionInput;
@@ -58,6 +60,7 @@ public class MemoryEditActivity extends AppCompatActivity {
 
     private Memory memory = null;
     private File mediaFile;
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,19 +155,49 @@ public class MemoryEditActivity extends AppCompatActivity {
         cameraButton2.setOnClickListener(cameraClick);
         cameraButton3.setOnClickListener(cameraClick);
 
-
-        // create a memory with calendar to today
         final Calendar calendar = Calendar.getInstance();
-        ArrayList<Media> media = new ArrayList<>();
-        memory = new Memory(
-                Database.getInstance().newId(),
-                new LatLng(0, 0),
-                new Date(calendar.getTimeInMillis()),
-                "",
-                "",
-                media
-        );
+        if (getIntent().getStringExtra("ID") != null) {
+            isEditMode = true;
+            Database database = Database.getInstance();
+            String sessionId = getIntent().getStringExtra("ID");
+            memory = database.findMemory(sessionId);
+            titleInput.getEditText().setText(memory.getTitle());
+            descriptionInput.getEditText().setText(memory.getDescription());
+            dateInput.getEditText().setText(memory.getDateText());
+            isTitleValid = true;
+            isDescriptionValid = true;
 
+        } else {
+            // create a memory with calendar to today
+            ArrayList<Media> media = new ArrayList<>();
+            memory = new Memory(
+                    Database.getInstance().newId(),
+                    new LatLng(0, 0),
+                    new Date(calendar.getTimeInMillis()),
+                    "",
+                    "",
+                    media
+            );
+
+            if (getIntent().getExtras() != null && getIntent().getExtras().get("location") != null) {
+                latLng = (LatLng) getIntent().getExtras().get("location");
+                memory.setLocation(latLng);
+            } else {
+                // Get current location from the LocationManager
+                LocationManager.getInstance()
+                        .initialize(this)
+                        .updateLocation(this, new LocationManager.OnLocationResultListener() {
+                            @Override
+                            public void onLocationResult(@Nullable Location location) {
+                                if (location == null) {
+                                    Toast.makeText(MemoryEditActivity.this, R.string.error_could_not_set_current_location, Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                memory.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+                            }
+                        });
+            }
+        }
 
         setButtonEnabled(); // save button should be disabled when input not yet valid
 
@@ -230,31 +263,17 @@ public class MemoryEditActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Database.getInstance().addMemory(memory);
-
-                Intent intent = new Intent(MemoryEditActivity.this, MemoryDetailActivity.class);
-                intent.putExtra("EXTRA_SESSION_ID", memory.getId());
-                startActivity(intent);
+                if (isEditMode) {
+                    Database.getInstance().updateMemory(memory);
+                } else {
+                    Database.getInstance().addMemory(memory);
+                    Intent intent = new Intent(MemoryEditActivity.this, MemoryDetailActivity.class);
+                    intent.putExtra("EXTRA_SESSION_ID", memory.getId());
+                    startActivity(intent);
+                }
                 finish();
             }
         });
-
-
-        // Get current location from the LocationManager
-        LocationManager.getInstance()
-                .initialize(this)
-                .updateLocation(this, new LocationManager.OnLocationResultListener() {
-                    @Override
-                    public void onLocationResult(@Nullable Location location) {
-                        if (location == null) {
-                            Toast.makeText(MemoryEditActivity.this, R.string.error_could_not_set_current_location, Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        memory.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
-                    }
-                });
-
-
     }
 
 

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
+import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
@@ -24,6 +25,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
     Intent shareIntent;
     Memory memory;
     ViewPager2 viewPager2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(shareIntent, "How would you like to share this memory?"));
                 //shareIntent = new Intent(Intent.ACTION_SEND);
                 //shareIntent.setType("text/plain");
-                //shareIntent.putExtra(Intent.EXTRA_SUBJECT,memory.getTitle());
+                //shareIntent.putExtra(Intent.EXTRA_SUBJECT, memory.getTitle());
                 //shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getDescription());
                 //startActivity(Intent.createChooser(shareIntent, "Share memories via"));
                 return true;
@@ -111,16 +113,18 @@ public class MemoryDetailActivity extends AppCompatActivity {
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                                //todo: implement delete
-                                // SQLiteDatabase db = this.getWritableDatabase();
-                                // return db.delete(TABLE_NAME, "ID =?", new String[]{id});
+                                Database.getInstance().deleteMemory(memory);
+                                finish();
                             }
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
                 return true;
             case R.id.editBtn:
+                Intent intent = new Intent(MemoryDetailActivity.this, MemoryEditActivity.class);
+                intent.putExtra("ID",memory.getId());
+                startActivity(intent);
+
                 Toast.makeText(this, "Action Edit selected", Toast.LENGTH_LONG).show();
                 return true;
             default:
