@@ -19,6 +19,7 @@ import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
 import java.util.ArrayList;
@@ -71,5 +72,6 @@ public class SearchFragment extends Fragment {
             }
         }
         adapter.setData(filteredlist);
+        AnalyticsUtil.search(getContext());
     }
 }
