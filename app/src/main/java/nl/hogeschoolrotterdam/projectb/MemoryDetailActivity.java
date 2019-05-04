@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
 public class MemoryDetailActivity extends AppCompatActivity {
     TextView memoryTitleTextView;
@@ -102,6 +103,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 } else {
                     shareIntent.setType("text/plain");
                 }
+                AnalyticsUtil.share(this);
                 startActivity(Intent.createChooser(shareIntent, "How would you like to share this memory?"));
                 return true;
             case R.id.deleteBtn:
@@ -111,6 +113,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                AnalyticsUtil.deleteContent(MemoryDetailActivity.this);
                                 Database.getInstance().deleteMemory(memory);
                                 finish();
                             }

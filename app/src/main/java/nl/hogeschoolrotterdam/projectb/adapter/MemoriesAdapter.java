@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
                 Intent intent = new Intent(v.getContext(), MemoryDetailActivity.class);
                 intent.putExtra("EXTRA_SESSION_ID", memory.getId());
                 v.getContext().startActivity(intent);
+                AnalyticsUtil.selectContent(v.getContext(), "SearchOrList");
             }
         });
 
