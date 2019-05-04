@@ -24,7 +24,7 @@ public class Image extends Media {
     /**
      * use this to get the image drawable.
      * usage:
-     * ImageView imageView = findViewById(R.id.imageview)
+     * ImageView imageView = findViewById(R.id.imageView)
      * Image image = memory.getThumbnail()
      * if (image != null) {
      * imageView.setImageBitmap(image.getImage())

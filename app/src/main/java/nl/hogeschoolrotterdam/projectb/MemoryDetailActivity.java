@@ -2,11 +2,14 @@ package nl.hogeschoolrotterdam.projectb;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+//import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -16,7 +19,11 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
+
+import java.util.ArrayList;
 
 public class MemoryDetailActivity extends AppCompatActivity {
     Intent shareIntent;
@@ -83,21 +90,28 @@ public class MemoryDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        ImageView imageView = findViewById(R.id.imageView);
+        Image image = memory.getThumbnail();
+        if (image != null) {
+            imageView.setImageBitmap(image.getImage());
+                    }
+
         switch (item.getItemId()) {
             case R.id.shareBtn:
-                Uri imageUri = Uri.parse("android.resource://" + getPackageName()
-                        + "/drawable/" + "ic_launcher");
+                //Uri imageUri = Uri.parse("android.resource://" + getPackageName()
+                        //+ "/drawable/" + "ic_launcher");
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + "\n" + memory.getDescription());
                 if (memory.getMedia().size()>0) {
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                    shareIntent.setType("image/jpeg");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, image.getImagePath());
+                    shareIntent.setType("image/*");
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }else{
                     shareIntent.setType("text/plain");
                 }
                 startActivity(Intent.createChooser(shareIntent, "How would you like to share this memory?"));
+
                 //shareIntent = new Intent(Intent.ACTION_SEND);
                 //shareIntent.setType("text/plain");
                 //shareIntent.putExtra(Intent.EXTRA_SUBJECT, memory.getTitle());
