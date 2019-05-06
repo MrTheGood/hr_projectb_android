@@ -96,10 +96,15 @@ public class MemoryDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.shareBtn:
                 Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + "\n" + memory.getDescription());
                 if (images.size() > 0) {
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(images.get(0).getImagePath()));
+                    ArrayList<Uri> imageUris = new ArrayList<Uri>();
+                    for (int i = 0; i < images.size(); i++) {
+                        imageUris.add(Uri.parse(images.get(i).getImagePath()));
+                    }
+
+                    shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
                     shareIntent.setType("image/*");
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 } else {
