@@ -1,5 +1,7 @@
 package nl.hogeschoolrotterdam.projectb.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.Page
         if (viewType == TYPE_IMAGE)
             return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, parent, false));
         if (viewType == TYPE_VIDEO)
-            return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, parent, false));
+            return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false));
         throw new IllegalStateException("UNKOWN TYPE: " + viewType);
     }
 
@@ -49,12 +51,21 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.Page
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PagerVH holder, int position) {
-        Media m = media.get(position);
+    public void onBindViewHolder(@NonNull final PagerVH holder, int position) {
+        final Media m = media.get(position);
         if (m instanceof Image)
             holder.pageImage.setImageBitmap(((Image) m).getImage());
-        if (m instanceof Video)
+        if (m instanceof Video) {
+            holder.pageImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(((Video) m).getVideoPath()));
+                    intent.setDataAndType(Uri.parse(((Video) m).getVideoPath()), "video/mp4");
+                    holder.pageImage.getContext().startActivity(intent);
+                }
+            });
             holder.pageImage.setImageBitmap(((Video) m).getThumbnail());
+        }
     }
 
     class PagerVH extends RecyclerView.ViewHolder {
