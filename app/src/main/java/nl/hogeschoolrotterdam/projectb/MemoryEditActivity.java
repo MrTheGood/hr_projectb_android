@@ -26,6 +26,7 @@ import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
@@ -232,6 +233,7 @@ public class MemoryEditActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (isEditMode) {
                     Database.getInstance().updateMemory(memory);
+                    AnalyticsUtil.editContent(MemoryEditActivity.this);
                 } else {
                     Database.getInstance().addMemory(memory);
                     Intent intent = new Intent(MemoryEditActivity.this, MemoryDetailActivity.class);
@@ -306,5 +308,14 @@ public class MemoryEditActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isEditMode)
+            AnalyticsUtil.cancelEditContent(this);
+        else
+            AnalyticsUtil.cancelAddContent(this);
     }
 }
