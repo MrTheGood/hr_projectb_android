@@ -54,7 +54,6 @@ dependencies {
 
     // other
     implementation 'net.alhazmy13.MediaPicker:libary:2.4.4'
-
 }
 repositories {
     mavenCentral()

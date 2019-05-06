@@ -15,8 +15,12 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
+
+import java.util.ArrayList;
 
 public class MemoryDetailActivity extends AppCompatActivity {
     TextView memoryTitleTextView;
@@ -89,22 +93,32 @@ public class MemoryDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        ArrayList<Image> images = new ArrayList<>();
+        for (Media m : memory.getMedia()) {
+            if (m instanceof Image) {
+                images.add((Image) m);
+            }
+        }
         switch (item.getItemId()) {
             case R.id.shareBtn:
-                Uri imageUri = Uri.parse("android.resource://" + getPackageName()
-                        + "/drawable/" + "ic_launcher");
                 Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + "\n" + memory.getDescription());
-                if (memory.getMedia().size() > 0) {
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                    shareIntent.setType("image/jpeg");
+                if (images.size() > 0) {
+                    ArrayList<Uri> imageUris = new ArrayList<Uri>();
+                    for (int i = 0; i < images.size(); i++) {
+                        imageUris.add(Uri.parse(images.get(i).getImagePath()));
+                    }
+
+                    shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
+                    shareIntent.setType("image/*");
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 } else {
                     shareIntent.setType("text/plain");
                 }
                 AnalyticsUtil.share(this);
                 startActivity(Intent.createChooser(shareIntent, "How would you like to share this memory?"));
+
                 return true;
             case R.id.deleteBtn:
                 new AlertDialog.Builder(MemoryDetailActivity.this)
