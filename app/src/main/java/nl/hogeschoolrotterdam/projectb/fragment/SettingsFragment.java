@@ -1,5 +1,7 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +42,16 @@ public class SettingsFragment extends Fragment {
         spinner = getView().findViewById(R.id.theme_selector);
         previewImage = getView().findViewById(R.id.theme_preview);
         Button applyButton = getView().findViewById(R.id.theme_apply);
+        Button privacyPolicyButton = getView().findViewById(R.id.privacy_policy);
 
+        privacyPolicyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(getString(R.string.url_privacy_policy)));
+                startActivity(i);
+            }
+        });
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
