@@ -32,6 +32,7 @@
     <string name="action_ok">Got it!</string>
     <string name="action_apply_theme">Apply Theme</string>
     <string name="action_change_memory_location">Change location</string>
+    <string name="action_change_memory_marker_restaurant"></string>
 
 
     <!-- hint -->
