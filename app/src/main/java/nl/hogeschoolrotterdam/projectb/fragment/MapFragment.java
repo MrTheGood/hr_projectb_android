@@ -172,7 +172,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
+        return BitmapDescriptorFactory.fromBitmap(bitmap); 
     }
 
 
