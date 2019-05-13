@@ -87,16 +87,22 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/action_change_memory_location"
                 />
+
             <RelativeLayout
-                android:layout_width="75dp"
+                android:layout_width="350dp"
                 android:layout_height="75dp"
                 >
+
                 <Button
                     android:id="@+id/lolz1"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:layout_alignParentRight="@+id/lolz2"
+                    android:layout_alignStart="@+id/lolz2"
+                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="-239dp"
+
+                    android:layout_marginEnd="272dp"
                     android:background="@drawable/ic_map_local_bar_black_24dp"
                     />
 
@@ -104,12 +110,13 @@
                     android:id="@+id/lolz2"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:layout_alignParentRight="@+id/lolz1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="33dp"
                     android:background="@drawable/ic_map_restaurant_black_24dp"
+                    android:visibility="visible"
                     />
             </RelativeLayout>
-
-
 
 
             <HorizontalScrollView
