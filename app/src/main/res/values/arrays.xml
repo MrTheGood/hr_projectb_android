@@ -7,11 +7,49 @@
     </string-array>
     <string-array name="marker_icons" >
         <item>Default marker</item>
-        <item>Restaurant</item>
+        <item>Architeture</item>
+        <item>Baby</item>
         <item>Bar</item>
-        <item>Pet</item>
-        <item>Work</item>
-        <item>Shopping</item>
+        <item>Beach</item>
+        <item>Birthday</item>
+        <item>Cafe</item>
+        <item>Camera</item>
+        <item>Cart</item>
+        <item>City</item>
+        <item>Flagged</item>
+        <item>Games</item>
+        <item>Golf</item>
+        <item>Home</item>
+        <item>Images</item>
+        <item>Iron throne</item>
+        <item>Job</item>
+        <item>Landscape</item>
+        <item>Money</item>
+        <item>Mood: Extremly happy</item>
+        <item>Mood: Extremly sad</item>
+        <item>Mood: Happy</item>
+        <item>Mood: Sad</item>
+        <item>Mood: Very happy</item>
+        <item>Mood: Very sad</item>
+        <item>Music</item>
+        <item>Normal</item>
+        <item>Painting</item>
+        <item>Party</item>
+        <item>Pets</item>
+        <item>Pool</item>
+        <item>Restaurant</item>
+        <item>School</item>
+        <item>Sexy</item>
+        <item>Shield</item>
+        <item>Spa</item>
+        <item>Speaker</item>
+        <item>Starred</item>
         <item>Store</item>
+        <item>Style</item>
+        <item>Theathers</item>
+        <item>Tourist</item>
+        <item>Want to go</item>
+        <item>World</item>
+        <item></item>
     </string-array>
 </resources>
