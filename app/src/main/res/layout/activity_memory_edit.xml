@@ -88,35 +88,19 @@
                 android:text="@string/action_change_memory_location"
                 />
 
-            <RelativeLayout
-                android:layout_width="350dp"
-                android:layout_height="75dp"
-                >
-
-                <Button
-                    android:id="@+id/lolz1"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_alignStart="@+id/lolz2"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="-239dp"
-
-                    android:layout_marginEnd="272dp"
-                    android:background="@drawable/ic_map_local_bar_black_24dp"
-                    />
-
-                <Button
-                    android:id="@+id/lolz2"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginEnd="33dp"
-                    android:background="@drawable/ic_map_restaurant_black_24dp"
-                    android:visibility="visible"
-                    />
-            </RelativeLayout>
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/theme_selector"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="8dp"
+                android:entries="@array/marker_icons"
+                android:spinnerMode="dropdown"
+                app:layout_constraintTop_toBottomOf="@+id/memory_change_location_input"
+                tools:listitem="@layout/support_simple_spinner_dropdown_item"
+                />
 
 
             <HorizontalScrollView

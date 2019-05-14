@@ -5,4 +5,13 @@
         <item>Dark mode</item>
         <item>Purple mode</item>
     </string-array>
+    <string-array name="marker_icons" >
+        <item>Default marker</item>
+        <item>Restaurant</item>
+        <item>Bar</item>
+        <item>Pet</item>
+        <item>Work</item>
+        <item>Shopping</item>
+        <item>Store</item>
+    </string-array>
 </resources>
