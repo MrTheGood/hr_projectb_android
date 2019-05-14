@@ -27,6 +27,7 @@ import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
+import nl.hogeschoolrotterdam.projectb.util.SimpleOnItemSelectedListener;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class MemoryEditActivity extends AppCompatActivity {
 
     private Boolean isTitleValid = false;
     private Boolean isDescriptionValid = false;
-
+    private Spinner spinner;
     private Memory memory = null;
     LatLng latLng;
 
@@ -107,7 +108,8 @@ public class MemoryEditActivity extends AppCompatActivity {
                     new Date(calendar.getTimeInMillis()),
                     "",
                     "",
-                    media
+                    media,
+                    R.drawable.ic_map_adefaultl
             );
 
             if (getIntent().getExtras() != null && getIntent().getExtras().get("location") != null) {
@@ -214,6 +216,14 @@ public class MemoryEditActivity extends AppCompatActivity {
                 startActivityForResult(i, LOCATION_EDIT);
             }
         });
+        spinner = findViewById(R.id.Marker_selector);
+        spinner.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                super.onItemSelected(parent, view, position, id);
+                iconSelected(position);
+            }
+        });
 
         // check if the description is valid when the text has changed
         descriptionInput.getEditText().addTextChangedListener(new SimpleTextWatcher() {
@@ -241,6 +251,145 @@ public class MemoryEditActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void iconSelected(int selectedIcon) {
+        int foundIcon;
+        switch (selectedIcon) {
+            case 0:
+                foundIcon = R.drawable.ic_map_adefaultl;
+                break;
+            case 1:
+                foundIcon = R.drawable.ic_map_architecture;
+                break;
+            case 2:
+                foundIcon = R.drawable.ic_map_baby;
+                break;
+            case 3:
+                foundIcon = R.drawable.ic_map_bar;
+                break;
+            case 4:
+                foundIcon = R.drawable.ic_map_beach;
+                break;
+            case 5:
+                foundIcon = R.drawable.ic_map_birthday;
+                break;
+            case 6:
+                foundIcon = R.drawable.ic_map_cafe;
+                break;
+            case 7:
+                foundIcon = R.drawable.ic_map_camera;
+                break;
+            case 8:
+                foundIcon = R.drawable.ic_map_cart;
+                break;
+            case 9:
+                foundIcon = R.drawable.ic_map_city;
+                break;
+            case 10:
+                foundIcon = R.drawable.ic_map_flagged;
+                break;
+            case 11:
+                foundIcon = R.drawable.ic_map_games;
+                break;
+            case 12:
+                foundIcon = R.drawable.ic_map_golf;
+                break;
+            case 13:
+                foundIcon = R.drawable.ic_map_home;
+                break;
+            case 14:
+                foundIcon = R.drawable.ic_map_images;
+                break;
+            case 15:
+                foundIcon = R.drawable.ic_map_iron_throne;
+                break;
+            case 16:
+                foundIcon = R.drawable.ic_map_job;
+                break;
+            case 17:
+                foundIcon = R.drawable.ic_map_landscape;
+                break;
+            case 18:
+                foundIcon = R.drawable.ic_map_money;
+                break;
+            case 19:
+                foundIcon = R.drawable.ic_map_mood_extremely_happy;
+                break;
+            case 20:
+                foundIcon = R.drawable.ic_map_mood_extremely_sad;
+                break;
+            case 21:
+                foundIcon = R.drawable.ic_map_mood_happy;
+                break;
+            case 22:
+                foundIcon = R.drawable.ic_map_mood_sad;
+                break;
+            case 23:
+                foundIcon = R.drawable.ic_map_mood_very_happy;
+                break;
+            case 24:
+                foundIcon = R.drawable.ic_map_mood_very_sad;
+                break;
+            case 25:
+                foundIcon = R.drawable.ic_map_music;
+                break;
+            case 26:
+                foundIcon = R.drawable.ic_map_painting;
+                break;
+            case 27:
+                foundIcon = R.drawable.ic_map_party;
+                break;
+            case 28:
+                foundIcon = R.drawable.ic_map_pets;
+                break;
+            case 29:
+                foundIcon = R.drawable.ic_map_pool;
+                break;
+            case 30:
+                foundIcon = R.drawable.ic_map_restaurant;
+                break;
+            case 31:
+                foundIcon = R.drawable.ic_map_school;
+                break;
+            case 32:
+                foundIcon = R.drawable.ic_map_sexy;
+                break;
+            case 33:
+                foundIcon = R.drawable.ic_map_shield;
+                break;
+            case 34:
+                foundIcon = R.drawable.ic_map_spa;
+                break;
+            case 35:
+                foundIcon = R.drawable.ic_map_speakers;
+                break;
+            case 36:
+                foundIcon = R.drawable.ic_map_starred;
+                break;
+            case 37:
+                foundIcon = R.drawable.ic_map_store;
+                break;
+            case 38:
+                foundIcon = R.drawable.ic_map_styles;
+                break;
+            case 39:
+                foundIcon = R.drawable.ic_map_teathers;
+                break;
+            case 40:
+                foundIcon = R.drawable.ic_map_tourist;
+                break;
+            case 41:
+                foundIcon = R.drawable.ic_map_want_to_go;
+                break;
+            case 42:
+                foundIcon = R.drawable.ic_map_world;
+                break;
+            default:
+                foundIcon = R.drawable.ic_map_adefaultl;
+        }
+        memory.setMemoryTypeIconId(foundIcon);
+
     }
 
 
@@ -273,6 +422,7 @@ public class MemoryEditActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 
     public void addMediaImageView(Bitmap bitmap, final Media media) {
         final ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_memory_image_edit, mediaList, false);

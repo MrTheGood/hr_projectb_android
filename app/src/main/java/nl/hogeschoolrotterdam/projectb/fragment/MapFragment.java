@@ -160,7 +160,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
         for (Memory memorie : Database.getInstance().getMemories()) {
             Marker marker = googleMap.addMarker(new MarkerOptions().position(memorie.getLocation()).title(memorie.getTitle()).
-                    snippet((String) memorie.getDateText()).icon(bitmapDescriptorFromVector(getActivity(),R.drawable.ic_map_restaurant_black_24dp)));
+                    snippet((String) memorie.getDateText()).icon(bitmapDescriptorFromVector(getActivity(),memorie.getMemoryTypeIconId())));
             marker.setTag(memorie.getId());
         }
         inity();

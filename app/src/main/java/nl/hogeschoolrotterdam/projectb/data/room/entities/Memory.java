@@ -2,12 +2,14 @@ package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import com.google.android.gms.maps.model.LatLng;
+import nl.hogeschoolrotterdam.projectb.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,18 +37,21 @@ public class Memory {
     @NonNull
     @Ignore
     private ArrayList<Media> media;
+    @DrawableRes
+    private int memoryTypeIconId;
 
     public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description) {
-        this(id, location, date, title, description, null);
+        this(id, location, date, title, description, null, R.drawable.ic_map_adefaultl);
     }
 
-    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media) {
+    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media, @DrawableRes int memoryTypeIconId) {
         this.id = id;
         this.location = location;
         this.date = date;
         this.title = title;
         this.description = description;
         this.media = media != null ? media : new ArrayList<Media>();
+        this.memoryTypeIconId = memoryTypeIconId;
     }
 
     @NonNull
@@ -140,5 +145,13 @@ public class Memory {
 
     public void removeMedia(Media media) {
         this.media.remove(media);
+    }
+
+    public int getMemoryTypeIconId() {
+        return memoryTypeIconId;
+    }
+
+    public void setMemoryTypeIconId(int memoryTypeIconId) {
+        this.memoryTypeIconId = memoryTypeIconId;
     }
 }

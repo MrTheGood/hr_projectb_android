@@ -7,7 +7,7 @@
     </string-array>
     <string-array name="marker_icons" >
         <item>Default marker</item>
-        <item>Architeture</item>
+        <item>Architecture</item>
         <item>Baby</item>
         <item>Bar</item>
         <item>Beach</item>
@@ -25,14 +25,13 @@
         <item>Job</item>
         <item>Landscape</item>
         <item>Money</item>
-        <item>Mood: Extremly happy</item>
-        <item>Mood: Extremly sad</item>
+        <item>Mood: Extremely happy</item>
+        <item>Mood: Extremely sad</item>
         <item>Mood: Happy</item>
         <item>Mood: Sad</item>
         <item>Mood: Very happy</item>
         <item>Mood: Very sad</item>
         <item>Music</item>
-        <item>Normal</item>
         <item>Painting</item>
         <item>Party</item>
         <item>Pets</item>
@@ -50,6 +49,5 @@
         <item>Tourist</item>
         <item>Want to go</item>
         <item>World</item>
-        <item></item>
     </string-array>
 </resources>
