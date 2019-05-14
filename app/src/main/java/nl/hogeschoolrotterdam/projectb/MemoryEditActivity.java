@@ -111,6 +111,7 @@ public class MemoryEditActivity extends AppCompatActivity {
                     media
             );
 
+            dateInput.getEditText().setText(memory.getDateText());
             if (getIntent().getExtras() != null && getIntent().getExtras().get("location") != null) {
                 latLng = (LatLng) getIntent().getExtras().get("location");
                 memory.setLocation(latLng);
