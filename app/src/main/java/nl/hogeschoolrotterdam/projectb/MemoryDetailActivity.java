@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
@@ -31,9 +29,8 @@ public class MemoryDetailActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     ViewPager2 viewPager2;
-    GoogleMap mGoogleMap;
-    MapView mMapView;
     ViewPagerAdapter mediaAdapter;
+
     Memory memory;
 
 
@@ -71,11 +68,6 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryDatetextView.setText(memory.getDateText());
         memoryTitleTextView.setText(memory.getTitle());
         memoryDescriptionTextView.setText(memory.getDescription());
-        //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
-        // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
-        
-
-
     }
 
     @Override
