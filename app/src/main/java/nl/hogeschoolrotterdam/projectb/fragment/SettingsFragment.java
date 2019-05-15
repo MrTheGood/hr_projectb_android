@@ -1,5 +1,7 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.WhibApp;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.SimpleOnItemSelectedListener;
 
 /**
@@ -39,7 +42,16 @@ public class SettingsFragment extends Fragment {
         spinner = getView().findViewById(R.id.theme_selector);
         previewImage = getView().findViewById(R.id.theme_preview);
         Button applyButton = getView().findViewById(R.id.theme_apply);
+        Button privacyPolicyButton = getView().findViewById(R.id.privacy_policy);
 
+        privacyPolicyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(getString(R.string.url_privacy_policy)));
+                startActivity(i);
+            }
+        });
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,12 +68,15 @@ public class SettingsFragment extends Fragment {
         switch (WhibApp.getInstance().getThemeId()) {
             case R.style.AppTheme_Light:
                 spinner.setSelection(LIGHT, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Light");
                 break;
             case R.style.AppTheme_Dark:
                 spinner.setSelection(DARK, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Dark");
                 break;
             case R.style.AppTheme_Light_Purple:
                 spinner.setSelection(LIGHT_PURPLE, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Light_Purple");
                 break;
         }
     }

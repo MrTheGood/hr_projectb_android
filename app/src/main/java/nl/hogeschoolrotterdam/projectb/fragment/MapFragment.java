@@ -28,6 +28,7 @@ import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Intent i = new Intent(getActivity(), MemoryEditActivity.class);
                 i.putExtra("location",latLng );
                 startActivity(i);
+                AnalyticsUtil.addContent(getContext(), "Map");
 
 
             }
@@ -142,6 +144,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
                 intent.putExtra("EXTRA_SESSION_ID", memoryId);
                 startActivity(intent);
+                AnalyticsUtil.selectContent(getContext(), "Map");
             }
         });
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);

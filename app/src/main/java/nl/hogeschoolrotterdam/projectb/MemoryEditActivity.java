@@ -26,6 +26,7 @@ import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleOnItemSelectedListener;
 import nl.hogeschoolrotterdam.projectb.util.SimpleTextWatcher;
@@ -77,6 +78,8 @@ public class MemoryEditActivity extends AppCompatActivity {
         mediaList = findViewById(R.id.images);
         spinner = findViewById(R.id.Marker_selector);
 
+        dateInput.getEditText().setKeyListener(null);
+
         final Calendar calendar = Calendar.getInstance();
         if (getIntent().getStringExtra("ID") != null) {
             isEditMode = true;
@@ -113,6 +116,7 @@ public class MemoryEditActivity extends AppCompatActivity {
                     R.drawable.ic_map_adefault
             );
 
+            dateInput.getEditText().setText(memory.getDateText());
             if (getIntent().getExtras() != null && getIntent().getExtras().get("location") != null) {
                 latLng = (LatLng) getIntent().getExtras().get("location");
                 memory.setLocation(latLng);
@@ -242,6 +246,7 @@ public class MemoryEditActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (isEditMode) {
                     Database.getInstance().updateMemory(memory);
+                    AnalyticsUtil.editContent(MemoryEditActivity.this);
                 } else {
                     Database.getInstance().addMemory(memory);
                     Intent intent = new Intent(MemoryEditActivity.this, MemoryDetailActivity.class);
@@ -456,5 +461,14 @@ public class MemoryEditActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isEditMode)
+            AnalyticsUtil.cancelEditContent(this);
+        else
+            AnalyticsUtil.cancelAddContent(this);
     }
 }

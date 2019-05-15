@@ -73,7 +73,7 @@
                     style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date"
+                    android:inputType="none"
                     android:maxLines="1"
                     android:nextFocusDown="@id/memory_change_location_input"
                     />

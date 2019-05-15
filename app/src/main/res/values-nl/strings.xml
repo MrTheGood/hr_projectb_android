@@ -26,10 +26,11 @@
     <string name="action_image">Foto</string>
     <string name="action_remove">Verwijder</string>
     <string name="action_cancel">Annuleren</string>
-    <string name="action_save">Oplsaan</string>
+    <string name="action_save">Opslaan</string>
     <string name="action_ok">Snap \'m!</string>
     <string name="action_apply_theme">Thema toepassen</string>
     <string name="action_change_memory_location">Locatie veranderen</string>
+    <string name="action_privacy_policy">Privacy Policy</string>
 
 
     <!-- hint -->

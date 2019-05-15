@@ -2,7 +2,6 @@ package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.os.Bundle;
 import android.view.*;
-import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +50,13 @@ public class MemoriesFragment extends Fragment {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(tb);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        memories = Database.getInstance().getMemories();
+        adapter.setData(memories);
     }
 
     @Override
