@@ -280,10 +280,18 @@ public class MemoryEditActivity extends AppCompatActivity {
     }
 
     public void addMediaImageView(Bitmap bitmap, final Media media) {
-        final ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_memory_image_edit, mediaList, false);
-        mediaList.addView(imageView);
+        final View view;
+        final ImageView imageView;
+        if (media instanceof Video) {
+            view = LayoutInflater.from(this).inflate(R.layout.item_memory_video_edit, mediaList, false);
+            imageView = view.findViewById(R.id.video_image_view);
+        } else {
+            view = LayoutInflater.from(this).inflate(R.layout.item_memory_image_edit, mediaList, false);
+            imageView = (ImageView) view;
+        }
+        mediaList.addView(view);
         imageView.setImageBitmap(bitmap);
-        imageView.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 new AlertDialog.Builder(MemoryEditActivity.this)
