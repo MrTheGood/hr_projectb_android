@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,15 +20,21 @@ import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
 import java.util.ArrayList;
 
 public class MemoryDetailActivity extends AppCompatActivity {
-    Intent shareIntent;
-    Memory memory;
+    TextView memoryTitleTextView;
+    TextView memoryDatetextView;
+    TextView memoryDescriptionTextView;
+    Toolbar toolbar;
+
     ViewPager2 viewPager2;
     GoogleMap mGoogleMap;
     MapView mMapView;
+    ViewPagerAdapter mediaAdapter;
+    Memory memory;
 
 
     @Override
@@ -37,28 +42,32 @@ public class MemoryDetailActivity extends AppCompatActivity {
         setTheme(WhibApp.getInstance().getThemeId());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_detail);
+
+        toolbar = findViewById(R.id.toolbar);
+        memoryTitleTextView = findViewById(R.id.memoryTitleTextView);
+        memoryDatetextView = findViewById(R.id.memoryDatetextView);
+        memoryDescriptionTextView = findViewById(R.id.memoryDescriptionTextView);
         viewPager2 = findViewById(R.id.viewPager2);
 
-        ViewPagerAdapter mediaAdapter = new ViewPagerAdapter();
+        mediaAdapter = new ViewPagerAdapter();
         viewPager2.setAdapter(mediaAdapter);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         Drawable homeAsUpIndicator = ContextCompat.getDrawable(this, R.drawable.ic_action_close); // Workaround for a bug in MaterialComponents
         getSupportActionBar().setHomeAsUpIndicator(WhibApp.getInstance().tintDrawable(homeAsUpIndicator));
+    }
 
-        TextView memoryTitleTextView = findViewById(R.id.memoryTitleTextView);
-        TextView memoryDatetextView = findViewById(R.id.memoryDatetextView);
-        TextView memoryDescriptionTextView = findViewById(R.id.memoryDescriptionTextView);
-        //change.
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         Database database = Database.getInstance();
         String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
         memory = database.findMemory(sessionId);
         mediaAdapter.setMedia(memory.getMedia());
 
-        // showing content (images not included in demo content)
         memoryDatetextView.setText(memory.getDateText());
         memoryTitleTextView.setText(memory.getTitle());
         memoryDescriptionTextView.setText(memory.getDescription());
@@ -77,7 +86,6 @@ public class MemoryDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_main_memorydetail_top);
         WhibApp.getInstance().tintMenuItems(menu); // Workaround for a Material Components bug
 
@@ -102,15 +110,21 @@ public class MemoryDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.shareBtn:
                 Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + "\n" + memory.getDescription());
                 if (images.size() > 0) {
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(images.get(0).getImagePath()));
+                    ArrayList<Uri> imageUris = new ArrayList<Uri>();
+                    for (int i = 0; i < images.size(); i++) {
+                        imageUris.add(Uri.parse(images.get(i).getImagePath()));
+                    }
+
+                    shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
                     shareIntent.setType("image/*");
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 } else {
                     shareIntent.setType("text/plain");
                 }
+                AnalyticsUtil.share(this);
                 startActivity(Intent.createChooser(shareIntent, "How would you like to share this memory?"));
 
                 return true;
@@ -121,6 +135,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                AnalyticsUtil.deleteContent(MemoryDetailActivity.this);
                                 Database.getInstance().deleteMemory(memory);
                                 finish();
                             }
@@ -132,8 +147,6 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(MemoryDetailActivity.this, MemoryEditActivity.class);
                 intent.putExtra("ID", memory.getId());
                 startActivity(intent);
-
-                Toast.makeText(this, "Action Edit selected", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 break;

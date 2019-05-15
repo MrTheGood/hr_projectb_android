@@ -30,7 +30,7 @@ public class Database {
     }
 
     public String newId() {
-        return String.valueOf(memories.size());
+        return String.valueOf(System.currentTimeMillis());
     }
 
     @NonNull

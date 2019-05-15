@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">WHIB</string>
 
+    <!-- URL -->
+    <string name="url_privacy_policy" translatable="false">https://mrthegood.github.io/whib/privacypolicy</string>
+
     <!-- Menu -->
     <string name="menu_map">Map</string>
     <string name="menu_memories">Memories</string>
@@ -33,6 +36,7 @@
     <string name="action_apply_theme">Apply Theme</string>
     <string name="action_change_memory_location">Change location</string>
     <string name="action_change_memory_marker_restaurant"></string>
+    <string name="action_privacy_policy">Privacy Policy</string>
 
 
     <!-- hint -->
