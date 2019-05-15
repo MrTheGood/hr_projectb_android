@@ -1,6 +1,9 @@
 package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.text.format.DateUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,10 +12,8 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by maartendegoede on 20/03/2019.
@@ -140,5 +141,20 @@ public class Memory {
 
     public void removeMedia(Media media) {
         this.media.remove(media);
+    }
+
+    @Nullable
+    @Ignore
+    public String getCountryName(Context context) {
+        Geocoder geocoder = new Geocoder(context);
+        try {
+            List<Address> listAddresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
+            if (null != listAddresses && listAddresses.size() > 0) {
+                return listAddresses.get(0).getCountryName();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
