@@ -61,7 +61,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.Page
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(((Video) m).getVideoPath()));
                     intent.setDataAndType(Uri.parse(((Video) m).getVideoPath()), "video/mp4");
-                    holder.pageImage.getContext().startActivity(intent);
+                    holder.pageImage.getContext().startActivity(intent) ;
                 }
             });
             holder.pageImage.setImageBitmap(((Video) m).getThumbnail());
