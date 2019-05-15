@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -29,12 +31,14 @@ public class MemoryDetailActivity extends AppCompatActivity {
     TextView memoryDatetextView;
     TextView memoryDescriptionTextView;
     Toolbar toolbar;
+    TextView viewPagerIndicator;
 
     ViewPager2 viewPager2;
     GoogleMap mGoogleMap;
     MapView mMapView;
     ViewPagerAdapter mediaAdapter;
     Memory memory;
+    int amountMedia = 0;
 
 
     @Override
@@ -48,15 +52,37 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryDatetextView = findViewById(R.id.memoryDatetextView);
         memoryDescriptionTextView = findViewById(R.id.memoryDescriptionTextView);
         viewPager2 = findViewById(R.id.viewPager2);
+        viewPagerIndicator = findViewById(R.id.viewPager_indicator);
 
         mediaAdapter = new ViewPagerAdapter();
         viewPager2.setAdapter(mediaAdapter);
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         Drawable homeAsUpIndicator = ContextCompat.getDrawable(this, R.drawable.ic_action_close); // Workaround for a bug in MaterialComponents
         getSupportActionBar().setHomeAsUpIndicator(WhibApp.getInstance().tintDrawable(homeAsUpIndicator));
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+
+
+                viewPagerIndicator.setText((position + 1) + "/" + memory.getMedia().size());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
     }
 
     @Override
@@ -71,12 +97,13 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryDatetextView.setText(memory.getDateText());
         memoryTitleTextView.setText(memory.getTitle());
         memoryDescriptionTextView.setText(memory.getDescription());
+        viewPagerIndicator.setText("1/" + memory.getMedia().size());
         //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
         // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
-        
 
 
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

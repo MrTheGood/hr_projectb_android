@@ -38,6 +38,16 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintTop_toTopOf="parent"
                 />
+            <TextView
+                android:id="@+id/viewPager_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="7dp"
+                tools:text="@tools:sample/lorem"
+                app:layout_constraintTop_toTopOf="@id/viewPager2"
+                app:layout_constraintEnd_toEndOf="@id/viewPager2"
+                android:background="@drawable/backront_indicator"
+                />
 
 
             <TextView
