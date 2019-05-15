@@ -158,22 +158,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
-        for (Memory memorie : Database.getInstance().getMemories()) {
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(memorie.getLocation()).title(memorie.getTitle()).
-                    snippet((String) memorie.getDateText()).icon(bitmapDescriptorFromVector(getActivity(),memorie.getMemoryTypeIconId())));
-            marker.setTag(memorie.getId());
+        for (Memory memory : Database.getInstance().getMemories()) {
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle()).
+                    snippet((String) memory.getDateText()).icon(memory.getTypeBitMap(getActivity())));
+            marker.setTag(memory.getId());
         }
         inity();
     }
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
+
 
 
 }

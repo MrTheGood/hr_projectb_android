@@ -1,13 +1,19 @@
 package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import nl.hogeschoolrotterdam.projectb.R;
 
@@ -41,7 +47,7 @@ public class Memory {
     private int memoryTypeIconId;
 
     public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description) {
-        this(id, location, date, title, description, null, R.drawable.ic_map_adefaultl);
+        this(id, location, date, title, description, null, R.drawable.ic_map_adefault);
     }
 
     public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media, @DrawableRes int memoryTypeIconId) {
@@ -154,4 +160,15 @@ public class Memory {
     public void setMemoryTypeIconId(int memoryTypeIconId) {
         this.memoryTypeIconId = memoryTypeIconId;
     }
+
+    public BitmapDescriptor getTypeBitMap(Context context) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, getMemoryTypeIconId());
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
 }

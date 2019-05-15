@@ -75,6 +75,7 @@ public class MemoryEditActivity extends AppCompatActivity {
         locationInput = findViewById(R.id.memory_change_location_input);
         addMediaButton = findViewById(R.id.add_media);
         mediaList = findViewById(R.id.images);
+        spinner = findViewById(R.id.Marker_selector);
 
         final Calendar calendar = Calendar.getInstance();
         if (getIntent().getStringExtra("ID") != null) {
@@ -109,7 +110,7 @@ public class MemoryEditActivity extends AppCompatActivity {
                     "",
                     "",
                     media,
-                    R.drawable.ic_map_adefaultl
+                    R.drawable.ic_map_adefault
             );
 
             if (getIntent().getExtras() != null && getIntent().getExtras().get("location") != null) {
@@ -216,11 +217,10 @@ public class MemoryEditActivity extends AppCompatActivity {
                 startActivityForResult(i, LOCATION_EDIT);
             }
         });
-        spinner = findViewById(R.id.Marker_selector);
+
         spinner.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                super.onItemSelected(parent, view, position, id);
                 iconSelected(position);
             }
         });
@@ -257,7 +257,7 @@ public class MemoryEditActivity extends AppCompatActivity {
         int foundIcon;
         switch (selectedIcon) {
             case 0:
-                foundIcon = R.drawable.ic_map_adefaultl;
+                foundIcon = R.drawable.ic_map_adefault;
                 break;
             case 1:
                 foundIcon = R.drawable.ic_map_architecture;
@@ -386,7 +386,7 @@ public class MemoryEditActivity extends AppCompatActivity {
                 foundIcon = R.drawable.ic_map_world;
                 break;
             default:
-                foundIcon = R.drawable.ic_map_adefaultl;
+                foundIcon = R.drawable.ic_map_adefault;
         }
         memory.setMemoryTypeIconId(foundIcon);
 
