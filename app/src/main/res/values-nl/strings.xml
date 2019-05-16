@@ -14,6 +14,9 @@
     <!--Drawer-->
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="drawer_filter_location">locatie</string>
+    <string name="drawer_filter_date">datum</string>
+    <string name="drawer_filter_marker">marker</string>
 
 
     <!-- Alert dialog -->

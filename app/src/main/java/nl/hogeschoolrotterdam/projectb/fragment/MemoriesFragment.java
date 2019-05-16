@@ -1,7 +1,10 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.ExpandableListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,28 +16,34 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Ignore;
 import com.google.android.material.navigation.NavigationView;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.WhibApp;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.util.ExpandableListAdapter;
 
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by maartendegoede on 20/03/2019.
  * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Wesley de Man, Maarten de Goede all rights reserved.
  */
-public class MemoriesFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
+public class MemoriesFragment extends Fragment {
     private List<Memory> memories;
     private MemoriesAdapter adapter;
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle mToggle;
+
+    private ExpandableListView listView;
+    private ExpandableListAdapter listAdapter;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listHash;
 
     @Nullable
     @Override
@@ -58,13 +67,17 @@ public class MemoriesFragment extends Fragment implements NavigationView.OnNavig
         ((AppCompatActivity) requireActivity()).setSupportActionBar(tb);
 
 
-
-        mDrawerLayout=(DrawerLayout) view.findViewById(R.id.drawer);
+        mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer);
         navigationView = view.findViewById(R.id.nav_view);
-        mToggle= new ActionBarDrawerToggle(getActivity(),mDrawerLayout,R.string.open,R.string.close);
+        mToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        listView = (ExpandableListView) view.findViewById(R.id.iVExp);
+        initData();
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listHash);
+        listView.setAdapter(listAdapter);
 
         return view;
     }
@@ -85,7 +98,7 @@ public class MemoriesFragment extends Fragment implements NavigationView.OnNavig
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(mToggle.onOptionsItemSelected(item)){
+        if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -129,23 +142,37 @@ public class MemoriesFragment extends Fragment implements NavigationView.OnNavig
         return super.onOptionsItemSelected(item);
     }
 
+    private void initData() {
+        listDataHeader = new ArrayList<>();
+        listHash = new HashMap<>();
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.home:{
-                break;
-            }
-            case R.id.setting:{
-                break;
-            }
-            case R.id.log:{
-                break;
-            }
+        listDataHeader.add(" lol ");
+        listDataHeader.add("Location");
+        listDataHeader.add("Year");
+        listDataHeader.add("Marker");
+
+        List<String> edmtDev = new ArrayList<>();
+
+
+        List<String> memories_location = new ArrayList<>();
+        for (int i = 0; i < memories.size(); i++) {
+            memories_location.add(memories.get(i).getLocation().toString());
         }
-        item.setChecked(true);
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+
+
+        List<String> memories_year = new ArrayList<>();
+        for (int i = 0; i < memories.size(); i++) {
+            memories_year.add(memories.get(i).getDateText().toString());
+        }
+
+        List<String> memories_marker = new ArrayList<>();
+
+
+
+        listHash.put(listDataHeader.get(0), edmtDev);
+        listHash.put(listDataHeader.get(1), memories_location);
+        listHash.put(listDataHeader.get(2), memories_year);
+        listHash.put(listDataHeader.get(3), memories_marker);
     }
 
 }
