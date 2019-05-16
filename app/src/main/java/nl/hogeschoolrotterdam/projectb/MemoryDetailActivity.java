@@ -38,7 +38,6 @@ public class MemoryDetailActivity extends AppCompatActivity {
     MapView mMapView;
     ViewPagerAdapter mediaAdapter;
     Memory memory;
-    int amountMedia = 0;
 
 
     @Override
@@ -97,13 +96,12 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryDatetextView.setText(memory.getDateText());
         memoryTitleTextView.setText(memory.getTitle());
         memoryDescriptionTextView.setText(memory.getDescription());
-        viewPagerIndicator.setText("1/" + memory.getMedia().size());
-        //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
-        // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
 
+        viewPagerIndicator.setText((viewPager2.getCurrentItem() + "/" + memory.getMedia().size()));
+            //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
+            // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
 
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {

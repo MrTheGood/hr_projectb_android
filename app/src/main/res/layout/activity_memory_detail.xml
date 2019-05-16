@@ -80,7 +80,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/memoryDatetextView"
                 app:layout_constraintVertical_bias="0.0"
                 tools:layout_editor_absoluteX="0dp"
@@ -88,6 +87,23 @@
                 />
 
 
+            <com.google.android.gms.maps.MapView
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="201dp"
+                android:id="@+id/map7"
+                app:layout_constraintTop_toBottomOf="@id/memoryDescriptionTextView"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/map7"
+                app:layout_constraintEnd_toEndOf="@id/map7"
+                app:layout_constraintTop_toTopOf="@id/map7"
+                app:layout_constraintBottom_toBottomOf="@id/map7"
+                android:id="@+id/touchinterceptor"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

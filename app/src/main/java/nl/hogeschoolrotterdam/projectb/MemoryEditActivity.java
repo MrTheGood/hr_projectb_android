@@ -87,6 +87,7 @@ public class MemoryEditActivity extends AppCompatActivity {
             String sessionId = getIntent().getStringExtra("ID");
             memory = database.findMemory(sessionId);
 
+
             for (Media m : memory.getMedia()) {
                 if (m instanceof Image) {
                     Bitmap image = ((Image) m).getImage();
@@ -102,6 +103,142 @@ public class MemoryEditActivity extends AppCompatActivity {
             dateInput.getEditText().setText(memory.getDateText());
             isTitleValid = true;
             isDescriptionValid = true;
+            int foundposition;
+            switch (memory.getMemoryTypeIconId()) {
+                case R.drawable.ic_map_adefault:
+                    foundposition = 0;
+                    break;
+                case R.drawable.ic_map_architecture:
+                    foundposition = 1;
+                    break;
+                case R.drawable.ic_map_baby:
+                    foundposition = 2;
+                    break;
+                case R.drawable.ic_map_bar:
+                    foundposition = 3;
+                    break;
+                case R.drawable.ic_map_beach:
+                    foundposition = 4;
+                    break;
+                case R.drawable.ic_map_birthday:
+                    foundposition = 5;
+                    break;
+                case R.drawable.ic_map_cafe:
+                    foundposition = 6;
+                    break;
+                case R.drawable.ic_map_camera:
+                    foundposition = 7;
+                    break;
+                case R.drawable.ic_map_cart:
+                    foundposition = 8;
+                    break;
+                case R.drawable.ic_map_city:
+                    foundposition = 9;
+                    break;
+                case R.drawable.ic_map_flagged:
+                    foundposition = 10;
+                    break;
+                case R.drawable.ic_map_games:
+                    foundposition = 11;
+                    break;
+                case R.drawable.ic_map_golf:
+                    foundposition = 12;
+                    break;
+                case R.drawable.ic_map_home:
+                    foundposition = 13;
+                    break;
+                case R.drawable.ic_map_images:
+                    foundposition = 14;
+                    break;
+                case R.drawable.ic_map_iron_throne:
+                    foundposition = 15;
+                    break;
+                case R.drawable.ic_map_job:
+                    foundposition = 16;
+                    break;
+                case R.drawable.ic_map_landscape:
+                    foundposition = 17;
+                    break;
+                case R.drawable.ic_map_money:
+                    foundposition = 18;
+                    break;
+                case R.drawable.ic_map_mood_extremely_happy:
+                    foundposition = 19;
+                    break;
+                case R.drawable.ic_map_mood_extremely_sad:
+                    foundposition = 20;
+                    break;
+                case R.drawable.ic_map_mood_happy:
+                    foundposition = 21;
+                    break;
+                case R.drawable.ic_map_mood_sad:
+                    foundposition = 22;
+                    break;
+                case R.drawable.ic_map_mood_very_happy:
+                    foundposition = 23;
+                    break;
+                case R.drawable.ic_map_mood_very_sad:
+                    foundposition = 24;
+                    break;
+                case R.drawable.ic_map_music:
+                    foundposition = 25;
+                    break;
+                case R.drawable.ic_map_painting:
+                    foundposition = 26;
+                    break;
+                case R.drawable.ic_map_party:
+                    foundposition = 27;
+                    break;
+                case R.drawable.ic_map_pets:
+                    foundposition = 28;
+                    break;
+                case R.drawable.ic_map_pool:
+                    foundposition = 29;
+                    break;
+                case R.drawable.ic_map_restaurant:
+                    foundposition = 30;
+                    break;
+                case R.drawable.ic_map_school:
+                    foundposition = 31;
+                    break;
+                case R.drawable.ic_map_sexy:
+                    foundposition = 32;
+                    break;
+                case R.drawable.ic_map_shield:
+                    foundposition = 33;
+                    break;
+                case R.drawable.ic_map_spa:
+                    foundposition = 34;
+                    break;
+                case R.drawable.ic_map_speakers:
+                    foundposition = 35;
+                    break;
+                case R.drawable.ic_map_starred:
+                    foundposition = 36;
+                    break;
+                case R.drawable.ic_map_store:
+                    foundposition = 37;
+                    break;
+                case R.drawable.ic_map_styles:
+                    foundposition = 38;
+                    break;
+                case R.drawable.ic_map_teathers:
+                    foundposition = 39;
+                    break;
+                case R.drawable.ic_map_tourist:
+                    foundposition = 40;
+                    break;
+                case R.drawable.ic_map_want_to_go:
+                    foundposition = 41;
+                    break;
+                case R.drawable.ic_map_world:
+                    foundposition = 42;
+                    break;
+                default:
+                    foundposition = 0;
+            }
+           spinner.setSelection(foundposition);
+
 
         } else {
             // create a memory with calendar to today
