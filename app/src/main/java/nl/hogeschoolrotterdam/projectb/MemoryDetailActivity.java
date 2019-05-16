@@ -15,8 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
@@ -34,9 +32,8 @@ public class MemoryDetailActivity extends AppCompatActivity {
     TextView viewPagerIndicator;
 
     ViewPager2 viewPager2;
-    GoogleMap mGoogleMap;
-    MapView mMapView;
     ViewPagerAdapter mediaAdapter;
+
     Memory memory;
 
 

@@ -1,8 +1,12 @@
 package nl.hogeschoolrotterdam.projectb.data.room;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
@@ -16,4 +20,11 @@ import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MemoryDao memoryDao();
+
+    public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE Memory ADD COLUMN memoryTypeIconId INTEGER NOT NULL DEFAULT '" + R.drawable.ic_map_adefaultl + "'");
+        }
+    };
 }
