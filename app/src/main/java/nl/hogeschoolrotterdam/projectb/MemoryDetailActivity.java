@@ -93,11 +93,14 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryDatetextView.setText(memory.getDateText());
         memoryTitleTextView.setText(memory.getTitle());
         memoryDescriptionTextView.setText(memory.getDescription());
-
-        viewPagerIndicator.setText((viewPager2.getCurrentItem() + "/" + memory.getMedia().size()));
+        if (memory.getMedia().size() > 0) {
+            viewPagerIndicator.setText((viewPager2.getCurrentItem() + 1 + "/" + memory.getMedia().size()));
             //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
             // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
 
+        } else {
+            viewPagerIndicator.setText("0/0");
+        }
     }
 
     @Override
