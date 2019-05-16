@@ -16,6 +16,7 @@
         android:background="?colorSurface"
         android:theme="@style/Widget.MaterialComponents.ActionBar.Solid"
         app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/white"
         />
 
 
