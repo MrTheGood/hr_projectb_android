@@ -4,6 +4,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,6 +46,8 @@ public class MemoriesFragment extends Fragment {
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
 
+    ArrayList<String> selection = new ArrayList<String>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,7 +78,7 @@ public class MemoriesFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listView = (ExpandableListView) view.findViewById(R.id.iVExp);
-        initData();
+        checkData();
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listHash);
         listView.setAdapter(listAdapter);
 
@@ -142,7 +145,7 @@ public class MemoriesFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initData() {
+    private void checkData() {
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
 
@@ -152,13 +155,12 @@ public class MemoriesFragment extends Fragment {
         listDataHeader.add("Marker");
 
         List<String> edmtDev = new ArrayList<>();
-
+        //Doet niks maar anders zie je de location niet.
 
         List<String> memories_location = new ArrayList<>();
         for (int i = 0; i < memories.size(); i++) {
             memories_location.add(memories.get(i).getLocation().toString());
         }
-
 
         List<String> memories_year = new ArrayList<>();
         for (int i = 0; i < memories.size(); i++) {
@@ -166,13 +168,22 @@ public class MemoriesFragment extends Fragment {
         }
 
         List<String> memories_marker = new ArrayList<>();
-
-
+        //Hier moet een loop voor de markers komen, knapen.
 
         listHash.put(listDataHeader.get(0), edmtDev);
         listHash.put(listDataHeader.get(1), memories_location);
         listHash.put(listDataHeader.get(2), memories_year);
         listHash.put(listDataHeader.get(3), memories_marker);
     }
+
+    public void selectItem(View view){
+        boolean checked = ((CheckBox) view).isChecked();
+
+    }
+
+    public void finalSelection(View view){
+
+    }
+
 
 }
