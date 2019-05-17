@@ -9,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,10 +26,10 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
     private boolean isFromMyCategoriesFragment;
 
     public MyCategoriesExpandableListAdapter(Activity activity, ArrayList<HashMap<String, String>> parentItems,
-                                             ArrayList<ArrayList<HashMap<String, String>>> childItems,boolean isFromMyCategoriesFragment) {
+                                             ArrayList<ArrayList<HashMap<String, String>>> childItems, boolean isFromMyCategoriesFragment) {
 
-        this.parentItems = parentItems;
-        this.childItems = childItems;
+        MyCategoriesExpandableListAdapter.parentItems = parentItems;
+        MyCategoriesExpandableListAdapter.childItems = childItems;
         this.activity = activity;
         this.isFromMyCategoriesFragment = isFromMyCategoriesFragment;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -75,56 +76,59 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
         final ViewHolderParent viewHolderParent;
         if (convertView == null) {
 
-            if(isFromMyCategoriesFragment) {
+            if (isFromMyCategoriesFragment) {
                 convertView = inflater.inflate(R.layout.group_list_layout_my_categories, null);
-            }else {
+            } else {
                 convertView = inflater.inflate(R.layout.child_list_layout_choose_category, null);
             }
             viewHolderParent = new ViewHolderParent();
 
             viewHolderParent.tvMainCategoryName = convertView.findViewById(R.id.tvMainCategoryName);
             viewHolderParent.cbMainCategory = convertView.findViewById(R.id.cbMainCategory);
-            viewHolderParent.IvCategory = convertView.findViewById(R.id.);
+            viewHolderParent.IvCategory = convertView.findViewById(R.id.lvCategory);
             convertView.setTag(viewHolderParent);
         } else {
             viewHolderParent = (ViewHolderParent) convertView.getTag();
         }
 
-        if (parentItems.get(groupPosition).get(ConstantManager.Parameter.IS_CHECKED).equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-            viewHolderParent.cbMainCategory.setChecked(true);
-            notifyDataSetChanged();
 
-        } else {
-            viewHolderParent.cbMainCategory.setChecked(false);
-            notifyDataSetChanged();
-        }
+        if (viewHolderParent.cbMainCategory != null) {
+            if (parentItems.get(groupPosition).get(ConstantManager.Parameter.IS_CHECKED).equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
+                viewHolderParent.cbMainCategory.setChecked(true);
+                notifyDataSetChanged();
 
-        viewHolderParent.cbMainCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (viewHolderParent.cbMainCategory.isChecked()) {
-                    parentItems.get(groupPosition).put(ConstantManager.Parameter.IS_CHECKED, ConstantManager.CHECK_BOX_CHECKED_TRUE);
-
-                    for (int i = 0; i < childItems.get(groupPosition).size(); i++) {
-                        childItems.get(groupPosition).get(i).put(ConstantManager.Parameter.IS_CHECKED, ConstantManager.CHECK_BOX_CHECKED_TRUE);
-                    }
-                    notifyDataSetChanged();
-
-                }
-                else {
-                    parentItems.get(groupPosition).put(ConstantManager.Parameter.IS_CHECKED, ConstantManager.CHECK_BOX_CHECKED_FALSE);
-                    for (int i = 0; i < childItems.get(groupPosition).size(); i++) {
-                        childItems.get(groupPosition).get(i).put(ConstantManager.Parameter.IS_CHECKED, ConstantManager.CHECK_BOX_CHECKED_FALSE);
-                    }
-                    notifyDataSetChanged();
-                }
+            } else {
+                viewHolderParent.cbMainCategory.setChecked(false);
+                notifyDataSetChanged();
             }
-        });
+
+            viewHolderParent.cbMainCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (viewHolderParent.cbMainCategory.isChecked()) {
+                        parentItems.get(groupPosition).put(ConstantManager.Parameter.IS_CHECKED, ConstantManager.CHECK_BOX_CHECKED_TRUE);
+
+                        for (int i = 0; i < childItems.get(groupPosition).size(); i++) {
+                            childItems.get(groupPosition).get(i).put(ConstantManager.Parameter.IS_CHECKED, ConstantManager.CHECK_BOX_CHECKED_TRUE);
+                        }
+                        notifyDataSetChanged();
+
+                    } else {
+                        parentItems.get(groupPosition).put(ConstantManager.Parameter.IS_CHECKED, ConstantManager.CHECK_BOX_CHECKED_FALSE);
+                        for (int i = 0; i < childItems.get(groupPosition).size(); i++) {
+                            childItems.get(groupPosition).get(i).put(ConstantManager.Parameter.IS_CHECKED, ConstantManager.CHECK_BOX_CHECKED_FALSE);
+                        }
+                        notifyDataSetChanged();
+                    }
+                }
+            });
+        }
 
         ConstantManager.childItems = childItems;
         ConstantManager.parentItems = parentItems;
 
-        viewHolderParent.tvMainCategoryName.setText(parentItems.get(groupPosition).get(ConstantManager.Parameter.CATEGORY_NAME));
+        if (viewHolderParent.tvMainCategoryName != null)
+            viewHolderParent.tvMainCategoryName.setText(parentItems.get(groupPosition).get(ConstantManager.Parameter.CATEGORY_NAME));
 
         return convertView;
     }
@@ -195,6 +199,7 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
     public boolean isChildSelectable(int i, int i1) {
         return false;
     }
+
     @Override
     public void onGroupCollapsed(int groupPosition) {
         super.onGroupCollapsed(groupPosition);

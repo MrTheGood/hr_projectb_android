@@ -43,6 +43,10 @@
         <activity
             android:name=".MemoryDetailActivity"
             android:label="@string/menu_memory"
+            />
+        <activity
+            android:name=".CheckedActivity"
+            android:label="@string/menu_memory"
             >
         </activity>
         <activity android:name=".MainActivity">

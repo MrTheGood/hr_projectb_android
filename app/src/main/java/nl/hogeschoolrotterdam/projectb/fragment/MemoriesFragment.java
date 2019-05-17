@@ -1,37 +1,31 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Ignore;
-import com.google.android.material.navigation.NavigationView;
-import nl.hogeschoolrotterdam.projectb.*;
+import nl.hogeschoolrotterdam.projectb.CheckedActivity;
+import nl.hogeschoolrotterdam.projectb.ConstantManager;
+import nl.hogeschoolrotterdam.projectb.MyCategoriesExpandableListAdapter;
+import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.model.DataItem;
 import nl.hogeschoolrotterdam.projectb.model.SubCategoryItem;
-import nl.hogeschoolrotterdam.projectb.util.ExpandableListAdapter;
 
-
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -41,30 +35,7 @@ import java.util.*;
 public class MemoriesFragment extends Fragment {
     private List<Memory> memories;
     private MemoriesAdapter adapter;
-    private DrawerLayout mDrawerLayout;
-    private NavigationView navigationView;
     private ActionBarDrawerToggle mToggle;
-
-    private ExpandableListView listView;
-    private ExpandableListAdapter listAdapter;
-    private List<String> listDataHeader;
-    private HashMap<String, List<String>> listHash;
-
-    ArrayList<String> selection = new ArrayList<String>();
-
-    //dit is checkbox data 2.0
-
-    private Button btn;
-    private ExpandableListView lvCategory;
-
-    private ArrayList<DataItem> arCategory;
-    private ArrayList<SubCategoryItem> arSubCategory;
-    private ArrayList<ArrayList<SubCategoryItem>> arSubCategoryFinal;
-
-    private ArrayList<HashMap<String, String>> parentItems;
-    private ArrayList<ArrayList<HashMap<String, String>>> childItems;
-    private MyCategoriesExpandableListAdapter myCategoriesExpandableListAdapter;
-
 
     @Nullable
     @Override
@@ -88,12 +59,11 @@ public class MemoriesFragment extends Fragment {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(tb);
 
 
-        mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer);
-        navigationView = view.findViewById(R.id.nav_view);
+        DrawerLayout mDrawerLayout = view.findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         /*listView = (ExpandableListView) view.findViewById(R.id.iVExp);
         checkData();
@@ -101,17 +71,15 @@ public class MemoriesFragment extends Fragment {
         listView.setAdapter(listAdapter);
         */
 
-        btn = view.findViewById(R.id.btn);
+        Button btn = view.findViewById(R.id.btn);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),CheckedActivity.class);
+                Intent intent = new Intent(getActivity(), CheckedActivity.class);
                 startActivity(intent);
             }
         });
-
-        setupReferences();
 
         return view;
     }
@@ -122,6 +90,8 @@ public class MemoriesFragment extends Fragment {
         super.onResume();
         memories = Database.getInstance().getMemories();
         adapter.setData(memories);
+        setupReferences();
+
     }
 
     @Override
@@ -176,56 +146,25 @@ public class MemoriesFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkData() {
-        listDataHeader = new ArrayList<>();
-        listHash = new HashMap<>();
-
-        listDataHeader.add(" lol ");
-        listDataHeader.add("Location");
-        listDataHeader.add("Year");
-        listDataHeader.add("Marker");
-
-        List<String> edmtDev = new ArrayList<>();
-        //Doet niks maar anders zie je de location niet.
-
-        List<String> memories_location = new ArrayList<>();
-        for (int i = 0; i < memories.size(); i++) {
-            memories_location.add(memories.get(i).getLocation().toString());
-        }
-
-        List<String> memories_year = new ArrayList<>();
-        for (int i = 0; i < memories.size(); i++) {
-            memories_year.add(memories.get(i).getDateText().toString());
-        }
-
-        List<String> memories_marker = new ArrayList<>();
-        //Hier moet een loop voor de markers komen, knapen.
-
-        listHash.put(listDataHeader.get(0), edmtDev);
-        listHash.put(listDataHeader.get(1), memories_location);
-        listHash.put(listDataHeader.get(2), memories_year);
-        listHash.put(listDataHeader.get(3), memories_marker);
-    }
-
     private void setupReferences() {
 
-        lvCategory = listView.findViewById(R.id.lvCategory);
-        arCategory = new ArrayList<>();
-        arSubCategory = new ArrayList<>();
-        parentItems = new ArrayList<>();
-        childItems = new ArrayList<>();
+        ExpandableListView lvCategory = requireView().findViewById(R.id.lvCategory);
+        ArrayList<DataItem> arCategory = new ArrayList<>();
+        ArrayList<SubCategoryItem> arSubCategory;
+        ArrayList<HashMap<String, String>> parentItems = new ArrayList<>();
+        ArrayList<ArrayList<HashMap<String, String>>> childItems = new ArrayList<>();
 
         DataItem dataItem = new DataItem();
         dataItem.setCategoryId("1");
         dataItem.setCategoryName("Adventure");
 
         arSubCategory = new ArrayList<>();
-        for(int i = 1; i < 6; i++) {
+        for (int i = 1; i < 6; i++) {
 
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(i));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName("Adventure: "+i);
+            subCategoryItem.setSubCategoryName("Adventure: " + i);
             arSubCategory.add(subCategoryItem);
         }
         dataItem.setSubCategory(arSubCategory);
@@ -235,12 +174,12 @@ public class MemoriesFragment extends Fragment {
         dataItem.setCategoryId("2");
         dataItem.setCategoryName("Art");
         arSubCategory = new ArrayList<>();
-        for(int j = 1; j < 6; j++) {
+        for (int j = 1; j < 6; j++) {
 
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(j));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName("Art: "+j);
+            subCategoryItem.setSubCategoryName("Art: " + j);
             arSubCategory.add(subCategoryItem);
         }
         dataItem.setSubCategory(arSubCategory);
@@ -250,52 +189,52 @@ public class MemoriesFragment extends Fragment {
         dataItem.setCategoryId("3");
         dataItem.setCategoryName("Cooking");
         arSubCategory = new ArrayList<>();
-        for(int k = 1; k < 6; k++) {
+        for (int k = 1; k < 6; k++) {
 
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(k));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName("Cooking: "+k);
+            subCategoryItem.setSubCategoryName("Cooking: " + k);
             arSubCategory.add(subCategoryItem);
         }
 
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
-        Log.d("TAG", "setupReferences: "+arCategory.size());
+        Log.d("TAG", "setupReferences: " + arCategory.size());
 
-        for(DataItem data : arCategory){
+        for (DataItem data : arCategory) {
 //                        Log.i("Item id",item.id);
-            ArrayList<HashMap<String, String>> childArrayList =new ArrayList<HashMap<String, String>>();
-            HashMap<String, String> mapParent = new HashMap<String, String>();
+            ArrayList<HashMap<String, String>> childArrayList = new ArrayList<>();
+            HashMap<String, String> mapParent = new HashMap<>();
 
-            mapParent.put(ConstantManager.Parameter.CATEGORY_ID,data.getCategoryId());
-            mapParent.put(ConstantManager.Parameter.CATEGORY_NAME,data.getCategoryName());
+            mapParent.put(ConstantManager.Parameter.CATEGORY_ID, data.getCategoryId());
+            mapParent.put(ConstantManager.Parameter.CATEGORY_NAME, data.getCategoryName());
 
             int countIsChecked = 0;
-            for(SubCategoryItem subCategoryItem : data.getSubCategory()) {
+            for (SubCategoryItem subCategoryItem : data.getSubCategory()) {
 
-                HashMap<String, String> mapChild = new HashMap<String, String>();
-                mapChild.put(ConstantManager.Parameter.SUB_ID,subCategoryItem.getSubId());
-                mapChild.put(ConstantManager.Parameter.SUB_CATEGORY_NAME,subCategoryItem.getSubCategoryName());
-                mapChild.put(ConstantManager.Parameter.CATEGORY_ID,subCategoryItem.getCategoryId());
-                mapChild.put(ConstantManager.Parameter.IS_CHECKED,subCategoryItem.getIsChecked());
+                HashMap<String, String> mapChild = new HashMap<>();
+                mapChild.put(ConstantManager.Parameter.SUB_ID, subCategoryItem.getSubId());
+                mapChild.put(ConstantManager.Parameter.SUB_CATEGORY_NAME, subCategoryItem.getSubCategoryName());
+                mapChild.put(ConstantManager.Parameter.CATEGORY_ID, subCategoryItem.getCategoryId());
+                mapChild.put(ConstantManager.Parameter.IS_CHECKED, subCategoryItem.getIsChecked());
 
-                if(subCategoryItem.getIsChecked().equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
+                if (subCategoryItem.getIsChecked().equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
 
                     countIsChecked++;
                 }
                 childArrayList.add(mapChild);
             }
 
-            if(countIsChecked == data.getSubCategory().size()) {
+            if (countIsChecked == data.getSubCategory().size()) {
 
                 data.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_TRUE);
-            }else {
+            } else {
                 data.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
             }
 
-            mapParent.put(ConstantManager.Parameter.IS_CHECKED,data.getIsChecked());
+            mapParent.put(ConstantManager.Parameter.IS_CHECKED, data.getIsChecked());
             childItems.add(childArrayList);
             parentItems.add(mapParent);
 
@@ -304,7 +243,7 @@ public class MemoriesFragment extends Fragment {
         ConstantManager.parentItems = parentItems;
         ConstantManager.childItems = childItems;
 
-        myCategoriesExpandableListAdapter = new MyCategoriesExpandableListAdapter(getActivity(),parentItems,childItems,false);
+        MyCategoriesExpandableListAdapter myCategoriesExpandableListAdapter = new MyCategoriesExpandableListAdapter(requireActivity(), parentItems, childItems, false);
         lvCategory.setAdapter(myCategoriesExpandableListAdapter);
     }
 }
