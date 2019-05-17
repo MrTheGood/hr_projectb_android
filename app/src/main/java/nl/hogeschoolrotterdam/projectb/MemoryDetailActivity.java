@@ -155,7 +155,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
                     }
 
                     shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
-                    shareIntent.setType("image/*");
+                    shareIntent.setType("*/*");
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 } else {
                     shareIntent.setType("text/plain");
