@@ -15,6 +15,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
@@ -24,17 +28,18 @@ import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
 import java.util.ArrayList;
 
-public class MemoryDetailActivity extends AppCompatActivity {
+public class MemoryDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     TextView memoryTitleTextView;
     TextView memoryDatetextView;
     TextView memoryDescriptionTextView;
     Toolbar toolbar;
     TextView viewPagerIndicator;
-
     ViewPager2 viewPager2;
     ViewPagerAdapter mediaAdapter;
-
     Memory memory;
+    GoogleMap mGoogleMap;
+    MapView mMapView;
+    LatLng latLng;
 
 
     @Override
@@ -79,6 +84,12 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 super.onPageScrollStateChanged(state);
             }
         });
+
+        mMapView = findViewById(R.id.map7);
+        mMapView.onCreate(null);
+        mMapView.onResume();
+        mMapView.getMapAsync(this);
+
     }
 
     @Override
@@ -177,6 +188,23 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void setMarker (LatLng latLng){
+        CameraPosition search = CameraPosition.builder().target(latLng)
+                .zoom(15).bearing(0).tilt(0).build();
+        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
+        mGoogleMap.clear();
+        MarkerOptions options = new MarkerOptions().position(latLng);
+        mGoogleMap.addMarker(options);
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(this);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        latLng = memory.getLocation();
+        mGoogleMap = googleMap;
+        setMarker(latLng);
+
     }
 
 

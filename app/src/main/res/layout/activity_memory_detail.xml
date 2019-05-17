@@ -95,6 +95,7 @@
 
 
             <com.google.android.gms.maps.MapView
+                android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_height="201dp"
@@ -110,6 +111,7 @@
                 app:layout_constraintTop_toTopOf="@id/map7"
                 app:layout_constraintBottom_toBottomOf="@id/map7"
                 android:id="@+id/touchinterceptor"
+                android:clickable="true"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
