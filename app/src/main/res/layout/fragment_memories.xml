@@ -49,18 +49,19 @@
             android:layout_height="match_parent"
             >
         <ExpandableListView
-            android:id="@+id/iVExp"
+            android:id="@+id/lvCategory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
 
         <Button
+            android:id="@+id/btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="500dp"
-            android:onClick="finalSelection"
             android:layout_marginLeft="100dp"
+            android:focusable="false"
             android:text="Save"
             />
         </RelativeLayout>

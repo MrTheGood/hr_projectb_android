@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <CheckBox
+    <TextView
         android:id="@+id/lblListItem"
         android:textSize="16sp"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
