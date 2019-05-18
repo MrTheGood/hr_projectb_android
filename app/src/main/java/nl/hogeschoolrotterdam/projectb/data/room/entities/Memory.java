@@ -1,13 +1,21 @@
 package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import nl.hogeschoolrotterdam.projectb.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,18 +43,21 @@ public class Memory {
     @NonNull
     @Ignore
     private ArrayList<Media> media;
+    @DrawableRes
+    private int memoryTypeIconId;
 
     public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description) {
-        this(id, location, date, title, description, null);
+        this(id, location, date, title, description, null, R.drawable.ic_map_adefault);
     }
 
-    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media) {
+    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media, @DrawableRes int memoryTypeIconId) {
         this.id = id;
         this.location = location;
         this.date = date;
         this.title = title;
         this.description = description;
         this.media = media != null ? media : new ArrayList<Media>();
+        this.memoryTypeIconId = memoryTypeIconId;
     }
 
     @NonNull
@@ -141,4 +152,23 @@ public class Memory {
     public void removeMedia(Media media) {
         this.media.remove(media);
     }
+
+    public int getMemoryTypeIconId() {
+        return memoryTypeIconId;
+    }
+
+    public void setMemoryTypeIconId(int memoryTypeIconId) {
+        this.memoryTypeIconId = memoryTypeIconId;
+    }
+
+    public BitmapDescriptor getTypeBitMap(Context context) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, getMemoryTypeIconId());
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
 }

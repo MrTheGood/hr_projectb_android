@@ -16,6 +16,7 @@
         android:background="?colorSurface"
         android:theme="@style/Widget.MaterialComponents.ActionBar.Solid"
         app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/white"
         />
 
 
@@ -37,6 +38,22 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/viewPager_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_viewpager_indicator"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                tools:text="@tools:sample/lorem"
+                app:layout_constraintTop_toTopOf="@id/viewPager2"
+                app:layout_constraintEnd_toEndOf="@id/viewPager2"
+                android:textColor="@color/colorOnSecondary"
+                android:layout_margin="4dp"
                 />
 
 
@@ -70,11 +87,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/memoryDatetextView"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="0dp"
                 tools:text="@tools:sample/lorem/random"
                 />
 
+
+            <com.google.android.gms.maps.MapView
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="201dp"
+                android:id="@+id/map7"
+                app:layout_constraintTop_toBottomOf="@id/memoryDescriptionTextView"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/map7"
+                app:layout_constraintEnd_toEndOf="@id/map7"
+                app:layout_constraintTop_toTopOf="@id/map7"
+                app:layout_constraintBottom_toBottomOf="@id/map7"
+                android:id="@+id/touchinterceptor"
+                android:clickable="true"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

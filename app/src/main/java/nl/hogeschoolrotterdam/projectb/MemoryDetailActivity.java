@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -12,7 +13,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
@@ -22,16 +28,18 @@ import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
 import java.util.ArrayList;
 
-public class MemoryDetailActivity extends AppCompatActivity {
+public class MemoryDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     TextView memoryTitleTextView;
     TextView memoryDatetextView;
     TextView memoryDescriptionTextView;
     Toolbar toolbar;
-
+    TextView viewPagerIndicator;
     ViewPager2 viewPager2;
     ViewPagerAdapter mediaAdapter;
-
     Memory memory;
+    GoogleMap mGoogleMap;
+    MapView mMapView;
+    LatLng latLng;
 
 
     @Override
@@ -45,15 +53,43 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryDatetextView = findViewById(R.id.memoryDatetextView);
         memoryDescriptionTextView = findViewById(R.id.memoryDescriptionTextView);
         viewPager2 = findViewById(R.id.viewPager2);
+        viewPagerIndicator = findViewById(R.id.viewPager_indicator);
 
         mediaAdapter = new ViewPagerAdapter();
         viewPager2.setAdapter(mediaAdapter);
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         Drawable homeAsUpIndicator = ContextCompat.getDrawable(this, R.drawable.ic_action_close); // Workaround for a bug in MaterialComponents
         getSupportActionBar().setHomeAsUpIndicator(WhibApp.getInstance().tintDrawable(homeAsUpIndicator));
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+
+
+                viewPagerIndicator.setText((position + 1) + "/" + memory.getMedia().size());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+
+        mMapView = findViewById(R.id.map7);
+        mMapView.onCreate(null);
+        mMapView.onResume();
+        mMapView.getMapAsync(this);
+
     }
 
     @Override
@@ -68,6 +104,14 @@ public class MemoryDetailActivity extends AppCompatActivity {
         memoryDatetextView.setText(memory.getDateText());
         memoryTitleTextView.setText(memory.getTitle());
         memoryDescriptionTextView.setText(memory.getDescription());
+        if (memory.getMedia().size() > 0) {
+            viewPagerIndicator.setText((viewPager2.getCurrentItem() + 1 + "/" + memory.getMedia().size()));
+            //imageView.setImageDrawable(memory.getThumbnail().getImage()); // for thumbnail in list
+            // if (media instanceOf Image) imageView.setImageDrawable(media.getImage()); // for image in swipable detail list
+
+        } else {
+            viewPagerIndicator.setText("0/0");
+        }
     }
 
     @Override
@@ -145,5 +189,23 @@ public class MemoryDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    private void setMarker (LatLng latLng){
+        CameraPosition search = CameraPosition.builder().target(latLng)
+                .zoom(15).bearing(0).tilt(0).build();
+        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
+        mGoogleMap.clear();
+        MarkerOptions options = new MarkerOptions().position(latLng);
+        mGoogleMap.addMarker(options);
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(this);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        latLng = memory.getLocation();
+        mGoogleMap = googleMap;
+        setMarker(latLng);
+
+    }
+
 
 }

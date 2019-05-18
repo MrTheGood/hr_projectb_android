@@ -81,8 +81,9 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void setMarker(LatLng latLng) {
+        float zoomLevel = mGoogleMap.getCameraPosition().zoom;
         CameraPosition search = CameraPosition.builder().target(latLng
-        ).zoom(10).bearing(0).tilt(0).build();
+                ).zoom(zoomLevel).bearing(0).tilt(0).build();
         mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
         mGoogleMap.clear();
         MarkerOptions options = new MarkerOptions().position(latLng);
