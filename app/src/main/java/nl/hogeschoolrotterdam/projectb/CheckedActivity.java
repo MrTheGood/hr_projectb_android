@@ -1,12 +1,16 @@
 package nl.hogeschoolrotterdam.projectb;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 public class CheckedActivity extends AppCompatActivity {
 
     private TextView tvParent, tvChild;
+    ArrayList<String> filtered_memories = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class CheckedActivity extends AppCompatActivity {
 
                 if (isChildChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE))
                 {
+                    filtered_memories.add(tvChild.toString());
                     tvChild.setText(tvChild.getText() +" , " + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME) + " "+(j+1));
                 }
 

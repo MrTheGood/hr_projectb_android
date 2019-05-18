@@ -1,6 +1,9 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -16,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Ignore;
+import com.google.android.gms.maps.model.LatLng;
 import nl.hogeschoolrotterdam.projectb.CheckedActivity;
 import nl.hogeschoolrotterdam.projectb.ConstantManager;
 import nl.hogeschoolrotterdam.projectb.MyCategoriesExpandableListAdapter;
@@ -25,7 +30,9 @@ import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.model.DataItem;
 import nl.hogeschoolrotterdam.projectb.model.SubCategoryItem;
+import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -36,6 +43,9 @@ public class MemoriesFragment extends Fragment {
     private List<Memory> memories;
     private MemoriesAdapter adapter;
     private ActionBarDrawerToggle mToggle;
+
+    public ArrayList<String> filter_memories = new ArrayList<String>();
+
 
     @Nullable
     @Override
@@ -76,6 +86,7 @@ public class MemoriesFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //filter(filter_memories);
                 Intent intent = new Intent(getActivity(), CheckedActivity.class);
                 startActivity(intent);
             }
@@ -154,47 +165,51 @@ public class MemoriesFragment extends Fragment {
         ArrayList<HashMap<String, String>> parentItems = new ArrayList<>();
         ArrayList<ArrayList<HashMap<String, String>>> childItems = new ArrayList<>();
 
+
         DataItem dataItem = new DataItem();
         dataItem.setCategoryId("1");
-        dataItem.setCategoryName("Adventure");
+        dataItem.setCategoryName("Year");
 
         arSubCategory = new ArrayList<>();
-        for (int i = 1; i < 6; i++) {
+        for (int i = 0; i < memories.size(); i++) {
 
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(i));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName("Adventure: " + i);
+            subCategoryItem.setSubCategoryName(memories.get(i).getDateText().toString());
             arSubCategory.add(subCategoryItem);
+            filter_memories.add(memories.get(i).getDateText().toString());
+
         }
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
         dataItem = new DataItem();
         dataItem.setCategoryId("2");
-        dataItem.setCategoryName("Art");
+        dataItem.setCategoryName("location");
         arSubCategory = new ArrayList<>();
-        for (int j = 1; j < 6; j++) {
+        for (int j = 0; j < memories.size(); j++) {
 
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(j));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName("Art: " + j);
+            subCategoryItem.setSubCategoryName(memories.get(j).getLocation().toString());
             arSubCategory.add(subCategoryItem);
+            filter_memories.add(memories.get(j).getDateText().toString());
         }
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
         dataItem = new DataItem();
         dataItem.setCategoryId("3");
-        dataItem.setCategoryName("Cooking");
+        dataItem.setCategoryName("marker");
         arSubCategory = new ArrayList<>();
-        for (int k = 1; k < 6; k++) {
+        for (int k = 0; k < memories.size(); k++) {
 
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(k));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName("Cooking: " + k);
+            subCategoryItem.setSubCategoryName("marker: " + k);
             arSubCategory.add(subCategoryItem);
         }
 
@@ -245,6 +260,21 @@ public class MemoriesFragment extends Fragment {
 
         MyCategoriesExpandableListAdapter myCategoriesExpandableListAdapter = new MyCategoriesExpandableListAdapter(requireActivity(), parentItems, childItems, false);
         lvCategory.setAdapter(myCategoriesExpandableListAdapter);
+    }
+
+    private void filter(ArrayList<String> list) {
+        ArrayList<Memory> filteredlist = new ArrayList<>();
+
+        for (Memory item : memories) {
+            for (int i = 0; i < list.size(); i++) {
+                if (item.getDateText().toString().contains(list.get(i))
+                        || item.getLocation().toString().contains(list.get(i))) {
+                    filteredlist.add(item);
+                }
+            }
+        }
+        adapter.setData(filteredlist);
+        AnalyticsUtil.search(getContext());
     }
 }
 
