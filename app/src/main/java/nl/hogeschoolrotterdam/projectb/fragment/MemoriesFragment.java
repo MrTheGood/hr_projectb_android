@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -44,7 +45,10 @@ public class MemoriesFragment extends Fragment {
     private MemoriesAdapter adapter;
     private ActionBarDrawerToggle mToggle;
 
+    private TextView tvParent, tvChild;
+
     public ArrayList<String> filter_memories = new ArrayList<String>();
+    ArrayList<String> filter_memory=new ArrayList<String>();
 
 
     @Nullable
@@ -75,20 +79,17 @@ public class MemoriesFragment extends Fragment {
         mToggle.syncState();
         ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /*listView = (ExpandableListView) view.findViewById(R.id.iVExp);
-        checkData();
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listHash);
-        listView.setAdapter(listAdapter);
-        */
-
         Button btn = view.findViewById(R.id.btn);
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //filter(filter_memories);
+                filter(filter_memory);
+
+                /*
                 Intent intent = new Intent(getActivity(), CheckedActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
 
@@ -186,7 +187,7 @@ public class MemoriesFragment extends Fragment {
 
         dataItem = new DataItem();
         dataItem.setCategoryId("2");
-        dataItem.setCategoryName("location");
+        dataItem.setCategoryName("Location");
         arSubCategory = new ArrayList<>();
         for (int j = 0; j < memories.size(); j++) {
 
@@ -219,7 +220,7 @@ public class MemoriesFragment extends Fragment {
         Log.d("TAG", "setupReferences: " + arCategory.size());
 
         for (DataItem data : arCategory) {
-//                        Log.i("Item id",item.id);
+
             ArrayList<HashMap<String, String>> childArrayList = new ArrayList<>();
             HashMap<String, String> mapParent = new HashMap<>();
 
@@ -236,7 +237,6 @@ public class MemoriesFragment extends Fragment {
                 mapChild.put(ConstantManager.Parameter.IS_CHECKED, subCategoryItem.getIsChecked());
 
                 if (subCategoryItem.getIsChecked().equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-
                     countIsChecked++;
                 }
                 childArrayList.add(mapChild);
@@ -260,6 +260,37 @@ public class MemoriesFragment extends Fragment {
 
         MyCategoriesExpandableListAdapter myCategoriesExpandableListAdapter = new MyCategoriesExpandableListAdapter(requireActivity(), parentItems, childItems, false);
         lvCategory.setAdapter(myCategoriesExpandableListAdapter);
+
+        tvParent = tvParent.findViewById(R.id.parent);
+        tvChild = tvChild.findViewById(R.id.child);
+
+        ArrayList<String> filter_memory=new ArrayList<String>();
+
+        for (int i = 0; i < MyCategoriesExpandableListAdapter.parentItems.size(); i++) {
+
+            String isChecked = MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.IS_CHECKED);
+
+            if (isChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
+                tvParent.setText(tvParent.getText() + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME));
+            }
+
+            for (int j = 0; j < MyCategoriesExpandableListAdapter.childItems.get(i).size(); j++) {
+
+                String isChildChecked = MyCategoriesExpandableListAdapter.childItems.get(i).get(j).get(ConstantManager.Parameter.IS_CHECKED);
+
+                if (isChildChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
+                    tvChild.setText(tvChild.getText() + " , " + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME) + " " + (j));
+                    if((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Location"))){
+                        filter_memory.add(memories.get(j).getLocation().toString());
+                    } else if((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Year"))){
+                        filter_memory.add(memories.get(j).getDateText().toString());
+                    }
+                }
+
+            }
+
+
+        }
     }
 
     private void filter(ArrayList<String> list) {
