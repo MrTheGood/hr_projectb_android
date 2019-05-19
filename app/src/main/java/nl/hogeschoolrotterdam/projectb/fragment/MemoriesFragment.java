@@ -113,7 +113,8 @@ public class MemoriesFragment extends Fragment {
 
                 //Hier wil ik de filter_memory arraylist van checkactivity.class hebben/
                 if (filter_memory.size() > 0) {
-                filter(filter_memory);}
+                    filter(filter_memory);
+                }
 
             }
         });
@@ -198,12 +199,6 @@ public class MemoriesFragment extends Fragment {
         arSubCategory = new ArrayList<>();
         ArrayList<String> filter_memories = new ArrayList<String>();
 
-        ArrayList<String> filter_memories2 = new ArrayList<String>();
-
-        for (int i = 0; i < memories.size(); i++) {
-            filter_memories2.add(memories.get(i).getLocation().toString());
-        }
-
         for (int i = 0; i < memories.size(); i++) {
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(i));
@@ -219,10 +214,6 @@ public class MemoriesFragment extends Fragment {
         dataItem.setCategoryId("2");
         dataItem.setCategoryName("Location");
         arSubCategory = new ArrayList<>();
-
-        for (int i = 0; i < memories.size(); i++) {
-            filter_memories.add(memories.get(i).getDateText().toString());
-        }
 
         for (int j = 0; j < memories.size(); j++) {
             SubCategoryItem subCategoryItem = new SubCategoryItem();
@@ -295,32 +286,31 @@ public class MemoriesFragment extends Fragment {
         MyCategoriesExpandableListAdapter myCategoriesExpandableListAdapter = new MyCategoriesExpandableListAdapter(requireActivity(), parentItems, childItems, false);
         lvCategory.setAdapter(myCategoriesExpandableListAdapter);
 
-
     }
 
     private void filter(ArrayList<String> list) {
 
-            ArrayList<Memory> filteredlist = new ArrayList<>();
-            ArrayList<Memory> filteredlist2 = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                for (Memory item : memories) {
-                    {
-                        if (item.getDateText().toString().contains(list.get(i))) {
-                            filteredlist.add(item);
-                        } else if (item.getLocation().toString().contains(list.get(i))) {
-                            filteredlist.add(item);
-                        }
+        ArrayList<Memory> filteredlist = new ArrayList<>();
+        ArrayList<Memory> filteredlist2 = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            for (Memory item : memories) {
+                {
+                    if (item.getDateText().toString().contains(list.get(i))) {
+                        filteredlist.add(item);
+                    } else if (item.getLocation().toString().contains(list.get(i))) {
+                        filteredlist.add(item);
                     }
                 }
             }
+        }
 
-            for (Memory item : memories) {
-                if (filteredlist.contains(item)) {
-                    filteredlist2.add(item);
-                }
+        for (Memory item : memories) {
+            if (filteredlist.contains(item)) {
+                filteredlist2.add(item);
             }
-            adapter.setData(filteredlist2);
-            AnalyticsUtil.search(getContext());
+        }
+        adapter.setData(filteredlist2);
+        AnalyticsUtil.search(getContext());
     }
 }
 
