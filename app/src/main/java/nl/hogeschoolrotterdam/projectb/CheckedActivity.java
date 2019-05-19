@@ -56,9 +56,5 @@ public class CheckedActivity extends AppCompatActivity {
 
 
         }
-        Intent intent = new Intent(this, MemoriesFragment.class);
-        intent.putStringArrayListExtra("Filterd_memories", filter_memory);
-        startActivity(intent);
-
     }
 }
