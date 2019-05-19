@@ -86,8 +86,8 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
             viewHolderParent.tvMainCategoryName = convertView.findViewById(R.id.tvMainCategoryName);
             viewHolderParent.cbMainCategory = convertView.findViewById(R.id.cbMainCategory);
             viewHolderParent.IvCategory = convertView.findViewById(R.id.lvCategory);
-            viewHolderParent.tvParent=convertView.findViewById(R.id.parent);
-            viewHolderParent.tvChild=convertView.findViewById(R.id.child);
+            //viewHolderParent.tvParent=convertView.findViewById(R.id.parent);
+            //viewHolderParent.tvChild=convertView.findViewById(R.id.child);
             convertView.setTag(viewHolderParent);
         } else {
             viewHolderParent = (ViewHolderParent) convertView.getTag();
@@ -217,7 +217,7 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
         TextView tvMainCategoryName;
         CheckBox cbMainCategory;
         ImageView IvCategory;
-        TextView tvParent, tvChild;
+        //TextView tvParent, tvChild;
     }
 
     private class ViewHolderChild {

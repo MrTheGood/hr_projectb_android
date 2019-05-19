@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -45,10 +46,7 @@ public class MemoriesFragment extends Fragment {
     private MemoriesAdapter adapter;
     private ActionBarDrawerToggle mToggle;
 
-    private TextView tvParent, tvChild;
-
     public ArrayList<String> filter_memories = new ArrayList<String>();
-    ArrayList<String> filter_memory=new ArrayList<String>();
 
 
     @Nullable
@@ -85,7 +83,8 @@ public class MemoriesFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filter(filter_memory);
+                //Hier wil ik de filter_memory arraylist van checkactivity.class hebben/
+                filter(filtered_memory);
 
                 /*
                 Intent intent = new Intent(getActivity(), CheckedActivity.class);
@@ -261,36 +260,7 @@ public class MemoriesFragment extends Fragment {
         MyCategoriesExpandableListAdapter myCategoriesExpandableListAdapter = new MyCategoriesExpandableListAdapter(requireActivity(), parentItems, childItems, false);
         lvCategory.setAdapter(myCategoriesExpandableListAdapter);
 
-        tvParent = tvParent.findViewById(R.id.parent);
-        tvChild = tvChild.findViewById(R.id.child);
 
-        ArrayList<String> filter_memory=new ArrayList<String>();
-
-        for (int i = 0; i < MyCategoriesExpandableListAdapter.parentItems.size(); i++) {
-
-            String isChecked = MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.IS_CHECKED);
-
-            if (isChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-                tvParent.setText(tvParent.getText() + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME));
-            }
-
-            for (int j = 0; j < MyCategoriesExpandableListAdapter.childItems.get(i).size(); j++) {
-
-                String isChildChecked = MyCategoriesExpandableListAdapter.childItems.get(i).get(j).get(ConstantManager.Parameter.IS_CHECKED);
-
-                if (isChildChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-                    tvChild.setText(tvChild.getText() + " , " + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME) + " " + (j));
-                    if((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Location"))){
-                        filter_memory.add(memories.get(j).getLocation().toString());
-                    } else if((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Year"))){
-                        filter_memory.add(memories.get(j).getDateText().toString());
-                    }
-                }
-
-            }
-
-
-        }
     }
 
     private void filter(ArrayList<String> list) {
