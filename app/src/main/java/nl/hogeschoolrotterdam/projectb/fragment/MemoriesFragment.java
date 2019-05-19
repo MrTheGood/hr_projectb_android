@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Ignore;
 import com.google.android.gms.maps.model.LatLng;
-import nl.hogeschoolrotterdam.projectb.CheckedActivity;
 import nl.hogeschoolrotterdam.projectb.ConstantManager;
 import nl.hogeschoolrotterdam.projectb.MyCategoriesExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.R;
@@ -45,8 +44,6 @@ public class MemoriesFragment extends Fragment {
     private List<Memory> memories;
     private MemoriesAdapter adapter;
     private ActionBarDrawerToggle mToggle;
-
-    public ArrayList<String> filter_memories = new ArrayList<String>();
 
 
     @Nullable
@@ -83,12 +80,41 @@ public class MemoriesFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Hier wil ik de filter_memory arraylist van checkactivity.class hebben/
-                filter(filtered_memory);
+                ArrayList<String> filter_memory = new ArrayList<String>();
 
-                /*
-                Intent intent = new Intent(getActivity(), CheckedActivity.class);
-                startActivity(intent);*/
+                for (int i = 0; i < MyCategoriesExpandableListAdapter.parentItems.size(); i++) {
+
+                    String isChecked = MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.IS_CHECKED);
+
+                    if (isChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
+                        //tvParent.setText(tvParent.getText() + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME));
+                    }
+
+                    for (int j = 0; j < MyCategoriesExpandableListAdapter.childItems.get(i).size(); j++) {
+
+                        String isChildChecked = MyCategoriesExpandableListAdapter.childItems.get(i).get(j).get(ConstantManager.Parameter.IS_CHECKED);
+
+                        if (isChildChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
+                            //filtered_memories.add(tvChild.toString());
+                            //tvChild.setText(tvChild.getText() + " , " + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME) + " " + (j));
+                            if ((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Location"))) {
+                                //tvChild.setText(tvChild.getText() + " , " +memories.get(j).getLocation().toString());
+                                filter_memory.add(memories.get(j).getLocation().toString());
+                            } else if ((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Year"))) {
+                                filter_memory.add(memories.get(j).getDateText().toString());
+                                //tvChild.setText(tvChild.getText() + " , " +memories.get(j).getDateText().toString());
+
+                            }
+                        }
+
+                    }
+
+                }
+
+                //Hier wil ik de filter_memory arraylist van checkactivity.class hebben/
+                if (filter_memory.size() > 0) {
+                filter(filter_memory);}
+
             }
         });
 
@@ -169,17 +195,22 @@ public class MemoriesFragment extends Fragment {
         DataItem dataItem = new DataItem();
         dataItem.setCategoryId("1");
         dataItem.setCategoryName("Year");
-
         arSubCategory = new ArrayList<>();
-        for (int i = 0; i < memories.size(); i++) {
+        ArrayList<String> filter_memories = new ArrayList<String>();
 
+        ArrayList<String> filter_memories2 = new ArrayList<String>();
+
+        for (int i = 0; i < memories.size(); i++) {
+            filter_memories2.add(memories.get(i).getLocation().toString());
+        }
+
+        for (int i = 0; i < memories.size(); i++) {
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(i));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
             subCategoryItem.setSubCategoryName(memories.get(i).getDateText().toString());
             arSubCategory.add(subCategoryItem);
             filter_memories.add(memories.get(i).getDateText().toString());
-
         }
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
@@ -188,8 +219,12 @@ public class MemoriesFragment extends Fragment {
         dataItem.setCategoryId("2");
         dataItem.setCategoryName("Location");
         arSubCategory = new ArrayList<>();
-        for (int j = 0; j < memories.size(); j++) {
 
+        for (int i = 0; i < memories.size(); i++) {
+            filter_memories.add(memories.get(i).getDateText().toString());
+        }
+
+        for (int j = 0; j < memories.size(); j++) {
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(j));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
@@ -264,18 +299,28 @@ public class MemoriesFragment extends Fragment {
     }
 
     private void filter(ArrayList<String> list) {
-        ArrayList<Memory> filteredlist = new ArrayList<>();
 
-        for (Memory item : memories) {
+            ArrayList<Memory> filteredlist = new ArrayList<>();
+            ArrayList<Memory> filteredlist2 = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
-                if (item.getDateText().toString().contains(list.get(i))
-                        || item.getLocation().toString().contains(list.get(i))) {
-                    filteredlist.add(item);
+                for (Memory item : memories) {
+                    {
+                        if (item.getDateText().toString().contains(list.get(i))) {
+                            filteredlist.add(item);
+                        } else if (item.getLocation().toString().contains(list.get(i))) {
+                            filteredlist.add(item);
+                        }
+                    }
                 }
             }
-        }
-        adapter.setData(filteredlist);
-        AnalyticsUtil.search(getContext());
+
+            for (Memory item : memories) {
+                if (filteredlist.contains(item)) {
+                    filteredlist2.add(item);
+                }
+            }
+            adapter.setData(filteredlist2);
+            AnalyticsUtil.search(getContext());
     }
 }
 
