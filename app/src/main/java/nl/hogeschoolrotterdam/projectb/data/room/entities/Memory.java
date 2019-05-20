@@ -165,7 +165,7 @@ public class Memory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return "unknown";
     }
 
     public int getMemoryTypeIconId() {

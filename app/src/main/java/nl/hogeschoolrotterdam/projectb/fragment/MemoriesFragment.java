@@ -1,5 +1,6 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.*;
 import androidx.annotation.NonNull;
@@ -107,7 +108,7 @@ public class MemoriesFragment extends Fragment {
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
-                        return (a.getTitle().toLowerCase().compareTo(b.getTitle().toLowerCase()));
+                        return (a.getCountryName(getContext()).toLowerCase().compareTo(b.getCountryName(getContext()).toLowerCase()));
                     }
                 });
                 adapter.setData(memories);
