@@ -20,7 +20,9 @@ public class Database {
     private AppDatabase database;
 
     private Database() {
-        database = Room.databaseBuilder(WhibApp.getInstance(), AppDatabase.class, "whib-database").build();
+        database = Room.databaseBuilder(WhibApp.getInstance(), AppDatabase.class, "whib-database")
+                .addMigrations(AppDatabase.MIGRATION_1_2)
+                .build();
         new Thread(new Runnable() {
             @Override
             public void run() {
