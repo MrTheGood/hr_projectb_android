@@ -8,7 +8,7 @@ public class ConstantManager {
     public static final String CHECK_BOX_CHECKED_TRUE = "YES";
     public static final String CHECK_BOX_CHECKED_FALSE = "NO";
 
-    public static   ArrayList<ArrayList<HashMap<String, String>>> childItems = new ArrayList<>();
+    public static ArrayList<ArrayList<HashMap<String, String>>> childItems = new ArrayList<>();
     public static ArrayList<HashMap<String, String>> parentItems = new ArrayList<>();
 
 

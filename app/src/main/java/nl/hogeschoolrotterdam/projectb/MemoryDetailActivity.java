@@ -189,7 +189,8 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         }
         return super.onOptionsItemSelected(item);
     }
-    private void setMarker (LatLng latLng){
+
+    private void setMarker(LatLng latLng) {
         CameraPosition search = CameraPosition.builder().target(latLng)
                 .zoom(15).bearing(0).tilt(0).build();
         mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
@@ -197,6 +198,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         MarkerOptions options = new MarkerOptions().position(latLng);
         mGoogleMap.addMarker(options);
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(this);
