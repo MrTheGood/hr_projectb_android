@@ -76,7 +76,6 @@ public class SearchFragment extends Fragment {
         ArrayList<Memory> filteredlist = new ArrayList<>();
 
         for (Memory item : memories) {
-            Log.wtf("bla", "location:" + item.getCountryName(getContext()));
             if (item.getTitle().toLowerCase().contains(text.toLowerCase())
                     || item.getDescription().toLowerCase().contains(text.toLowerCase())
                     || item.getCountryName(getContext()).toLowerCase().contains(text.toLowerCase())) {
