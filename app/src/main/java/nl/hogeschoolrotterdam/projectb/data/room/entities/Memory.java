@@ -165,7 +165,7 @@ public class Memory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return "unknown";
     }
 
     public int getMemoryTypeIconId() {
@@ -187,7 +187,7 @@ public class Memory {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    public String getMemoryYear(){
+    public String getYear(){
         Calendar c = Calendar.getInstance();
         c.setTime(getDate());
         String year = c.get(Calendar.YEAR) + "";

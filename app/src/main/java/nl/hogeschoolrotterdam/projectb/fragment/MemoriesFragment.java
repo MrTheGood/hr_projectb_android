@@ -1,16 +1,10 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -21,10 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Ignore;
-import com.google.android.gms.maps.model.LatLng;
 import nl.hogeschoolrotterdam.projectb.ConstantManager;
-import nl.hogeschoolrotterdam.projectb.MyCategoriesExpandableListAdapter;
+import nl.hogeschoolrotterdam.projectb.ExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
@@ -33,7 +25,6 @@ import nl.hogeschoolrotterdam.projectb.model.DataItem;
 import nl.hogeschoolrotterdam.projectb.model.SubCategoryItem;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -82,22 +73,22 @@ public class MemoriesFragment extends Fragment {
             public void onClick(View v) {
                 ArrayList<String> filter_memory = new ArrayList<String>();
 
-                for (int i = 0; i < MyCategoriesExpandableListAdapter.parentItems.size(); i++) {
+                for (int i = 0; i < ExpandableListAdapter.parentItems.size(); i++) {
 
-                    String isChecked = MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.IS_CHECKED);
+                    String isChecked = ExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.IS_CHECKED);
 
                     if (isChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
                     }
 
-                    for (int j = 0; j < MyCategoriesExpandableListAdapter.childItems.get(i).size(); j++) {
+                    for (int j = 0; j < ExpandableListAdapter.childItems.get(i).size(); j++) {
 
-                        String isChildChecked = MyCategoriesExpandableListAdapter.childItems.get(i).get(j).get(ConstantManager.Parameter.IS_CHECKED);
+                        String isChildChecked = ExpandableListAdapter.childItems.get(i).get(j).get(ConstantManager.Parameter.IS_CHECKED);
 
                         if (isChildChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-                            if ((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Location"))) {
+                            if ((ExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Location"))) {
                                 filter_memory.add(memories.get(j).getCountryName(getContext()));
-                            } else if ((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Year"))) {
-                                filter_memory.add(memories.get(j).getMemoryYear());
+                            } else if ((ExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Year"))) {
+                                filter_memory.add(memories.get(j).getYear());
 
                             }
                         }
@@ -105,7 +96,7 @@ public class MemoriesFragment extends Fragment {
                 }
                 if (filter_memory.size() > 0) {
                     filter(filter_memory);
-                }else{
+                } else {
                     onResume();
                 }
 
@@ -173,7 +164,7 @@ public class MemoriesFragment extends Fragment {
                 });
                 adapter.setData(memories);
                 return true;
-                /*
+
             case R.id.Country:
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
@@ -182,7 +173,7 @@ public class MemoriesFragment extends Fragment {
                     }
                 });
                 adapter.setData(memories);
-                return true;*/
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -204,7 +195,7 @@ public class MemoriesFragment extends Fragment {
 
 
         for (int j = 0; j < memories.size(); j++) {
-            String year = memories.get(j).getMemoryYear();
+            String year = memories.get(j).getYear();
             if (!filter_memories_1.contains(year))
                 filter_memories_1.add(year);
         }
@@ -315,8 +306,8 @@ public class MemoriesFragment extends Fragment {
         ConstantManager.parentItems = parentItems;
         ConstantManager.childItems = childItems;
 
-        MyCategoriesExpandableListAdapter myCategoriesExpandableListAdapter = new MyCategoriesExpandableListAdapter(requireActivity(), parentItems, childItems, false);
-        lvCategory.setAdapter(myCategoriesExpandableListAdapter);
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(requireActivity(), parentItems, childItems);
+        lvCategory.setAdapter(expandableListAdapter);
 
     }
 
@@ -326,12 +317,10 @@ public class MemoriesFragment extends Fragment {
         ArrayList<Memory> filteredlist2 = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             for (Memory item : memories) {
-                {
-                    if (item.getMemoryYear().contains(list.get(i))) {
-                        filteredlist.add(item);
-                    } else if (item.getCountryName(getContext()).contains(list.get(i))) {
-                        filteredlist.add(item);
-                    }
+                if (item.getYear().contains(list.get(i))) {
+                    filteredlist.add(item);
+                } else if (item.getCountryName(getContext()).contains(list.get(i))) {
+                    filteredlist.add(item);
                 }
             }
         }

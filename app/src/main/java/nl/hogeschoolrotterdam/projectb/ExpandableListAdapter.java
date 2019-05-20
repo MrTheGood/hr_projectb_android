@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     public static ArrayList<ArrayList<HashMap<String, String>>> childItems;
     public static ArrayList<HashMap<String, String>> parentItems;
@@ -23,15 +23,13 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
     private Activity activity;
     private HashMap<String, String> child;
     private int count = 0;
-    private boolean isFromMyCategoriesFragment;
 
-    public MyCategoriesExpandableListAdapter(Activity activity, ArrayList<HashMap<String, String>> parentItems,
-                                             ArrayList<ArrayList<HashMap<String, String>>> childItems, boolean isFromMyCategoriesFragment) {
+    public ExpandableListAdapter(Activity activity, ArrayList<HashMap<String, String>> parentItems,
+                                 ArrayList<ArrayList<HashMap<String, String>>> childItems) {
 
-        MyCategoriesExpandableListAdapter.parentItems = parentItems;
-        MyCategoriesExpandableListAdapter.childItems = childItems;
+        ExpandableListAdapter.parentItems = parentItems;
+        ExpandableListAdapter.childItems = childItems;
         this.activity = activity;
-        this.isFromMyCategoriesFragment = isFromMyCategoriesFragment;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
@@ -75,23 +73,15 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
     public View getGroupView(final int groupPosition, final boolean b, View convertView, ViewGroup viewGroup) {
         final ViewHolderParent viewHolderParent;
         if (convertView == null) {
-
-            if (isFromMyCategoriesFragment) {
-                convertView = inflater.inflate(R.layout.group_list_layout_my_categories, null);
-            } else {
-                convertView = inflater.inflate(R.layout.child_list_layout_choose_category, null);
-            }
+            convertView = inflater.inflate(R.layout.group_list_layout_my_categories, viewGroup, false);
             viewHolderParent = new ViewHolderParent();
-
-            viewHolderParent.tvMainCategoryName = convertView.findViewById(R.id.tvMainCategoryName);
-            viewHolderParent.cbMainCategory = convertView.findViewById(R.id.cbMainCategory);
-            viewHolderParent.IvCategory = convertView.findViewById(R.id.lvCategory);
-            //viewHolderParent.tvParent=convertView.findViewById(R.id.parent);
-            //viewHolderParent.tvChild=convertView.findViewById(R.id.child);
             convertView.setTag(viewHolderParent);
         } else {
             viewHolderParent = (ViewHolderParent) convertView.getTag();
         }
+        viewHolderParent.tvMainCategoryName = convertView.findViewById(R.id.tvMainCategoryName);
+        viewHolderParent.cbMainCategory = convertView.findViewById(R.id.cbMainCategory);
+        viewHolderParent.IvCategory = convertView.findViewById(R.id.lvCategory);
 
 
         if (viewHolderParent.cbMainCategory != null) {
@@ -217,7 +207,6 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
         TextView tvMainCategoryName;
         CheckBox cbMainCategory;
         ImageView IvCategory;
-        //TextView tvParent, tvChild;
     }
 
     private class ViewHolderChild {
