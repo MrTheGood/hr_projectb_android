@@ -1,18 +1,26 @@
 package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import nl.hogeschoolrotterdam.projectb.R;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by maartendegoede on 20/03/2019.
@@ -35,18 +43,21 @@ public class Memory {
     @NonNull
     @Ignore
     private ArrayList<Media> media;
+    @DrawableRes
+    private int memoryTypeIconId;
 
     public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description) {
-        this(id, location, date, title, description, null);
+        this(id, location, date, title, description, null, R.drawable.ic_map_adefault);
     }
 
-    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media) {
+    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media, @DrawableRes int memoryTypeIconId) {
         this.id = id;
         this.location = location;
         this.date = date;
         this.title = title;
         this.description = description;
         this.media = media != null ? media : new ArrayList<Media>();
+        this.memoryTypeIconId = memoryTypeIconId;
     }
 
     @NonNull
@@ -141,4 +152,39 @@ public class Memory {
     public void removeMedia(Media media) {
         this.media.remove(media);
     }
+
+    @Nullable
+    @Ignore
+    public String getCountryName(Context context) {
+        Geocoder geocoder = new Geocoder(context);
+        try {
+            List<Address> listAddresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
+            if (null != listAddresses && listAddresses.size() > 0) {
+                return listAddresses.get(0).getCountryName();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int getMemoryTypeIconId() {
+        return memoryTypeIconId;
+    }
+
+    public void setMemoryTypeIconId(int memoryTypeIconId) {
+        this.memoryTypeIconId = memoryTypeIconId;
+    }
+
+    public BitmapDescriptor getTypeBitMap(Context context) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, getMemoryTypeIconId());
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+
 }
