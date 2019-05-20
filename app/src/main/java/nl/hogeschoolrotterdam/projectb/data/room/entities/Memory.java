@@ -172,6 +172,7 @@ public class Memory {
         return memoryTypeIconId;
     }
 
+
     public void setMemoryTypeIconId(int memoryTypeIconId) {
         this.memoryTypeIconId = memoryTypeIconId;
     }
@@ -184,6 +185,14 @@ public class Memory {
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    public String getYear(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(getDate());
+        String year = c.get(Calendar.YEAR) + "";
+        return year;
+
     }
 
 
