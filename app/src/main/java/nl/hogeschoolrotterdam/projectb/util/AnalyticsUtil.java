@@ -10,8 +10,10 @@ import com.google.firebase.analytics.FirebaseAnalytics;
  */
 public class AnalyticsUtil {
 
-    public static void share(Context context) {
-        logEvent(context, FirebaseAnalytics.Event.SHARE, new Bundle());
+    public static void share(Context context, String shareApp) {
+        Bundle bundle = new Bundle();
+        bundle.putString("share_app", shareApp);
+        logEvent(context, FirebaseAnalytics.Event.SHARE, bundle);
     }
 
     public static void search(Context context) {

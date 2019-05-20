@@ -110,7 +110,7 @@ public class ShareFragment extends BottomSheetDialogFragment {
                 List<LabeledIntent> intentList = new ArrayList<>();
 
                 for (ResolveInfo resInfo : resInfos) {
-                    String packageName = resInfo.activityInfo.packageName;
+                    final String packageName = resInfo.activityInfo.packageName;
                     final Intent intent = new Intent(sendIntent.getAction());
                     intent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + ":\n" + memory.getDescription());
 
@@ -172,7 +172,7 @@ public class ShareFragment extends BottomSheetDialogFragment {
                             @Override
                             public void onClick(View v) {
                                 startActivity(intent);
-                                AnalyticsUtil.share(getContext());
+                                AnalyticsUtil.share(getContext(), packageName);
                                 dismiss();
                             }
                         });
