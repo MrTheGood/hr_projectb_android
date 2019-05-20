@@ -3,9 +3,7 @@ package nl.hogeschoolrotterdam.projectb;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -13,7 +11,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -24,6 +21,7 @@ import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.fragment.ShareFragment;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
 import java.util.ArrayList;
@@ -145,24 +143,11 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         }
         switch (item.getItemId()) {
             case R.id.shareBtn:
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + "\n" + memory.getDescription());
-                if (images.size() > 0) {
-                    ArrayList<Uri> imageUris = new ArrayList<Uri>();
-                    for (int i = 0; i < images.size(); i++) {
-                        imageUris.add(Uri.parse(images.get(i).getImagePath()));
-                    }
+                //todo: implement facebook share library
+                //todo: make sure all shares work and filter out any not-working apps
+                //todo: share all content including date, images, videos, title, description
 
-                    shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
-                    shareIntent.setType("*/*");
-                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                } else {
-                    shareIntent.setType("text/plain");
-                }
-                AnalyticsUtil.share(this);
-                startActivity(Intent.createChooser(shareIntent, "How would you like to share this memory?"));
-
+                new ShareFragment(memory).show(getSupportFragmentManager(), "shareSheetDialog");
                 return true;
             case R.id.deleteBtn:
                 new AlertDialog.Builder(MemoryDetailActivity.this)
@@ -189,7 +174,8 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         }
         return super.onOptionsItemSelected(item);
     }
-    private void setMarker (LatLng latLng){
+
+    private void setMarker(LatLng latLng) {
         CameraPosition search = CameraPosition.builder().target(latLng)
                 .zoom(15).bearing(0).tilt(0).build();
         mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
@@ -197,6 +183,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         MarkerOptions options = new MarkerOptions().position(latLng);
         mGoogleMap.addMarker(options);
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(this);
