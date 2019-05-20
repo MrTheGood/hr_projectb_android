@@ -87,7 +87,6 @@ public class MemoriesFragment extends Fragment {
                     String isChecked = MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.IS_CHECKED);
 
                     if (isChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-                        //tvParent.setText(tvParent.getText() + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME));
                     }
 
                     for (int j = 0; j < MyCategoriesExpandableListAdapter.childItems.get(i).size(); j++) {
@@ -95,25 +94,19 @@ public class MemoriesFragment extends Fragment {
                         String isChildChecked = MyCategoriesExpandableListAdapter.childItems.get(i).get(j).get(ConstantManager.Parameter.IS_CHECKED);
 
                         if (isChildChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-                            //filtered_memories.add(tvChild.toString());
-                            //tvChild.setText(tvChild.getText() + " , " + MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME) + " " + (j));
                             if ((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Location"))) {
-                                //tvChild.setText(tvChild.getText() + " , " +memories.get(j).getLocation().toString());
-                                filter_memory.add(memories.get(j).getLocation().toString());
+                                filter_memory.add(memories.get(j).getCountryName(getContext()));
                             } else if ((MyCategoriesExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Year"))) {
-                                filter_memory.add(memories.get(j).getDateText().toString());
-                                //tvChild.setText(tvChild.getText() + " , " +memories.get(j).getDateText().toString());
+                                filter_memory.add(memories.get(j).getMemoryYear());
 
                             }
                         }
-
                     }
-
                 }
-
-                //Hier wil ik de filter_memory arraylist van checkactivity.class hebben/
                 if (filter_memory.size() > 0) {
                     filter(filter_memory);
+                }else{
+                    onResume();
                 }
 
             }
@@ -180,15 +173,16 @@ public class MemoriesFragment extends Fragment {
                 });
                 adapter.setData(memories);
                 return true;
+                /*
             case R.id.Country:
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
-                        return (a.getTitle().toLowerCase().compareTo(b.getTitle().toLowerCase()));
+                        return (a.getCountryName(getContext()).toLowerCase().compareTo(b.getCountryName(getContext()).toLowerCase()));
                     }
                 });
                 adapter.setData(memories);
-                return true;
+                return true;*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -206,16 +200,35 @@ public class MemoriesFragment extends Fragment {
         dataItem.setCategoryId("1");
         dataItem.setCategoryName("Year");
         arSubCategory = new ArrayList<>();
-        ArrayList<String> filter_memories = new ArrayList<String>();
+        ArrayList<String> filter_memories_1 = new ArrayList<String>();
 
+
+        for (int j = 0; j < memories.size(); j++) {
+            String year = memories.get(j).getMemoryYear();
+            if (!filter_memories_1.contains(year))
+                filter_memories_1.add(year);
+        }
+
+        int k = 0;
+        for (String item : filter_memories_1) {
+            SubCategoryItem subCategoryItem = new SubCategoryItem();
+            subCategoryItem.setCategoryId(String.valueOf(k++));
+            subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
+            subCategoryItem.setSubCategoryName(item);
+            arSubCategory.add(subCategoryItem);
+        }
+
+        /*
         for (int i = 0; i < memories.size(); i++) {
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(i));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
             subCategoryItem.setSubCategoryName(memories.get(i).getDateText().toString());
             arSubCategory.add(subCategoryItem);
-            filter_memories.add(memories.get(i).getDateText().toString());
-        }
+            filter_memories_1.add(memories.get(i).getDateText().toString());
+        }*/
+
+
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
@@ -223,18 +236,27 @@ public class MemoriesFragment extends Fragment {
         dataItem.setCategoryId("2");
         dataItem.setCategoryName("Location");
         arSubCategory = new ArrayList<>();
+        ArrayList<String> filter_memories_2 = new ArrayList<String>();
 
         for (int j = 0; j < memories.size(); j++) {
-            SubCategoryItem subCategoryItem = new SubCategoryItem();
-            subCategoryItem.setCategoryId(String.valueOf(j));
-            subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName(memories.get(j).getLocation().toString());
-            arSubCategory.add(subCategoryItem);
-            filter_memories.add(memories.get(j).getDateText().toString());
+            String country = memories.get(j).getCountryName(getContext());
+            if (!filter_memories_2.contains(country))
+                filter_memories_2.add(country);
         }
+
+        int i = 0;
+        for (String item : filter_memories_2) {
+            SubCategoryItem subCategoryItem = new SubCategoryItem();
+            subCategoryItem.setCategoryId(String.valueOf(i++));
+            subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
+            subCategoryItem.setSubCategoryName(item);
+            arSubCategory.add(subCategoryItem);
+        }
+
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
+        /*
         dataItem = new DataItem();
         dataItem.setCategoryId("3");
         dataItem.setCategoryName("marker");
@@ -244,12 +266,13 @@ public class MemoriesFragment extends Fragment {
             SubCategoryItem subCategoryItem = new SubCategoryItem();
             subCategoryItem.setCategoryId(String.valueOf(k));
             subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName("marker: " + k);
+            subCategoryItem.setSubCategoryName(memories.get(k).getMemoryTypeIconId());
             arSubCategory.add(subCategoryItem);
         }
 
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
+        */
 
         Log.d("TAG", "setupReferences: " + arCategory.size());
 
@@ -304,9 +327,9 @@ public class MemoriesFragment extends Fragment {
         for (int i = 0; i < list.size(); i++) {
             for (Memory item : memories) {
                 {
-                    if (item.getDateText().toString().contains(list.get(i))) {
+                    if (item.getMemoryYear().contains(list.get(i))) {
                         filteredlist.add(item);
-                    } else if (item.getLocation().toString().contains(list.get(i))) {
+                    } else if (item.getCountryName(getContext()).contains(list.get(i))) {
                         filteredlist.add(item);
                     }
                 }
