@@ -1,13 +1,16 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,8 +92,12 @@ public class ShareFragment extends BottomSheetDialogFragment {
                 if (media.size() > 0) {
                     ArrayList<Uri> uris = new ArrayList<>();
                     for (Media m : media) {
-                        String uri = m instanceof Video ? ((Video) m).getVideoPath() : ((Image) m).getImagePath();
-                        uris.add(Uri.parse(uri));
+                        try {
+                            String uri = getContentUriForMedia(m);
+                            uris.add(Uri.parse(uri));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
                     sendIntent.putExtra(Intent.EXTRA_STREAM, uris);
                     sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -107,12 +115,8 @@ public class ShareFragment extends BottomSheetDialogFragment {
                     intent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + ":\n" + memory.getDescription());
 
                     Log.wtf("package", "packageName:" + packageName);
-                    if (packageName.contains("twitter") ||
-                            packageName.contains("facebook") ||//todo: remove, facebook will only be done with their sdk
-                            packageName.contains("mms") ||
-                            packageName.contains("android.email") ||
+                    if (packageName.contains("facebook") ||//todo: remove, facebook will only be done with their sdk
                             packageName.equals("com.whatsapp") ||
-                            packageName.contains("instagram") ||
                             packageName.contains("telegram") ||
                             packageName.equals("org.thunderdog.challegram") || // telegramX
                             packageName.equals("com.google.android.youtube") ||
@@ -124,17 +128,21 @@ public class ShareFragment extends BottomSheetDialogFragment {
                         intent.putExtra(Intent.EXTRA_STREAM, (ArrayList) sendIntent.getExtras().get(Intent.EXTRA_STREAM));
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                        if (packageName.contains("android.email")) {
-                            intent.setType("vnd.android.cursor.dir/email");
-                        } else if (packageName.contains("twitter")) {
-                            //todo: does this work properly?
+                        if (packageName.equals("org.thunderdog.challegram") || packageName.contains("telegram")) {
+                            //Apparently in Telegram and TelegramX only ACTION_SEND_MULTIPLE works and ACTION_SEND does not
+                            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
                         } else if (packageName.contains("facebook")) {
                             //todo: replace this
 
                             // Warning: Facebook IGNORES our text. They say "These fields are intended for users to express themselves. Pre-filling these fields erodes the authenticity of the user voice."
                             // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
                             // will show the <meta content ="..."> text from that page with our link in Facebook.
+                        } else if (packageName.equals("com.google.android.youtube")) {
+                            //Apparently YouTube only ACTION_SEND_MULTIPLE works and ACTION_SEND does not
+                            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
                         } else if (packageName.contains("android.gm")) {
+                            //Apparently in Gmail only ACTION_SEND_MULTIPLE works and ACTION_SEND does not
+                            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
                             intent.putExtra(Intent.EXTRA_SUBJECT, memory.getTitle());
                             intent.setType("message/rfc822");
                         }
@@ -163,4 +171,28 @@ public class ShareFragment extends BottomSheetDialogFragment {
             }
         });
     }
+
+
+    private String getContentUriForMedia(Media media) throws FileNotFoundException {
+        ContentResolver contentResolver = requireContext().getContentResolver();
+
+        if (media instanceof Video) {
+            String filePath = ((Video) media).getVideoPath();
+            Uri videosUri = MediaStore.Video.Media.getContentUri("external");
+            String[] projection = {MediaStore.Video.VideoColumns._ID};
+
+            Cursor cursor = contentResolver.query(videosUri, projection, MediaStore.Video.VideoColumns.DATA + " LIKE ?", new String[]{filePath}, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            long videoId = cursor.getLong(columnIndex);
+            cursor.close();
+
+            return videosUri.toString() + "/" + videoId;
+        } else {
+            String filePath = ((Image) media).getImagePath();
+            return MediaStore.Images.Media.insertImage(contentResolver, filePath, media.getMemoryId() + ":" + media.getId(), "description");
+        }
+    }
+
 }
