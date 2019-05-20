@@ -16,4 +16,9 @@
     android:title="Alphabetical"
     app:showAsAction="never" />
 
+    <item
+     android:id="@+id/Country"
+     android:title="Country"
+     app:showAsAction="never" />
+
 </menu>

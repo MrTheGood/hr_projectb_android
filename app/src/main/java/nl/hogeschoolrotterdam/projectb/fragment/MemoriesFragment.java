@@ -103,6 +103,15 @@ public class MemoriesFragment extends Fragment {
                 });
                 adapter.setData(memories);
                 return true;
+            case R.id.Country:
+                Collections.sort(memories, new Comparator<Memory>() {
+                    @Override
+                    public int compare(Memory a, Memory b) {
+                        return (a.getTitle().toLowerCase().compareTo(b.getTitle().toLowerCase()));
+                    }
+                });
+                adapter.setData(memories);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

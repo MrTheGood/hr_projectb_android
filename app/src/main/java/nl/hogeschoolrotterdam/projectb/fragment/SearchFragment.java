@@ -2,6 +2,7 @@ package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,8 +76,10 @@ public class SearchFragment extends Fragment {
         ArrayList<Memory> filteredlist = new ArrayList<>();
 
         for (Memory item : memories) {
+            Log.wtf("bla", "location:" + item.getCountryName(getContext()));
             if (item.getTitle().toLowerCase().contains(text.toLowerCase())
-                    || item.getDescription().toLowerCase().contains(text.toLowerCase())) {
+                    || item.getDescription().toLowerCase().contains(text.toLowerCase())
+                    || item.getCountryName(getContext()).toLowerCase().contains(text.toLowerCase())) {
                 filteredlist.add(item);
             }
         }
