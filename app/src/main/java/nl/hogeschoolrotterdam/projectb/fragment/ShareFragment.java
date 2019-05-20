@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -128,12 +129,20 @@ public class ShareFragment extends BottomSheetDialogFragment {
                         intent.putExtra(Intent.EXTRA_STREAM, (ArrayList) sendIntent.getExtras().get(Intent.EXTRA_STREAM));
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                        if (packageName.contains("facebook")) {
-                            //todo: replace this
+                        if (Build.VERSION.SDK_INT < 28) {
+                            // video sharing doesn't work on older devices for YouTube, Facebook and Gmail
+                            if (packageName.contains("facebook")
+                                    || packageName.equals("com.google.android.youtube")
+                                    || packageName.contains("android.gm")) {
+                                if (shareType.equals("video/*"))
+                                    continue;
 
-                            // Warning: Facebook IGNORES our text. They say "These fields are intended for users to express themselves. Pre-filling these fields erodes the authenticity of the user voice."
-                            // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
-                            // will show the <meta content ="..."> text from that page with our link in Facebook.
+                            }
+                        }
+                        if (packageName.contains("facebook")) {
+                            // Apparently Facebook does not work properly with just text
+                            if (shareType.equals("text/*"))
+                                continue;
                         }
                         if (packageName.equals("com.whatsapp")) {
                             //Apparently WhatsApp does not work properly with just text
@@ -192,13 +201,19 @@ public class ShareFragment extends BottomSheetDialogFragment {
             String[] projection = {MediaStore.Video.VideoColumns._ID};
 
             Cursor cursor = contentResolver.query(videosUri, projection, MediaStore.Video.VideoColumns.DATA + " LIKE ?", new String[]{filePath}, null);
-            cursor.moveToFirst();
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int columnIndex = cursor.getColumnIndexOrThrow(projection[0]);
+                    long videoId = cursor.getLong(columnIndex);
 
-            int columnIndex = cursor.getColumnIndex(projection[0]);
-            long videoId = cursor.getLong(columnIndex);
-            cursor.close();
+                    return videosUri.toString() + "/" + videoId;
+                }
+            } finally {
+                if (cursor != null)
+                    cursor.close();
 
-            return videosUri.toString() + "/" + videoId;
+            }
+            return filePath;
         } else {
             String filePath = ((Image) media).getImagePath();
             return MediaStore.Images.Media.insertImage(contentResolver, filePath, media.getMemoryId() + ":" + media.getId(), "description");
