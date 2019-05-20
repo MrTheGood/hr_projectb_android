@@ -29,7 +29,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|left"
-                android:textColor="@color/black"
                 android:layout_marginLeft="32dp"
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 android:minHeight="50dp"

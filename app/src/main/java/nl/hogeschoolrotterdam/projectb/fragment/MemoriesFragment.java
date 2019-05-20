@@ -35,6 +35,7 @@ import java.util.*;
 public class MemoriesFragment extends Fragment {
     private List<Memory> memories;
     private MemoriesAdapter adapter;
+    private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
 
@@ -60,7 +61,7 @@ public class MemoriesFragment extends Fragment {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(tb);
 
 
-        DrawerLayout mDrawerLayout = view.findViewById(R.id.drawer);
+        mDrawerLayout = view.findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
@@ -100,6 +101,9 @@ public class MemoriesFragment extends Fragment {
                 } else {
                     onResume();
                 }
+
+                mDrawerLayout.closeDrawers();
+
 
             }
         });
