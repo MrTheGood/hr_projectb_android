@@ -120,7 +120,7 @@ public class ShareFragment extends BottomSheetDialogFragment {
                             packageName.contains("telegram") ||
                             packageName.equals("org.thunderdog.challegram") || // telegramX
                             packageName.equals("com.google.android.youtube") ||
-                            packageName.contains("android.gm")) {
+                            packageName.contains("android.gm")) { // GMail
 
                         intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                         intent.putExtra(Intent.EXTRA_TEXT, sendIntent.getStringExtra(Intent.EXTRA_TEXT));
@@ -128,20 +128,30 @@ public class ShareFragment extends BottomSheetDialogFragment {
                         intent.putExtra(Intent.EXTRA_STREAM, (ArrayList) sendIntent.getExtras().get(Intent.EXTRA_STREAM));
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                        if (packageName.equals("org.thunderdog.challegram") || packageName.contains("telegram")) {
-                            //Apparently in Telegram and TelegramX only ACTION_SEND_MULTIPLE works and ACTION_SEND does not
-                            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
-                        } else if (packageName.contains("facebook")) {
+                        if (packageName.contains("facebook")) {
                             //todo: replace this
 
                             // Warning: Facebook IGNORES our text. They say "These fields are intended for users to express themselves. Pre-filling these fields erodes the authenticity of the user voice."
                             // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
                             // will show the <meta content ="..."> text from that page with our link in Facebook.
-                        } else if (packageName.equals("com.google.android.youtube")) {
+                        }
+                        if (packageName.equals("com.whatsapp")) {
+                            //Apparently WhatsApp does not work properly with just text
+                            if (shareType.equals("text/*"))
+                                continue;
+                        }
+                        if (packageName.equals("org.thunderdog.challegram") || packageName.contains("telegram")) {
+                            //Apparently in Telegram and TelegramX only ACTION_SEND_MULTIPLE works and ACTION_SEND does not
+                            if (shareType.equals("text/*"))
+                                intent.setAction(Intent.ACTION_SEND);
+                            else intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+                        }
+                        if (packageName.equals("com.google.android.youtube")) {
                             //Apparently YouTube only ACTION_SEND_MULTIPLE works and ACTION_SEND does not
                             intent.setAction(Intent.ACTION_SEND_MULTIPLE);
-                        } else if (packageName.contains("android.gm")) {
-                            //Apparently in Gmail only ACTION_SEND_MULTIPLE works and ACTION_SEND does not
+                        }
+                        if (packageName.contains("android.gm")) {
+                            //Apparently in GMail only ACTION_SEND_MULTIPLE works and ACTION_SEND does not
                             intent.setAction(Intent.ACTION_SEND_MULTIPLE);
                             intent.putExtra(Intent.EXTRA_SUBJECT, memory.getTitle());
                             intent.setType("message/rfc822");
