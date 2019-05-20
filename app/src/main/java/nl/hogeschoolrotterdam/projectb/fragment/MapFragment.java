@@ -1,7 +1,11 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -15,12 +19,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.*;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
@@ -152,18 +154,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onLocationResult(@Nullable Location location) {
                 if (location != null) {
-                    CameraPosition currentPosition = CameraPosition.builder().target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15).bearing(0).tilt(0).build();
+                    CameraPosition currentPosition = CameraPosition.builder().target(new LatLng(location.getLatitude(),
+                            location.getLongitude())).zoom(15).bearing(0).tilt(0).build();
                     map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
                     map.setMyLocationEnabled(true);
                 }
             }
         });
-        for (Memory memorie : Database.getInstance().getMemories()) {
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(memorie.getLocation()).title(memorie.getTitle()).snippet((String) memorie.getDateText()));
-            marker.setTag(memorie.getId());
+        for (Memory memory : Database.getInstance().getMemories()) {
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle()).
+                    snippet((String) memory.getDateText()).icon(memory.getTypeBitMap(getActivity())));
+            marker.setTag(memory.getId());
         }
         inity();
     }
+
 
 
 }

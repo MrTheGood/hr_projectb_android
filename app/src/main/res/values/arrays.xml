@@ -5,4 +5,49 @@
         <item>Dark mode</item>
         <item>Purple mode</item>
     </string-array>
+    <string-array name="marker_icons" >
+        <item>Default marker</item>
+        <item>Architecture</item>
+        <item>Baby</item>
+        <item>Bar</item>
+        <item>Beach</item>
+        <item>Birthday</item>
+        <item>Cafe</item>
+        <item>Camera</item>
+        <item>Cart</item>
+        <item>City</item>
+        <item>Flagged</item>
+        <item>Games</item>
+        <item>Golf</item>
+        <item>Home</item>
+        <item>Images</item>
+        <item>Iron throne</item>
+        <item>Job</item>
+        <item>Landscape</item>
+        <item>Money</item>
+        <item>Mood: Extremely happy</item>
+        <item>Mood: Extremely sad</item>
+        <item>Mood: Happy</item>
+        <item>Mood: Sad</item>
+        <item>Mood: Very happy</item>
+        <item>Mood: Very sad</item>
+        <item>Music</item>
+        <item>Painting</item>
+        <item>Party</item>
+        <item>Pets</item>
+        <item>Pool</item>
+        <item>Restaurant</item>
+        <item>School</item>
+        <item>Sexy</item>
+        <item>Shield</item>
+        <item>Spa</item>
+        <item>Speaker</item>
+        <item>Starred</item>
+        <item>Store</item>
+        <item>Style</item>
+        <item>Theathers</item>
+        <item>Tourist</item>
+        <item>Want to go</item>
+        <item>World</item>
+    </string-array>
 </resources>
