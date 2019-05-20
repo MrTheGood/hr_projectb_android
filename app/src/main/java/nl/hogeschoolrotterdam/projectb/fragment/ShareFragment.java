@@ -131,13 +131,12 @@ public class ShareFragment extends BottomSheetDialogFragment {
 
                         if (Build.VERSION.SDK_INT < 28) {
                             // video sharing doesn't work on older devices for YouTube, Facebook and Gmail
-                            if (packageName.contains("facebook")
-                                    || packageName.equals("com.google.android.youtube")
-                                    || packageName.contains("android.gm")) {
+                            if (packageName.contains("facebook") || packageName.contains("android.gm")) {
                                 if (shareType.equals("video/*"))
                                     continue;
-
                             }
+                            if (packageName.equals("com.google.android.youtube"))
+                                continue;
                         }
                         if (packageName.contains("facebook")) {
                             // Apparently Facebook does not work properly with just text
