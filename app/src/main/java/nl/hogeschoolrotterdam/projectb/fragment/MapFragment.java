@@ -48,15 +48,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     LatLng latLng;
 
 
-
-
     private void inity() {
         mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng laat) {
                 latLng = laat;
                 Intent i = new Intent(getActivity(), MemoryEditActivity.class);
-                i.putExtra("location",latLng );
+                i.putExtra("location", latLng);
                 startActivity(i);
                 AnalyticsUtil.addContent(getContext(), "Map");
 
@@ -70,31 +68,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         || actionId == EditorInfo.IME_ACTION_DONE
                         || event.getAction() == KeyEvent.ACTION_DOWN
                         || event.getAction() == KeyEvent.KEYCODE_ENTER) {
-                     geoLocate();
+                    geoLocate();
                 }
                 return false;
             }
         });
     }
-    private void geoLocate(){
+
+    private void geoLocate() {
 
         String searchingString = mSearchText.getText().toString();
         Geocoder geocoder = new Geocoder(getActivity());
         List<Address> list = new ArrayList<>();
-        try{
-            list = geocoder.getFromLocationName(searchingString,1);
+        try {
+            list = geocoder.getFromLocationName(searchingString, 1);
 
 
-        }catch (IOException e){
+        } catch (IOException e) {
         }
-        if (list.size() > 0){
+        if (list.size() > 0) {
             Address address = list.get(0);
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
             CameraPosition search = CameraPosition.builder().target(new LatLng(address.getLatitude(),
                     address.getLongitude())).zoom(10).bearing(0).tilt(0).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
-
-
 
 
         }
@@ -168,7 +165,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         inity();
     }
-
 
 
 }

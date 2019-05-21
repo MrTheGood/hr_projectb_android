@@ -31,6 +31,11 @@
     <string name="dialog_add_media_camera_description">How would you like to capture the media?</string>
     <string name="dialog_remove_image">Change Media</string>
     <string name="dialog_remove_image_description">Are you sure you want to change this media?</string>
+    <string name="dialog_discard_editmemory_title">Discard Memory</string>
+    <string name="dialog_discard_editmemory_description">Are you sure you want to cancel editing or creating this memory? This action cannot be undone.</string>
+    <string name="dialog_discard_editmemory_pos_btn">Discard</string>
+    <string name="dialog_discard_editmemory_neg_btn">Cancel</string>
+
 
     <!-- Action -->
     <string name="action_gallery">Gallery</string>
