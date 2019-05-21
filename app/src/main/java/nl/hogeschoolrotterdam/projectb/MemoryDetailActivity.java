@@ -93,7 +93,6 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onResume() {
         super.onResume();
-
         Database database = Database.getInstance();
         String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
         memory = database.findMemory(sessionId);
@@ -110,6 +109,8 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         } else {
             viewPagerIndicator.setText("0/0");
         }
+        mMapView.onResume();
+        mMapView.getMapAsync(this);
     }
 
     @Override
