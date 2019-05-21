@@ -213,17 +213,6 @@ public class MemoriesFragment extends Fragment {
             arSubCategory.add(subCategoryItem);
         }
 
-        /*
-        for (int i = 0; i < memories.size(); i++) {
-            SubCategoryItem subCategoryItem = new SubCategoryItem();
-            subCategoryItem.setCategoryId(String.valueOf(i));
-            subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName(memories.get(i).getDateText().toString());
-            arSubCategory.add(subCategoryItem);
-            filter_memories_1.add(memories.get(i).getDateText().toString());
-        }*/
-
-
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
@@ -268,8 +257,6 @@ public class MemoriesFragment extends Fragment {
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
         */
-
-        Log.d("TAG", "setupReferences: " + arCategory.size());
 
         for (DataItem data : arCategory) {
 
@@ -319,10 +306,10 @@ public class MemoriesFragment extends Fragment {
 
         ArrayList<Memory> filteredlist = new ArrayList<>();
 
-            for (Memory item : memories) {
-                if(list.contains(item.getYear()) && list.contains(item.getCountryName(getContext()))){
-                    filteredlist.add(item);
-                }
+        for (Memory item : memories) {
+            if (list.contains(item.getYear()) && list.contains(item.getCountryName(getContext()))) {
+                filteredlist.add(item);
+            }
 
         }
 
