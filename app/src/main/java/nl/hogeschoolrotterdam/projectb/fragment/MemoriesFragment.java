@@ -73,31 +73,31 @@ public class MemoriesFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> filter_memory = new ArrayList<String>();
+                ArrayList<String> selectedYears = new ArrayList<>();
+                ArrayList<String> selectedCountries = new ArrayList<>();
+
 
                 for (int i = 0; i < ExpandableListAdapter.parentItems.size(); i++) {
+                    HashMap<String, String> parentItem = ExpandableListAdapter.parentItems.get(i);
 
-                    String isChecked = ExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.IS_CHECKED);
-
-                    if (isChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-                    }
+                    boolean isLocationList = parentItem.get(ConstantManager.Parameter.CATEGORY_NAME).equals("Location");
+                    boolean isYearList = parentItem.get(ConstantManager.Parameter.CATEGORY_NAME).equals("Year");
 
                     for (int j = 0; j < ExpandableListAdapter.childItems.get(i).size(); j++) {
+                        HashMap<String, String> childItem = ExpandableListAdapter.childItems.get(i).get(j);
 
-                        String isChildChecked = ExpandableListAdapter.childItems.get(i).get(j).get(ConstantManager.Parameter.IS_CHECKED);
-
+                        String isChildChecked = childItem.get(ConstantManager.Parameter.IS_CHECKED);
                         if (isChildChecked.equalsIgnoreCase(ConstantManager.CHECK_BOX_CHECKED_TRUE)) {
-                            if ((ExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Location"))) {
-                                filter_memory.add(memories.get(j).getCountryName(getContext()));
-                            } else if ((ExpandableListAdapter.parentItems.get(i).get(ConstantManager.Parameter.CATEGORY_NAME).equals("Year"))) {
-                                filter_memory.add(memories.get(j).getYear());
-
+                            if (isLocationList) {
+                                selectedCountries.add(childItem.get(ConstantManager.Parameter.SUB_CATEGORY_NAME));
+                            } else if (isYearList) {
+                                selectedYears.add(childItem.get(ConstantManager.Parameter.SUB_CATEGORY_NAME));
                             }
                         }
                     }
                 }
-                if (filter_memory.size() > 0) {
-                    filter(filter_memory);
+                if (selectedCountries.size() > 0 || selectedYears.size() > 0) {
+                    filter(selectedYears, selectedCountries);
                 } else {
                     onResume();
                 }
@@ -303,15 +303,21 @@ public class MemoriesFragment extends Fragment {
 
     }
 
-    private void filter(ArrayList<String> list) {
+    private void filter(ArrayList<String> selectedYears, ArrayList<String> selectedCountries) {
 
         ArrayList<Memory> filteredlist = new ArrayList<>();
 
         for (Memory item : memories) {
-            if (list.contains(item.getYear()) && list.contains(item.getCountryName(getContext()))) {
+            if (selectedYears.size() == 0 || selectedCountries.size() == 0) {
+                if (selectedYears.contains(item.getYear())) {
+                    filteredlist.add(item);
+                } else if (selectedCountries.contains(item.getCountryName(getContext()))) {
+                    filteredlist.add(item);
+                }
+            } else if (selectedYears.contains(item.getYear())
+                    && selectedCountries.contains(item.getCountryName(getContext()))) {
                 filteredlist.add(item);
             }
-
         }
 
         adapter.setData(filteredlist);
