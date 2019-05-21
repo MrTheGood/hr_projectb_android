@@ -26,6 +26,7 @@ public class SettingsFragment extends Fragment {
     private static final int LIGHT = 0;
     private static final int DARK = 1;
     private static final int LIGHT_PURPLE = 2;
+    private static final int DARK_PURPLE = 3;
     private Spinner spinner;
     private ImageView previewImage;
 
@@ -78,6 +79,10 @@ public class SettingsFragment extends Fragment {
                 spinner.setSelection(LIGHT_PURPLE, true);
                 AnalyticsUtil.changeTheme(getContext(), "AppTheme_Light_Purple");
                 break;
+            case R.style.AppTheme_Dark_Purple:
+                spinner.setSelection(DARK_PURPLE, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Dark_Purple");
+                break;
         }
     }
 
@@ -91,6 +96,9 @@ public class SettingsFragment extends Fragment {
                 break;
             case LIGHT_PURPLE:
                 previewImage.setImageResource(R.drawable.img_theme_purple);
+                break;
+            case DARK_PURPLE:
+                previewImage.setImageResource(R.drawable.img_theme_purple_dark);
                 break;
         }
     }
@@ -107,6 +115,10 @@ public class SettingsFragment extends Fragment {
                 break;
             case LIGHT_PURPLE:
                 WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Light_Purple, false);
+                requireActivity().recreate();
+                break;
+            case DARK_PURPLE:
+                WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Dark_Purple, true);
                 requireActivity().recreate();
                 break;
         }

@@ -4,6 +4,7 @@
         <item>Light mode</item>
         <item>Dark mode</item>
         <item>Purple mode</item>
+        <item>Dark Purple mode</item>
     </string-array>
     <string-array name="marker_icons" >
         <item>Default marker</item>
