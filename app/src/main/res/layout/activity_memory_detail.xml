@@ -52,7 +52,7 @@
                 tools:text="@tools:sample/lorem"
                 app:layout_constraintTop_toTopOf="@id/viewPager2"
                 app:layout_constraintEnd_toEndOf="@id/viewPager2"
-                android:textColor="@color/colorOnSecondary"
+                android:textColor="?colorOnSecondary"
                 android:layout_margin="4dp"
                 />
 
