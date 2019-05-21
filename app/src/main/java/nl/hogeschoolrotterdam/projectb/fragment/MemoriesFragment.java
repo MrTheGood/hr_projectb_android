@@ -214,17 +214,6 @@ public class MemoriesFragment extends Fragment {
             arSubCategory.add(subCategoryItem);
         }
 
-        /*
-        for (int i = 0; i < memories.size(); i++) {
-            SubCategoryItem subCategoryItem = new SubCategoryItem();
-            subCategoryItem.setCategoryId(String.valueOf(i));
-            subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName(memories.get(i).getDateText().toString());
-            arSubCategory.add(subCategoryItem);
-            filter_memories_1.add(memories.get(i).getDateText().toString());
-        }*/
-
-
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
@@ -269,8 +258,6 @@ public class MemoriesFragment extends Fragment {
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
         */
-
-        Log.d("TAG", "setupReferences: " + arCategory.size());
 
         for (DataItem data : arCategory) {
 
@@ -319,23 +306,15 @@ public class MemoriesFragment extends Fragment {
     private void filter(ArrayList<String> list) {
 
         ArrayList<Memory> filteredlist = new ArrayList<>();
-        ArrayList<Memory> filteredlist2 = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            for (Memory item : memories) {
-                if (item.getYear().contains(list.get(i))) {
-                    filteredlist.add(item);
-                } else if (item.getCountryName(getContext()).contains(list.get(i))) {
-                    filteredlist.add(item);
-                }
-            }
-        }
 
         for (Memory item : memories) {
-            if (filteredlist.contains(item)) {
-                filteredlist2.add(item);
+            if (list.contains(item.getYear()) && list.contains(item.getCountryName(getContext()))) {
+                filteredlist.add(item);
             }
+
         }
-        adapter.setData(filteredlist2);
+
+        adapter.setData(filteredlist);
         AnalyticsUtil.search(getContext());
     }
 }
