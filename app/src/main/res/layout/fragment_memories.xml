@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="100dp"
-                android:layout_marginTop="500dp"
+                android:layout_marginTop="475dp"
                 android:focusable="false"
                 android:text="Save"
                 />
