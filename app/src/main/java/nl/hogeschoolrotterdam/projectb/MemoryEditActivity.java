@@ -237,7 +237,7 @@ public class MemoryEditActivity extends AppCompatActivity {
                 default:
                     foundposition = 0;
             }
-           spinner.setSelection(foundposition);
+            spinner.setSelection(foundposition);
 
 
         } else {
@@ -610,10 +610,20 @@ public class MemoryEditActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (isEditMode)
-            AnalyticsUtil.cancelEditContent(this);
-        else
-            AnalyticsUtil.cancelAddContent(this);
+        new AlertDialog.Builder(MemoryEditActivity.this)
+                .setTitle("Discard Memory")
+                .setMessage("Are you sure you want to cancel editing or creating this memory? This action cannot be undone.")
+                .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MemoryEditActivity.super.onBackPressed();
+                        if (isEditMode)
+                            AnalyticsUtil.cancelEditContent(MemoryEditActivity.this);
+                        else
+                            AnalyticsUtil.cancelAddContent(MemoryEditActivity.this);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }
