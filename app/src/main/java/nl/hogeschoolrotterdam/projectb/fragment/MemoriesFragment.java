@@ -318,23 +318,15 @@ public class MemoriesFragment extends Fragment {
     private void filter(ArrayList<String> list) {
 
         ArrayList<Memory> filteredlist = new ArrayList<>();
-        ArrayList<Memory> filteredlist2 = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
+
             for (Memory item : memories) {
-                if (item.getYear().contains(list.get(i))) {
-                    filteredlist.add(item);
-                } else if (item.getCountryName(getContext()).contains(list.get(i))) {
+                if(list.contains(item.getYear()) && list.contains(item.getCountryName(getContext()))){
                     filteredlist.add(item);
                 }
-            }
+
         }
 
-        for (Memory item : memories) {
-            if (filteredlist.contains(item)) {
-                filteredlist2.add(item);
-            }
-        }
-        adapter.setData(filteredlist2);
+        adapter.setData(filteredlist);
         AnalyticsUtil.search(getContext());
     }
 }
