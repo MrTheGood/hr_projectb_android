@@ -611,9 +611,9 @@ public class MemoryEditActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(MemoryEditActivity.this)
-                .setTitle("Discard Memory")
-                .setMessage("Are you sure you want to cancel editing or creating this memory? This action cannot be undone.")
-                .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.dialog_discard_editmemory_title)
+                .setMessage(R.string.dialog_discard_editmemory_description)
+                .setPositiveButton(R.string.dialog_discard_editmemory_pos_btn, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MemoryEditActivity.super.onBackPressed();
@@ -623,7 +623,7 @@ public class MemoryEditActivity extends AppCompatActivity {
                             AnalyticsUtil.cancelAddContent(MemoryEditActivity.this);
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.action_cancel, null)
                 .show();
     }
 }
