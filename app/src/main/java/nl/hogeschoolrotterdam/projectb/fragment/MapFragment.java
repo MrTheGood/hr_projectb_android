@@ -7,6 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.*;
 import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
@@ -64,6 +65,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
         setupTooltipFling();
 
+        boolean hasShownTooltip = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("hasShownMapTooltipTutorial", false);
+        if (hasShownTooltip)
+            closeTooltip(false);
 
         if (mMapView != null)
             mMapView.onCreate(null);
@@ -86,6 +90,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     .start();
         } else {
             tooltip.setVisibility(View.GONE);
+            PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean("hasShownMapTooltipTutorial", true).apply();
         }
     }
 
