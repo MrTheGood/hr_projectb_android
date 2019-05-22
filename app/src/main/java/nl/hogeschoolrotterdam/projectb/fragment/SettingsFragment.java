@@ -3,6 +3,7 @@ package nl.hogeschoolrotterdam.projectb.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), OnboardingActivity.class));
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean("hasShownMapTooltipTutorial", false).apply();
             }
         });
         applyButton.setOnClickListener(new View.OnClickListener() {
