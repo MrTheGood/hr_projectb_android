@@ -14,6 +14,7 @@
     <string name="str_onboarding_map_description">Bekijk makkelijk alle plekken waar u bent geweest op de kaart!</string>
     <string name="str_onboarding_share">Deel Je Herinneringen</string>
     <string name="str_onboarding_share_description">Deel gemakkelijk uw herinneringen via WhatsApp, Telegram of Facebook!</string>
+    <string name="str_tutorial_longpress">Druk lang om toe te voegen!</string>
 
     <!--Drawer-->
     <string name="open">open</string>

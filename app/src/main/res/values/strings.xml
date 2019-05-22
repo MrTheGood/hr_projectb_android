@@ -19,6 +19,7 @@
     <string name="str_onboarding_map_description">Easily view all the places where you have been on the map page!</string>
     <string name="str_onboarding_share">Share Your Memories</string>
     <string name="str_onboarding_share_description">Simply share your memories on WhatsApp, Telegram or Facebook!</string>
+    <string name="str_tutorial_longpress">Long press to add!</string>
 
     <!--Drawer-->
     <string name="open">open</string>
