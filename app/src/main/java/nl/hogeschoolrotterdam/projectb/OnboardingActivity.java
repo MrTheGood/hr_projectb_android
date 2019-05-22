@@ -1,5 +1,6 @@
 package nl.hogeschoolrotterdam.projectb;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -17,11 +18,15 @@ public class OnboardingActivity extends AppCompatActivity {
     private ViewPager2 onboardingPager;
     private Button nextButton;
     private Button skipButton;
+    private boolean startMainActivityOnFinish;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
+
+        startMainActivityOnFinish = getIntent().getExtras() != null && getIntent().getExtras().getBoolean("startMainActivity", false);
+
 
         onboardingPager = findViewById(R.id.onboarding_pager);
         nextButton = findViewById(R.id.onboarding_next);
@@ -66,6 +71,8 @@ public class OnboardingActivity extends AppCompatActivity {
                 .edit()
                 .putBoolean("hasShownTutorial", true)
                 .apply();
+        if (startMainActivityOnFinish)
+            startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }
