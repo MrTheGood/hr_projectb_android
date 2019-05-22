@@ -30,6 +30,7 @@ import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
+import nl.hogeschoolrotterdam.projectb.util.SimpleAnimatorListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,22 +77,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     .translationXBy(-tooltip.getWidth())
                     .setInterpolator(new AccelerateInterpolator())
                     .setDuration(300)
-                    .setListener(new Animator.AnimatorListener() {
-                                     @Override
-                                     public void onAnimationStart(Animator animation) {
-                                     }
-
+                    .setListener(new SimpleAnimatorListener() {
                                      @Override
                                      public void onAnimationEnd(Animator animation) {
                                          closeTooltip(false);
-                                     }
-
-                                     @Override
-                                     public void onAnimationCancel(Animator animation) {
-                                     }
-
-                                     @Override
-                                     public void onAnimationRepeat(Animator animation) {
                                      }
                                  }
                     )
