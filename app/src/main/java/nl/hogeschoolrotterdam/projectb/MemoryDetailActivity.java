@@ -16,7 +16,7 @@ import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
+import nl.hogeschoolrotterdam.projectb.adapter.MediaPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
@@ -33,7 +33,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
     Toolbar toolbar;
     TextView viewPagerIndicator;
     ViewPager2 viewPager2;
-    ViewPagerAdapter mediaAdapter;
+    MediaPagerAdapter mediaAdapter;
     Memory memory;
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -53,7 +53,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         viewPager2 = findViewById(R.id.viewPager2);
         viewPagerIndicator = findViewById(R.id.viewPager_indicator);
 
-        mediaAdapter = new ViewPagerAdapter();
+        mediaAdapter = new MediaPagerAdapter();
         viewPager2.setAdapter(mediaAdapter);
 
 
