@@ -1,5 +1,6 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Address;
@@ -10,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -42,7 +44,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mMapView;
     private EditText mSearchText;
     private LatLng latLng;
-
+    private View tooltip;
 
     @Nullable
     @Override
@@ -51,10 +53,52 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         mSearchText = view.findViewById(R.id.input_search);
         mMapView = view.findViewById(R.id.map);
+
+        tooltip = view.findViewById(R.id.tooltip);
+        View tooltipClose = view.findViewById(R.id.tooltipClose);
+        tooltipClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeTooltip(true);
+            }
+        });
+
+
         if (mMapView != null)
             mMapView.onCreate(null);
 
         return view;
+    }
+
+    private void closeTooltip(boolean animated) {
+        if (animated) {
+            tooltip.animate()
+                    .translationXBy(-tooltip.getWidth())
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setDuration(300)
+                    .setListener(new Animator.AnimatorListener() {
+                                     @Override
+                                     public void onAnimationStart(Animator animation) {
+                                     }
+
+                                     @Override
+                                     public void onAnimationEnd(Animator animation) {
+                                         closeTooltip(false);
+                                     }
+
+                                     @Override
+                                     public void onAnimationCancel(Animator animation) {
+                                     }
+
+                                     @Override
+                                     public void onAnimationRepeat(Animator animation) {
+                                     }
+                                 }
+                    )
+                    .start();
+        } else {
+            tooltip.setVisibility(View.GONE);
+        }
     }
 
     @Override
