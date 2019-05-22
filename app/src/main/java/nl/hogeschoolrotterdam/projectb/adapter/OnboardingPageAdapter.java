@@ -30,7 +30,7 @@ public class OnboardingPageAdapter extends RecyclerView.Adapter<ViewHolder> {
             case 0:
                 holder.circleTextView.setText("See Where You Have Been");
                 holder.bodyText.setText("Easily view all the places where you have been on the map page!");
-                holder.circleImageView.setImageResource(R.drawable.img_theme_red);
+                holder.circleImageView.setImageResource(R.drawable.img_onboarding_map);
                 holder.circleImageView.setPadding(0, 0, 0, 0);
                 break;
             case 1:
