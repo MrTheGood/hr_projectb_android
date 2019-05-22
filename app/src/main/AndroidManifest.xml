@@ -45,8 +45,7 @@
             android:label="@string/menu_memory"
             />
         <activity
-            android:name=".CheckedActivity"
-            android:label="@string/menu_memory"
+            android:name=".ActivityOnboarding"
             >
         </activity>
         <activity android:name=".MainActivity">
