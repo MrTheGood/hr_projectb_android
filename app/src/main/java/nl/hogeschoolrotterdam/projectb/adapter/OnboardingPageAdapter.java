@@ -27,9 +27,15 @@ public class OnboardingPageAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         switch (position) {
-            case 1:
+            case 0:
+                holder.circleTextView.setText("See Where You Have Been");
+                holder.bodyText.setText("Easily view all the places where you have been on the map page!");
+                holder.circleImageView.setImageResource(R.drawable.img_theme_red);
                 break;
-            case 2:
+            case 1:
+                holder.circleTextView.setText("Share Your Memories");
+                holder.bodyText.setText("Simply share your memories on WhatsApp, Telegram or Facebook!");
+                holder.circleImageView.setImageResource(R.drawable.img_theme_red);
                 break;
         }
     }
