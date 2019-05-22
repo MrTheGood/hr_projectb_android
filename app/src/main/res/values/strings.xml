@@ -15,6 +15,10 @@
     <!-- Strings -->
     <string name="str_enter_adress">Enter address</string>
     <string name="str_search">Search…</string>
+    <string name="str_onboarding_map">See Where You Have Been</string>
+    <string name="str_onboarding_map_description">Easily view all the places where you have been on the map page!</string>
+    <string name="str_onboarding_share">Share Your Memories</string>
+    <string name="str_onboarding_share_description">Simply share your memories on WhatsApp, Telegram or Facebook!</string>
 
     <!--Drawer-->
     <string name="open">open</string>

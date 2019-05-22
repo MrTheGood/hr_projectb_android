@@ -1,5 +1,6 @@
 package nl.hogeschoolrotterdam.projectb.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +27,17 @@ public class OnboardingPageAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
         switch (position) {
             case 0:
-                holder.circleTextView.setText("See Where You Have Been");
-                holder.bodyText.setText("Easily view all the places where you have been on the map page!");
+                holder.circleTextView.setText(context.getString(R.string.str_onboarding_map));
+                holder.bodyText.setText(R.string.str_onboarding_map_description);
                 holder.circleImageView.setImageResource(R.drawable.img_onboarding_map);
                 holder.circleImageView.setPadding(0, 0, 0, 0);
                 break;
             case 1:
-                holder.circleTextView.setText("Share Your Memories");
-                holder.bodyText.setText("Simply share your memories on WhatsApp, Telegram or Facebook!");
+                holder.circleTextView.setText(context.getString(R.string.str_onboarding_share));
+                holder.bodyText.setText(R.string.str_onboarding_share_description);
                 holder.circleImageView.setBackgroundResource(R.drawable.background_onboarding_share);
                 holder.circleImageView.setImageResource(R.drawable.img_onboarding_share);
                 holder.circleImageView.setPadding(0, 16, 32, 16);
@@ -44,12 +46,14 @@ public class OnboardingPageAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View itemView;
         CircleTextView circleTextView;
         ImageView circleImageView;
         TextView bodyText;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.itemView = itemView;
             circleTextView = itemView.findViewById(R.id.circleText);
             circleImageView = itemView.findViewById(R.id.circleImageView);
             bodyText = itemView.findViewById(R.id.bodyText);
