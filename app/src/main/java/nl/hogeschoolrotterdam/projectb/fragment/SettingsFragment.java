@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import nl.hogeschoolrotterdam.projectb.OnboardingActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.WhibApp;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
@@ -46,6 +47,7 @@ public class SettingsFragment extends Fragment {
         previewImage = getView().findViewById(R.id.theme_preview);
         Button applyButton = getView().findViewById(R.id.theme_apply);
         Button privacyPolicyButton = getView().findViewById(R.id.privacy_policy);
+        Button restartTutorialButton = getView().findViewById(R.id.restart_tutorial);
 
         privacyPolicyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +55,12 @@ public class SettingsFragment extends Fragment {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(getString(R.string.url_privacy_policy)));
                 startActivity(i);
+            }
+        });
+        restartTutorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), OnboardingActivity.class));
             }
         });
         applyButton.setOnClickListener(new View.OnClickListener() {

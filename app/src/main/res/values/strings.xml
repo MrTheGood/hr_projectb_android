@@ -50,6 +50,7 @@
     <string name="action_next">Next</string>
     <string name="action_finish">Finish</string>
     <string name="action_skip">Skip</string>
+    <string name="action_restart_tutorial">Restart Tutorial</string>
 
 
     <!-- hint -->
