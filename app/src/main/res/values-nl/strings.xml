@@ -27,7 +27,6 @@
     <string name="dialog_remove_image_description">Weet u zeker dat u deze media wilt weghalen?</string>
     <string name="dialog_discard_editmemory_title">Verwijder Memory</string>
     <string name="dialog_discard_editmemory_description">Weet u zeker dat u het bewerken of creëren van deze Memory wilt annuleren. Deze actie kan niet ongedaan worden. </string>
-    <string name="dialog_discard_editmemory_pos_btn">Verwijderen</string>
 
     <!-- Action -->
     <string name="action_gallery">Galerij</string>
@@ -35,6 +34,7 @@
     <string name="action_video">Video</string>
     <string name="action_image">Foto</string>
     <string name="action_remove">Verwijder</string>
+    <string name="action_discard">Verwijder</string>
     <string name="action_cancel">Annuleren</string>
     <string name="action_save">Opslaan</string>
     <string name="action_ok">Snap \'m!</string>

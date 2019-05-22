@@ -15,14 +15,13 @@
     <!-- Strings -->
     <string name="str_enter_adress">Enter address</string>
     <string name="str_search">Search…</string>
-    
+
     <!--Drawer-->
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="drawer_filter_location">location</string>
     <string name="drawer_filter_date">date</string>
     <string name="drawer_filter_marker">marker</string>
-
 
 
     <!-- Alert dialog -->
@@ -33,8 +32,6 @@
     <string name="dialog_remove_image_description">Are you sure you want to change this media?</string>
     <string name="dialog_discard_editmemory_title">Discard Memory</string>
     <string name="dialog_discard_editmemory_description">Are you sure you want to cancel editing or creating this memory? This action cannot be undone.</string>
-    <string name="dialog_discard_editmemory_pos_btn">Discard</string>
-    <string name="dialog_discard_editmemory_neg_btn">Cancel</string>
 
 
     <!-- Action -->
@@ -44,6 +41,7 @@
     <string name="action_image">Image</string>
     <string name="action_remove">Remove</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_discard">Discard</string>
     <string name="action_save">Save</string>
     <string name="action_ok">Got it!</string>
     <string name="action_apply_theme">Apply Theme</string>

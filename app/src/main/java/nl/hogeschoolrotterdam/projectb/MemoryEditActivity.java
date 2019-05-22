@@ -345,7 +345,7 @@ public class MemoryEditActivity extends AppCompatActivity {
         new AlertDialog.Builder(MemoryEditActivity.this)
                 .setTitle(R.string.dialog_discard_editmemory_title)
                 .setMessage(R.string.dialog_discard_editmemory_description)
-                .setPositiveButton(R.string.dialog_discard_editmemory_pos_btn, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.action_discard, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MemoryEditActivity.super.onBackPressed();
