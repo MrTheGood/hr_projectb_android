@@ -12,12 +12,12 @@
         android:id="@+id/circleText"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:endColor="?colorSecondary"
+        app:endColor="?colorSecondaryVariant"
         app:layout_constraintTop_toTopOf="parent"
-        app:startColor="?colorPrimary"
+        app:startColor="?colorSecondary"
         app:text="Lorem ipsum"
-        app:textRadius="45"
-        app:textSize="20sp"
+        app:textRadius="110"
+        app:textSize="25sp"
         />
 
 
