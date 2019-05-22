@@ -77,7 +77,7 @@ public class ShareFragment extends BottomSheetDialogFragment {
                     if (m instanceof Image)
                         shareType = shareType.equals("video/*") ? "*/*" : "image/*";
                     if (m instanceof Video)
-                        shareType = shareType.equals("image/*") ? "*/*" : "video/*";//todo: apparently this does not work
+                        shareType = shareType.equals("image/*") ? "*/*" : "video/*";
                 }
 
                 // Set
@@ -86,8 +86,6 @@ public class ShareFragment extends BottomSheetDialogFragment {
                 sendIntent.putExtra(Intent.EXTRA_TITLE, memory.getTitle());
                 sendIntent.putExtra(Intent.EXTRA_SUBJECT, memory.getTitle());
                 sendIntent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + ":\n" + memory.getDescription());
-                //todo: extra date
-                //todo: extra location
 
                 // Add all images and videos to the intent
                 if (media.size() > 0) {
@@ -116,7 +114,7 @@ public class ShareFragment extends BottomSheetDialogFragment {
                     intent.putExtra(Intent.EXTRA_TEXT, memory.getTitle() + ":\n" + memory.getDescription());
 
                     Log.wtf("package", "packageName:" + packageName);
-                    if (packageName.contains("facebook") ||//todo: remove, facebook will only be done with their sdk
+                    if (packageName.contains("facebook") ||
                             packageName.equals("com.whatsapp") ||
                             packageName.contains("telegram") ||
                             packageName.equals("org.thunderdog.challegram") || // telegramX
