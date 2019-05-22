@@ -47,6 +47,9 @@
     <string name="action_apply_theme">Apply Theme</string>
     <string name="action_change_memory_location">Change location</string>
     <string name="action_privacy_policy">Privacy Policy</string>
+    <string name="action_next">Next</string>
+    <string name="action_finish">Finish</string>
+    <string name="action_skip">Skip</string>
 
 
     <!-- hint -->
