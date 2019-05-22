@@ -12,12 +12,10 @@ All memories are stored locally on your phone and are not sent to any servers to
 * Play services
 * Firebase
 * net.alhazmy13.MediaPicker
+* https://github.com/clapp-app/clapp_android/blob/master/app/src/main/java/eu/insertcode/clapp/widgets/CircleTextView.kt
 
 # How to contribute
-[Contributing](./CONTRIBUTING.md)    
-
-
-* https://github.com/clapp-app/clapp_android/blob/master/app/src/main/java/eu/insertcode/clapp/widgets/CircleTextView.kt
+[Contributing](./CONTRIBUTING.md)
 
 # Members:
 - Maarten
