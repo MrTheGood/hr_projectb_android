@@ -7,16 +7,14 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -41,6 +39,7 @@ import java.util.List;
  * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Wesley de Man, Maarten de Goede all rights reserved.
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
+    private static float MIN_TOOLTIP_DISTANCE_MOVED = 50;
     private GoogleMap mGoogleMap;
     private MapView mMapView;
     private EditText mSearchText;
@@ -63,6 +62,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 closeTooltip(true);
             }
         });
+        setupTooltipFling();
 
 
         if (mMapView != null)
@@ -78,16 +78,40 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     .setInterpolator(new AccelerateInterpolator())
                     .setDuration(300)
                     .setListener(new SimpleAnimatorListener() {
-                                     @Override
-                                     public void onAnimationEnd(Animator animation) {
-                                         closeTooltip(false);
-                                     }
-                                 }
-                    )
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            closeTooltip(false);
+                        }
+                    })
                     .start();
         } else {
             tooltip.setVisibility(View.GONE);
         }
+    }
+
+    private void setupTooltipFling() {
+        final GestureDetectorCompat gestureDetector = new GestureDetectorCompat(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent downEvent, MotionEvent moveEvent, float velocityX, float velocityY) {
+                float distanceX = Math.abs(downEvent.getRawX() - moveEvent.getRawX());
+
+                if (distanceX > MIN_TOOLTIP_DISTANCE_MOVED) {
+                    closeTooltip(true);
+                }
+                return true;
+            }
+        });
+        tooltip.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
     }
 
     @Override
