@@ -342,10 +342,20 @@ public class MemoryEditActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (isEditMode)
-            AnalyticsUtil.cancelEditContent(this);
-        else
-            AnalyticsUtil.cancelAddContent(this);
+        new AlertDialog.Builder(MemoryEditActivity.this)
+                .setTitle(R.string.dialog_discard_editmemory_title)
+                .setMessage(R.string.dialog_discard_editmemory_description)
+                .setPositiveButton(R.string.dialog_discard_editmemory_pos_btn, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MemoryEditActivity.super.onBackPressed();
+                        if (isEditMode)
+                            AnalyticsUtil.cancelEditContent(MemoryEditActivity.this);
+                        else
+                            AnalyticsUtil.cancelAddContent(MemoryEditActivity.this);
+                    }
+                })
+                .setNegativeButton(R.string.action_cancel, null)
+                .show();
     }
 }

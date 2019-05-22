@@ -25,6 +25,9 @@
     <string name="dialog_add_media_camera_description">Hoe wilt u de media vastleggen?</string>
     <string name="dialog_remove_image">Verwijder media</string>
     <string name="dialog_remove_image_description">Weet u zeker dat u deze media wilt weghalen?</string>
+    <string name="dialog_discard_editmemory_title">Verwijder Memory</string>
+    <string name="dialog_discard_editmemory_description">Weet u zeker dat u het bewerken of creëren van deze Memory wilt annuleren. Deze actie kan niet ongedaan worden. </string>
+    <string name="dialog_discard_editmemory_pos_btn">Verwijderen</string>
 
     <!-- Action -->
     <string name="action_gallery">Galerij</string>

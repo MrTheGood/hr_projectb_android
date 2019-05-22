@@ -195,5 +195,4 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
 
     }
 
-
 }
