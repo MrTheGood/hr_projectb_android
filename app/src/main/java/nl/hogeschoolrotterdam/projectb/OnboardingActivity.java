@@ -33,7 +33,7 @@ public class OnboardingActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 int pagesCount = onboardingPager.getAdapter().getItemCount();
-                if (position == pagesCount) {
+                if (position + 1 == pagesCount) {
                     skipButton.setVisibility(View.GONE);
                     nextButton.setText(R.string.action_finish);
                 } else {
@@ -46,7 +46,8 @@ public class OnboardingActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onboardingPager.getCurrentItem() == onboardingPager.getAdapter().getItemCount())
+                int pagesCount = onboardingPager.getAdapter().getItemCount();
+                if (onboardingPager.getCurrentItem() + 1 == pagesCount)
                     finishOnboarding();
                 else onboardingPager.setCurrentItem(onboardingPager.getCurrentItem() + 1);
             }
