@@ -16,6 +16,9 @@ All memories are stored locally on your phone and are not sent to any servers to
 # How to contribute
 [Contributing](./CONTRIBUTING.md)    
 
+
+* https://github.com/clapp-app/clapp_android/blob/master/app/src/main/java/eu/insertcode/clapp/widgets/CircleTextView.kt
+
 # Members:
 - Maarten
 - Hicham el Marzgioui
