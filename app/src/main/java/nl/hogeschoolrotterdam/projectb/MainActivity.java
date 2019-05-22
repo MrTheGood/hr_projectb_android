@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         boolean hasShownTutorial = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("hasShownTutorial", false);
         if (!hasShownTutorial) {
-            startActivity(new Intent(this, ActivityOnboarding.class));
+            startActivity(new Intent(this, OnboardingActivity.class));
         }
 
         // This connects the bottom navigation bar with the navigation graph,
