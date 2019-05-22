@@ -31,11 +31,14 @@ public class OnboardingPageAdapter extends RecyclerView.Adapter<ViewHolder> {
                 holder.circleTextView.setText("See Where You Have Been");
                 holder.bodyText.setText("Easily view all the places where you have been on the map page!");
                 holder.circleImageView.setImageResource(R.drawable.img_theme_red);
+                holder.circleImageView.setPadding(0, 0, 0, 0);
                 break;
             case 1:
                 holder.circleTextView.setText("Share Your Memories");
                 holder.bodyText.setText("Simply share your memories on WhatsApp, Telegram or Facebook!");
-                holder.circleImageView.setImageResource(R.drawable.img_theme_red);
+                holder.circleImageView.setBackgroundResource(R.drawable.background_onboarding_share);
+                holder.circleImageView.setImageResource(R.drawable.img_onboarding_share);
+                holder.circleImageView.setPadding(0, 16, 32, 16);
                 break;
         }
     }
