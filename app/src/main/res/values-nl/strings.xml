@@ -10,6 +10,10 @@
     <!-- Strings -->
     <string name="str_enter_adress">Adres invullen</string>
     <string name="str_search">Zoeken…</string>
+    <string name="str_onboarding_map">Zie Waar Je Bent Geweest</string>
+    <string name="str_onboarding_map_description">Bekijk makkelijk alle plekken waar u bent geweest op de kaart!</string>
+    <string name="str_onboarding_share">Deel Je Herinneringen</string>
+    <string name="str_onboarding_share_description">Deel gemakkelijk uw herinneringen via WhatsApp, Telegram of Facebook!</string>
 
     <!--Drawer-->
     <string name="open">open</string>
