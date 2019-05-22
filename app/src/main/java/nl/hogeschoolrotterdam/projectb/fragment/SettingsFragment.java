@@ -27,6 +27,8 @@ public class SettingsFragment extends Fragment {
     private static final int DARK = 1;
     private static final int LIGHT_PURPLE = 2;
     private static final int DARK_PURPLE = 3;
+    private static final int LIGHT_RED = 4;
+    private static final int DARK_RED = 5;
     private Spinner spinner;
     private ImageView previewImage;
 
@@ -83,6 +85,14 @@ public class SettingsFragment extends Fragment {
                 spinner.setSelection(DARK_PURPLE, true);
                 AnalyticsUtil.changeTheme(getContext(), "AppTheme_Dark_Purple");
                 break;
+            case R.style.AppTheme_Dark_Red:
+                spinner.setSelection(DARK_RED, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Dark_Red");
+                break;
+            case R.style.AppTheme_Light_Red:
+                spinner.setSelection(LIGHT_RED, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Light_Red");
+                break;
         }
     }
 
@@ -99,6 +109,12 @@ public class SettingsFragment extends Fragment {
                 break;
             case DARK_PURPLE:
                 previewImage.setImageResource(R.drawable.img_theme_purple_dark);
+                break;
+            case DARK_RED:
+                previewImage.setImageResource(R.drawable.img_theme_red_dark);
+                break;
+            case LIGHT_RED:
+                previewImage.setImageResource(R.drawable.img_theme_red);
                 break;
         }
     }
@@ -119,6 +135,14 @@ public class SettingsFragment extends Fragment {
                 break;
             case DARK_PURPLE:
                 WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Dark_Purple, true);
+                requireActivity().recreate();
+                break;
+            case LIGHT_RED:
+                WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Light_Red, false);
+                requireActivity().recreate();
+                break;
+            case DARK_RED:
+                WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Dark_Red, true);
                 requireActivity().recreate();
                 break;
         }
