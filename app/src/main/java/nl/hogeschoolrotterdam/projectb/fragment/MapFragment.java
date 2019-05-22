@@ -1,11 +1,7 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -19,10 +15,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
@@ -57,8 +55,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 i.putExtra("location", latLng);
                 startActivity(i);
                 AnalyticsUtil.addContent(getContext(), "Map");
-
-
             }
         });
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
