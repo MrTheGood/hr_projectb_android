@@ -44,6 +44,7 @@ public class SettingsFragment extends Fragment {
         final CheckBox enableCrashlyticsBox = getView().findViewById(R.id.enable_crashlytics);
         Button applyButton = getView().findViewById(R.id.settings_apply);
         Button privacyPolicyButton = getView().findViewById(R.id.privacy_policy);
+        Button openSourceButton = getView().findViewById(R.id.open_source_code);
 
         enableAnalyticsBox.setChecked(!WhibApp.getInstance().isAnalyticsDisabled());
         enableCrashlyticsBox.setChecked(!WhibApp.getInstance().isCrashlyticsDisabled());
@@ -54,6 +55,14 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(getString(R.string.url_privacy_policy)));
+                startActivity(i);
+            }
+        });
+        openSourceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(getString(R.string.url_github)));
                 startActivity(i);
             }
         });
