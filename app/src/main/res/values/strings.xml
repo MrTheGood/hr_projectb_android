@@ -62,4 +62,7 @@
     <string name="error_could_not_set_current_location">Could not set memory location to current.</string>
     <string name="warn_enable_permissions">Enable location permissions</string>
     <string name="warn_enable_permissions_message">WHIB needs to know your location to save memories near you!</string>
+    <string name="string_delete_memory">Delete Memory</string>
+    <string name="string_delete_memory_description">Are you sure you want to delete this memory? This action cannot be undone.</string>
+    <string name="action_delete">Delete</string>
 </resources>

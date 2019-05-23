@@ -54,5 +54,8 @@
     <string name="error_description_too_short">Omschrijving mag niet korter zijn dan 2 characters.</string>
     <string name="error_could_not_set_current_location">Kon de memory locatie niet op de huidige locatie zetten.</string>
     <string name="warn_enable_permissions">Sta locatie toe</string>
-    <string name="warn_enable_permissions_message">WHIB moet je locatie weten om memories op je locatie op te slaan!</string>
+    <string name="warn_enable_permissions_message">WHIB moet uw locatie weten om memories op uw locatie op te slaan!</string>
+    <string name="string_delete_memory">Verwijder Herinnering</string>
+    <string name="string_delete_memory_description">Weet u zeker dat u de herinnering wilt verwijderen? Dit kan niet ongedaan worden</string>
+    <string name="action_delete">Verwijder</string>
 </resources>
