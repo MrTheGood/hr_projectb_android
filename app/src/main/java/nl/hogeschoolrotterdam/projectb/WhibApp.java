@@ -8,6 +8,10 @@ import android.view.MenuItem;
 import androidx.annotation.StyleRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
+import static com.crashlytics.android.core.CrashlyticsCore.Builder;
 
 
 /**
@@ -18,6 +22,8 @@ public class WhibApp extends Application {
     private static WhibApp instance;
     private int themeId = R.style.AppTheme_Light;
     private boolean isDarkTheme = false;
+    private boolean crashlyticsDisabled = false;
+    private boolean analyticsDisabled = false;
 
     public static WhibApp getInstance() {
         return instance;
@@ -27,6 +33,11 @@ public class WhibApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+
+        analyticsDisabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("disableAnalytics", false);
+        crashlyticsDisabled = BuildConfig.DEBUG || PreferenceManager.getDefaultSharedPreferences(this).getBoolean("disableCrashlytics", false);
+        Fabric.with(this, new Crashlytics.Builder().core(new Builder().disabled(crashlyticsDisabled).build()).build());
 
         themeId = PreferenceManager.getDefaultSharedPreferences(this).getInt("themeId", R.style.AppTheme_Light);
         isDarkTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isDarkTheme", false);
@@ -69,5 +80,30 @@ public class WhibApp extends Application {
                 .edit()
                 .putBoolean("isDarkTheme", isDarkTheme)
                 .apply();
+    }
+
+    public boolean isAnalyticsDisabled() {
+        return analyticsDisabled;
+    }
+
+    public void setAnalyticsDisabled(boolean value) {
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putBoolean("disableAnalytics", value)
+                .apply();
+        analyticsDisabled = value;
+    }
+
+    public boolean isCrashlyticsDisabled() {
+        return crashlyticsDisabled;
+    }
+
+    public void setCrashlyticsDisabled(boolean value) {
+        Fabric.with(this, new Crashlytics.Builder().core(new Builder().disabled(value).build()).build());
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putBoolean("disableCrashlytics", value)
+                .apply();
+        crashlyticsDisabled = value;
     }
 }

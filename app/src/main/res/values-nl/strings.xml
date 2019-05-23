@@ -10,6 +10,8 @@
     <!-- Strings -->
     <string name="str_enter_adress">Adres invullen</string>
     <string name="str_search">Zoeken…</string>
+    <string name="string_enable_analytics">Stuur anonieme gebruik statistiek</string>
+    <string name="string_enable_crashlytics">Stuur anonieme crash logs</string>
 
     <!--Drawer-->
     <string name="open">open</string>
@@ -38,9 +40,9 @@
     <string name="action_cancel">Annuleren</string>
     <string name="action_save">Opslaan</string>
     <string name="action_ok">Snap \'m!</string>
-    <string name="action_apply_theme">Thema toepassen</string>
+    <string name="action_apply_settings">Instellingen toepassen</string>
     <string name="action_change_memory_location">Locatie veranderen</string>
-    <string name="action_privacy_policy">Privacy Policy</string>
+    <string name="action_privacy_policy">Bekijk Privacy Policy</string>
 
 
 
@@ -55,4 +57,7 @@
     <string name="error_could_not_set_current_location">Kon de memory locatie niet op de huidige locatie zetten.</string>
     <string name="warn_enable_permissions">Sta locatie toe</string>
     <string name="warn_enable_permissions_message">WHIB moet je locatie weten om memories op je locatie op te slaan!</string>
+
+    <!-- Other -->
+    <string name="desc_theme_preview">Theme Preview</string>
 </resources>

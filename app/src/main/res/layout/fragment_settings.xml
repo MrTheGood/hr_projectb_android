@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
     <androidx.appcompat.widget.Toolbar
@@ -17,56 +18,91 @@
         app:title="@string/menu_settings"
         />
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/theme_selector"
-        style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:entries="@array/themes"
-        android:spinnerMode="dropdown"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:listitem="@layout/support_simple_spinner_dropdown_item"
-        />
-
-    <ImageView
-        android:id="@+id/theme_preview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="#8ddd"
-        android:scaleType="centerInside"
-        app:layout_constraintDimensionRatio="16:9"
-        app:layout_constraintTop_toBottomOf="@id/theme_selector"
-        tools:src="@tools:sample/backgrounds/scenic"
-        />
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/theme_apply"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_apply_theme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/theme_preview"
-        />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/theme_selector"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:entries="@array/themes"
+                android:spinnerMode="dropdown"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/support_simple_spinner_dropdown_item"
+                />
+
+            <ImageView
+                android:id="@+id/theme_preview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="#8ddd"
+                android:contentDescription="@string/desc_theme_preview"
+                android:scaleType="centerInside"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintTop_toBottomOf="@id/theme_selector"
+                tools:src="@tools:sample/backgrounds/scenic"
+                />
+
+            <CheckBox
+                android:id="@+id/enable_analytics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/string_enable_analytics"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/theme_preview"
+                />
+
+            <CheckBox
+                android:id="@+id/enable_crashlytics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/string_enable_crashlytics"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/enable_analytics"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settings_apply"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_apply_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/enable_crashlytics"
+                />
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/privacy_policy"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="@string/action_privacy_policy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/theme_apply"
-        />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/privacy_policy"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="64dp"
+                android:text="@string/action_privacy_policy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_apply"
+                />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>
