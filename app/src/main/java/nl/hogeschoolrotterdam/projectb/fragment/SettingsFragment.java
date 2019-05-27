@@ -7,13 +7,11 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import nl.hogeschoolrotterdam.projectb.BuildConfig;
 import nl.hogeschoolrotterdam.projectb.OnboardingActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.WhibApp;
@@ -46,15 +44,30 @@ public class SettingsFragment extends Fragment {
 
         spinner = getView().findViewById(R.id.theme_selector);
         previewImage = getView().findViewById(R.id.theme_preview);
-        Button applyButton = getView().findViewById(R.id.theme_apply);
+        final CheckBox enableAnalyticsBox = getView().findViewById(R.id.enable_analytics);
+        final CheckBox enableCrashlyticsBox = getView().findViewById(R.id.enable_crashlytics);
+        Button applyButton = getView().findViewById(R.id.settings_apply);
         Button privacyPolicyButton = getView().findViewById(R.id.privacy_policy);
         Button restartTutorialButton = getView().findViewById(R.id.restart_tutorial);
+        Button openSourceButton = getView().findViewById(R.id.open_source_code);
+
+        enableAnalyticsBox.setChecked(!WhibApp.getInstance().isAnalyticsDisabled());
+        enableCrashlyticsBox.setChecked(!WhibApp.getInstance().isCrashlyticsDisabled());
+        enableCrashlyticsBox.setEnabled(!BuildConfig.DEBUG);
 
         privacyPolicyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(getString(R.string.url_privacy_policy)));
+                startActivity(i);
+            }
+        });
+        openSourceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(getString(R.string.url_github)));
                 startActivity(i);
             }
         });
@@ -69,6 +82,14 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 applyTheme();
+
+                boolean analyticsDisabled = !enableAnalyticsBox.isChecked();
+                WhibApp.getInstance().setAnalyticsDisabled(analyticsDisabled);
+                AnalyticsUtil.disableAnalytics(getContext(), analyticsDisabled);
+
+                boolean crashlyticsDisabled = !enableCrashlyticsBox.isChecked();
+                WhibApp.getInstance().setCrashlyticsDisabled(crashlyticsDisabled);
+                AnalyticsUtil.disableCrashlytics(getContext(), crashlyticsDisabled);
             }
         });
         spinner.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
