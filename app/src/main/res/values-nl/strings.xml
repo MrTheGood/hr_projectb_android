@@ -61,4 +61,7 @@
 
     <!-- Other -->
     <string name="desc_theme_preview">Theme Preview</string>
+    <string name="string_delete_memory">Verwijder Herinnering</string>
+    <string name="string_delete_memory_description">Weet u zeker dat u de herinnering wilt verwijderen? Dit kan niet ongedaan worden</string>
+    <string name="action_delete">Verwijder</string>
 </resources>

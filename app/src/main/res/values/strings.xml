@@ -69,4 +69,7 @@
 
     <!-- Other -->
     <string name="desc_theme_preview">Theme Preview</string>
+    <string name="string_delete_memory">Delete Memory</string>
+    <string name="string_delete_memory_description">Are you sure you want to delete this memory? This action cannot be undone.</string>
+    <string name="action_delete">Delete</string>
 </resources>
