@@ -1,6 +1,7 @@
 package nl.hogeschoolrotterdam.projectb;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
+import com.rd.PageIndicatorView2;
 import nl.hogeschoolrotterdam.projectb.adapter.OnboardingPageAdapter;
 
 /**
@@ -32,6 +34,8 @@ public class OnboardingActivity extends AppCompatActivity {
         onboardingPager = findViewById(R.id.onboarding_pager);
         nextButton = findViewById(R.id.onboarding_next);
         skipButton = findViewById(R.id.onboarding_skip);
+        PageIndicatorView2 indicator = findViewById(R.id.onboarding_indicator);
+        indicator.setUnselectedColor(WhibApp.getInstance().isDarkTheme() ? Color.parseColor("#66DDDDDD") : Color.parseColor("#66333333"));
 
 
         onboardingPager.setAdapter(new OnboardingPageAdapter());
@@ -40,7 +44,7 @@ public class OnboardingActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 int pagesCount = onboardingPager.getAdapter().getItemCount();
                 if (position + 1 == pagesCount) {
-                    skipButton.setVisibility(View.GONE);
+                    skipButton.setVisibility(View.INVISIBLE);
                     nextButton.setText(R.string.action_finish);
                 } else {
                     skipButton.setVisibility(View.VISIBLE);

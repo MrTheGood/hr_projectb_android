@@ -57,9 +57,11 @@ dependencies {
 
     // other
     implementation 'net.alhazmy13.MediaPicker:libary:2.4.4'
+    implementation 'com.github.adrielcafe:PageIndicatorView:1.0.6'
 }
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 apply plugin: 'com.google.gms.google-services'

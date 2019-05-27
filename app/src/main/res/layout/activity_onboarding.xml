@@ -24,6 +24,25 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
+    <com.rd.PageIndicatorView2
+        android:id="@+id/onboarding_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/onboarding_next"
+        app:layout_constraintEnd_toStartOf="@id/onboarding_next"
+        app:layout_constraintStart_toEndOf="@id/onboarding_skip"
+        app:layout_constraintTop_toTopOf="@id/onboarding_next"
+        app:piv_animationType="drop"
+        app:piv_dynamicCount="true"
+        app:piv_interactiveAnimation="true"
+        app:piv_padding="6dp"
+        app:piv_radius="4dp"
+        app:piv_selectedColor="?colorPrimary"
+        app:piv_unselectedColor="?colorOnSurface"
+        app:piv_viewPager="@id/onboarding_pager"
+        />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/onboarding_next"
         style="@style/Widget.MaterialComponents.Button"
