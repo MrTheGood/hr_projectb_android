@@ -18,6 +18,11 @@
     <string name="str_search">Search…</string>
     <string name="string_enable_analytics">Send anonymous usage statistics</string>
     <string name="string_enable_crashlytics">Send anonymous crash logs</string>
+    <string name="str_onboarding_map">See Where You Have Been</string>
+    <string name="str_onboarding_map_description">Easily view all the places where you have been on the map page!</string>
+    <string name="str_onboarding_share">Share Your Memories</string>
+    <string name="str_onboarding_share_description">Simply share your memories on WhatsApp, Telegram or Facebook!</string>
+    <string name="str_tutorial_longpress">Long press to add!</string>
 
     <!--Drawer-->
     <string name="open">open</string>
@@ -25,7 +30,6 @@
     <string name="drawer_filter_location">location</string>
     <string name="drawer_filter_date">date</string>
     <string name="drawer_filter_marker">marker</string>
-
 
 
     <!-- Alert dialog -->
@@ -36,8 +40,6 @@
     <string name="dialog_remove_image_description">Are you sure you want to change this media?</string>
     <string name="dialog_discard_editmemory_title">Discard Memory</string>
     <string name="dialog_discard_editmemory_description">Are you sure you want to cancel editing or creating this memory? This action cannot be undone.</string>
-    <string name="dialog_discard_editmemory_pos_btn">Discard</string>
-    <string name="dialog_discard_editmemory_neg_btn">Cancel</string>
 
 
     <!-- Action -->
@@ -47,12 +49,17 @@
     <string name="action_image">Image</string>
     <string name="action_remove">Remove</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_discard">Discard</string>
     <string name="action_save">Save</string>
     <string name="action_ok">Got it!</string>
     <string name="action_apply_settings">Apply Settings</string>
     <string name="action_change_memory_location">Change location</string>
     <string name="action_privacy_policy">View Privacy Policy</string>
     <string name="action_open_source">View Code on Github</string>
+    <string name="action_next">Next</string>
+    <string name="action_finish">Finish</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_restart_tutorial">Restart Tutorial</string>
 
 
     <!-- hint -->

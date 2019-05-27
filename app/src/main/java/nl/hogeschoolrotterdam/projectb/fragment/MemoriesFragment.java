@@ -1,8 +1,6 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -16,15 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import nl.hogeschoolrotterdam.projectb.ConstantManager;
-import nl.hogeschoolrotterdam.projectb.ExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.adapter.ExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.model.DataItem;
 import nl.hogeschoolrotterdam.projectb.model.SubCategoryItem;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
+import nl.hogeschoolrotterdam.projectb.util.ConstantManager;
 
 import java.util.*;
 

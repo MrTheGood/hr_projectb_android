@@ -60,6 +60,10 @@ public class WhibApp extends Application {
         }
     }
 
+    public boolean isDarkTheme() {
+        return isDarkTheme;
+    }
+
     /**
      * Workaround for a bug in MaterialComponents
      */

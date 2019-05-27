@@ -1,4 +1,4 @@
-package nl.hogeschoolrotterdam.projectb;
+package nl.hogeschoolrotterdam.projectb.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

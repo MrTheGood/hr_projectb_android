@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 android {
@@ -38,6 +40,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
     implementation "androidx.viewpager2:viewpager2:1.0.0-alpha04"
+    implementation "androidx.core:core-ktx:1.0.2"
 
     // play
     implementation 'com.google.android.gms:play-services-location:16.0.0'
@@ -54,9 +57,11 @@ dependencies {
 
     // other
     implementation 'net.alhazmy13.MediaPicker:libary:2.4.4'
+    implementation 'com.github.adrielcafe:PageIndicatorView:1.0.6'
 }
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 apply plugin: 'com.google.gms.google-services'
