@@ -270,10 +270,11 @@ public class Memory {
     }
 
     public BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_x_map_pointer);
-        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_blue_map_pointer);
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 8, vectorDrawable.getIntrinsicHeight() + 4);
+        background.setBounds((background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth())/2 ,( background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) /3
+                , background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        vectorDrawable.setBounds(55, 35, vectorDrawable.getIntrinsicWidth() + 55, vectorDrawable.getIntrinsicHeight() + 25);
         Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         background.draw(canvas);
