@@ -435,7 +435,7 @@ public class MemoriesFragment extends Fragment {
                     enableActionMode(pos);
                 } else {
                     // read the inbox which removes bold from the row
-                    Memory  = adapter.getItem(pos);
+                    Memory memory = adapter.getItem(pos);
                 }
             }
 
