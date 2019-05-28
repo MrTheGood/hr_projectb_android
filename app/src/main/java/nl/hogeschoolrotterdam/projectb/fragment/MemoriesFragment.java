@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -38,6 +39,13 @@ public class MemoriesFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
+    private RecyclerView recyclerView;
+    //private AdapterListInbox mAdapter;
+    private ActionModeCallback actionModeCallback;
+    private ActionMode actionMode;
+    private Toolbar toolbar;
+    private List<Memory> items = new ArrayList<>();
+
 
     @Nullable
     @Override
@@ -68,6 +76,8 @@ public class MemoriesFragment extends Fragment {
         ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btn = view.findViewById(R.id.btn);
+
+        //initComponent();
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -323,6 +333,124 @@ public class MemoriesFragment extends Fragment {
         adapter.setData(filteredlist);
         AnalyticsUtil.search(getContext());
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Mijn nieuwe shit code
+
+
+    private void enableActionMode(int position) {
+        if (actionMode == null) {
+            actionMode = startSupportActionMode(actionModeCallback);
+        }
+        toggleSelection(position);
+    }
+
+    private void toggleSelection(int position) {
+        adapter.toggleSelection(position);
+        int count = adapter.getSelectedItemCount();
+
+        if (count == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(String.valueOf(count));
+            actionMode.invalidate();
+        }
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int id = item.getItemId();
+            if (id == R.id.action_delete) {
+                deleteInboxes();
+                mode.finish();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            adapter.clearSelections();
+            actionMode = null;
+        }
+    }
+
+    private void deleteInboxes() {
+        List<Integer> selectedItemPositions = adapter.getSelectedItems();
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+            adapter.removeData(selectedItemPositions.get(i));
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_memory_listsort, menu);
+        return true;
+    }
+    */
+
+    private void initComponent() {
+        RecyclerView recyclerView;
+        recyclerView = recyclerView.findViewById(recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
+
+        //set data and list adapter
+        adapter = new MemoriesAdapter(getActivity(), memories);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnClickListener(new MemoriesAdapter.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Memory obj, int pos) {
+                if (adapter.getSelectedItemCount() > 0) {
+                    enableActionMode(pos);
+                } else {
+                    // read the inbox which removes bold from the row
+                    Memory  = adapter.getItem(pos);
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, Memory obj, int pos) {
+                enableActionMode(pos);
+            }
+        });
+
+        actionModeCallback = new ActionModeCallback();
+
+    }
+
+
+
 }
 
 
