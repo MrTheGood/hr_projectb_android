@@ -131,17 +131,13 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         }
         switch (item.getItemId()) {
             case R.id.shareBtn:
-                //todo: implement facebook share library
-                //todo: make sure all shares work and filter out any not-working apps
-                //todo: share all content including date, images, videos, title, description
-
                 new ShareFragment(memory).show(getSupportFragmentManager(), "shareSheetDialog");
                 return true;
             case R.id.deleteBtn:
                 new AlertDialog.Builder(MemoryDetailActivity.this)
-                        .setTitle("Delete Memory")
-                        .setMessage("Are you sure you want to delete this memory? This action cannot be undone.")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.string_delete_memory))
+                        .setMessage(getString(R.string.string_delete_memory_description))
+                        .setPositiveButton(getString(R.string.action_delete), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 AnalyticsUtil.deleteContent(MemoryDetailActivity.this);
@@ -149,7 +145,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
                                 finish();
                             }
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(getString(R.string.action_cancel), null)
                         .show();
                 return true;
             case R.id.editBtn:

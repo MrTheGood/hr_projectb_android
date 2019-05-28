@@ -3,6 +3,7 @@ package nl.hogeschoolrotterdam.projectb.util;
 import android.content.Context;
 import android.os.Bundle;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import nl.hogeschoolrotterdam.projectb.WhibApp;
 
 /**
  * Created by maartendegoede on 30/04/2019.
@@ -39,6 +40,22 @@ public class AnalyticsUtil {
         logEvent(context, "add_content", bundle);
     }
 
+    public static void disableCrashlytics(Context context, boolean value) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_VARIANT, String.valueOf(value));
+
+        // executed even if analytics are disabled
+        FirebaseAnalytics.getInstance(context).logEvent("disable_crashlytics", bundle);
+    }
+
+    public static void disableAnalytics(Context context, boolean value) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_VARIANT, String.valueOf(value));
+
+        // executed even if analytics are disabled
+        FirebaseAnalytics.getInstance(context).logEvent("disable_analytics", bundle);
+    }
+
     public static void cancelEditContent(Context context) {
         logEvent(context, "cancel_edit_content", new Bundle());
     }
@@ -57,6 +74,7 @@ public class AnalyticsUtil {
     }
 
     private static void logEvent(Context context, String event, Bundle bundle) {
-        FirebaseAnalytics.getInstance(context).logEvent(event, bundle);
+        if (!WhibApp.getInstance().isAnalyticsDisabled())
+            FirebaseAnalytics.getInstance(context).logEvent(event, bundle);
     }
 }
