@@ -22,11 +22,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.MyItem;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleAnimatorListener;
@@ -46,12 +48,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private EditText mSearchText;
     private LatLng latLng;
     private View tooltip;
+    private ClusterManager<MyItem> clusterManager;
+    CameraPosition cameraPosition;
+    float zoomLevel;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-
         mSearchText = view.findViewById(R.id.input_search);
         mMapView = view.findViewById(R.id.map);
 
@@ -127,13 +132,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMapView.onResume();
             mMapView.getMapAsync(this);
         }
+        if (cameraPosition != null) {
+            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        cameraPosition = mGoogleMap.getCameraPosition();
+        zoomLevel = mGoogleMap.getCameraPosition().zoom;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(requireContext());
-
         mGoogleMap = googleMap;
+        clusterManager = new ClusterManager<>(getContext(),mGoogleMap);
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -171,6 +185,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     .snippet((String) memory.getDateText())
                     .icon(memory.bitmapDescriptorFromVector(getContext(), memory.getMemoryTypeIconId())));
             marker.setTag(memory.getId());
+
         }
         inity();
     }
