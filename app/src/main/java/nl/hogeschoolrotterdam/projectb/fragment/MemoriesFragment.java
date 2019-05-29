@@ -1,6 +1,8 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.*;
@@ -22,8 +24,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
-import nl.hogeschoolrotterdam.projectb.ConstantManager;
-import nl.hogeschoolrotterdam.projectb.ExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.ExpandableListAdapter;
@@ -408,22 +408,14 @@ public class MemoriesFragment extends Fragment {
                     }
                 });*/
 
-        Snackbar.make(coordinatorLayout, "This is a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("UNDO", new View.OnClickListener() {
+        Snackbar.make(coordinatorLayout,R.string.snackbar_description, Snackbar.LENGTH_LONG)
+                .setAction(R.string.snackbar_undo, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         for (Memory m : selectedMemories) {
                             Database.getInstance().addMemory(m);
                         }
-
                         adapter.setData(Database.getInstance().getMemories());
-
-                        Context context = getContext();
-                        CharSequence text = "Hello toast!";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
                     }
                 })
                 .setActionTextColor(Color.RED)
