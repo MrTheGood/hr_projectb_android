@@ -69,9 +69,10 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
             }
         });*/
 
-        holder.lyt_parent.setActivated(selected_items.get(position, false));
 
-        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setActivated(selected_items.get(position, false));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onClickListener == null) return;
@@ -79,7 +80,7 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
             }
         });
 
-        holder.lyt_parent.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (onClickListener == null) return false;
@@ -115,7 +116,7 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
             Textviewdate = itemView.findViewById(R.id.Textviewdate);
             lyt_checked = itemView.findViewById(R.id.lyt_checked);
             lyt_image = itemView.findViewById(R.id.lyt_image);
-            lyt_parent =  itemView.findViewById(R.id.lyt_parent);
+            lyt_parent = itemView.findViewById(R.id.lyt_parent);
         }
     }
 

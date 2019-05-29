@@ -353,13 +353,11 @@ public class MemoriesFragment extends Fragment {
             public void onItemClick(View view, Memory obj, int pos) {
                 if (adapter.getSelectedItemCount() > 0) {
                     enableActionMode(pos);
+                } else {
                     Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
                     intent.putExtra("EXTRA_SESSION_ID", obj.getId());
                     getContext().startActivity(intent);
                     AnalyticsUtil.selectContent(getContext(), "SearchOrList");
-                } else {
-                    // read the inbox which removes bold from the row
-                    Memory memory = adapter.getItem(pos);
                 }
             }
 
