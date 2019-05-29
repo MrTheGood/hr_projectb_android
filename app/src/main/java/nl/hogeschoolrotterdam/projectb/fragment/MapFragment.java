@@ -169,7 +169,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         for (Memory memory : Database.getInstance().getMemories()) {
             Marker marker = googleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle())
                     .snippet((String) memory.getDateText())
-                    .icon(memory.getTypeBitMap(getActivity())));
+                    .icon(memory.bitmapDescriptorFromVector(getContext(), memory.getMemoryTypeIconId())));
             marker.setTag(memory.getId());
         }
         inity();
