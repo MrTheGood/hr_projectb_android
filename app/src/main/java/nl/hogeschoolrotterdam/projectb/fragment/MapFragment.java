@@ -49,7 +49,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LatLng latLng;
     private View tooltip;
     private ClusterManager<MyItem> clusterManager;
-    private List<MyItem>items = new ArrayList<>();
     CameraPosition cameraPosition;
     float zoomLevel;
 
@@ -148,8 +147,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(requireContext());
         mGoogleMap = googleMap;
-        clusterManager = new ClusterManager<>(this.getContext(),mGoogleMap);
-        googleMap.setOnCameraChangeListener(clusterManager);
+        //cluster things
+        //clusterManager = new ClusterManager<>(this.getContext(),mGoogleMap);
+        //googleMap.setOnCameraChangeListener(clusterManager);
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -183,16 +183,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         for (Memory memory : Database.getInstance().getMemories()) {
+            if (memory.getMemoryTypeIconId() == R.drawable.ic_map_adefault){
+                Marker marker = googleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle())
+                        .snippet((String) memory.getDateText()));
+                marker.setTag(memory.getId());
+
+            }
+            else{
             Marker marker = googleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle())
                     .snippet((String) memory.getDateText())
                     .icon(memory.bitmapDescriptorFromVector(getContext(), memory.getMemoryTypeIconId())));
             marker.setTag(memory.getId());
-            MyItem myItem = new MyItem(memory.getLocation());
-            clusterManager.addItem(myItem);
-            clusterManager.cluster();
-
-
+            //cluster items
+            //MyItem myItem = new MyItem(memory.getLocation());
+            //clusterManager.addItem(myItem);
+       }
         }
+        //clusterManager.cluster();
         inity();
     }
 
