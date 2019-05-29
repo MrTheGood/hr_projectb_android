@@ -333,8 +333,6 @@ public class MemoriesFragment extends Fragment {
     }
 
 
-//Mijn nieuwe shit code
-
     private void enableActionMode(int position) {
         if (actionMode == null) {
             actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(actionModeCallback);
@@ -392,7 +390,7 @@ public class MemoriesFragment extends Fragment {
 
         }
 
-        Snackbar.make(coordinatorLayout,R.string.snackbar_description, Snackbar.LENGTH_LONG)
+        Snackbar.make(coordinatorLayout, R.string.snackbar_description, Snackbar.LENGTH_LONG)
                 .setAction(R.string.snackbar_undo, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

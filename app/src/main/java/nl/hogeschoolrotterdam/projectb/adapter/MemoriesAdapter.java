@@ -93,19 +93,6 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
         }
     }
 
-
-    //Nieuwe shit code
-    /*
-    private void displayImage(MemoriesViewholder holder, Memory inbox) {
-        if (inbox.image != null) {
-            holder.imageView.setImageResource(inbox.image);
-            holder.imageView.setColorFilter(null);
-        } else {
-            holder.imageView.setImageResource(R.drawable.shape_circle);
-            holder.imageView.setColorFilter(inbox.color);
-        }
-    }*/
-
     private void toggleCheckedIcon(MemoriesViewholder holder, int position) {
         if (selected_items.get(position, false)) {
             holder.imageView.setVisibility(View.INVISIBLE);
