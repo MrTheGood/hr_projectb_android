@@ -270,17 +270,29 @@ public class Memory {
     }
 
     public BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_x_map_pointer);
-        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable background = ContextCompat.getDrawable(context, getIconBackground());
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 8, vectorDrawable.getIntrinsicHeight() + 4);
+        background.setBounds((background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth())/2 ,( background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) /3
+                , background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        vectorDrawable.setBounds(55, 35, vectorDrawable.getIntrinsicWidth() + 55, vectorDrawable.getIntrinsicHeight() + 25);
         Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         background.draw(canvas);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+    public int getIconBackground(){
+        if (getMemoryType() <=10){
+            return R.drawable.ic_backround_red_pointer;
 
+        } else if (getMemoryType() >10 && getMemoryType() <=20){
+            return R.drawable.ic_backround_purple_pointer;
+                }
+        else if (getMemoryType() >20 && getMemoryType()<=30){
+            return R.drawable.ic_backround_orange_pointer;
+              }
+        else return R.drawable.ic_backround_blue_pointer;
+    }
     public String getYear() {
         Calendar c = Calendar.getInstance();
         c.setTime(getDate());
