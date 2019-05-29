@@ -16,7 +16,7 @@ import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import nl.hogeschoolrotterdam.projectb.adapter.ViewPagerAdapter;
+import nl.hogeschoolrotterdam.projectb.adapter.MediaPagerAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
@@ -33,7 +33,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
     Toolbar toolbar;
     TextView viewPagerIndicator;
     ViewPager2 viewPager2;
-    ViewPagerAdapter mediaAdapter;
+    MediaPagerAdapter mediaAdapter;
     Memory memory;
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -53,7 +53,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         viewPager2 = findViewById(R.id.viewPager2);
         viewPagerIndicator = findViewById(R.id.viewPager_indicator);
 
-        mediaAdapter = new ViewPagerAdapter();
+        mediaAdapter = new MediaPagerAdapter();
         viewPager2.setAdapter(mediaAdapter);
 
 
@@ -65,21 +65,8 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
 
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-            }
-
-            @Override
             public void onPageSelected(int position) {
-                super.onPageSelected(position);
-
-
                 viewPagerIndicator.setText((position + 1) + "/" + memory.getMedia().size());
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
             }
         });
 
@@ -144,17 +131,13 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
         }
         switch (item.getItemId()) {
             case R.id.shareBtn:
-                //todo: implement facebook share library
-                //todo: make sure all shares work and filter out any not-working apps
-                //todo: share all content including date, images, videos, title, description
-
                 new ShareFragment(memory).show(getSupportFragmentManager(), "shareSheetDialog");
                 return true;
             case R.id.deleteBtn:
                 new AlertDialog.Builder(MemoryDetailActivity.this)
-                        .setTitle("Delete Memory")
-                        .setMessage("Are you sure you want to delete this memory? This action cannot be undone.")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.string_delete_memory))
+                        .setMessage(getString(R.string.string_delete_memory_description))
+                        .setPositiveButton(getString(R.string.action_delete), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 AnalyticsUtil.deleteContent(MemoryDetailActivity.this);
@@ -162,7 +145,7 @@ public class MemoryDetailActivity extends AppCompatActivity implements OnMapRead
                                 finish();
                             }
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(getString(R.string.action_cancel), null)
                         .show();
                 return true;
             case R.id.editBtn:

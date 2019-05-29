@@ -3,6 +3,7 @@
 
     <!-- URL -->
     <string name="url_privacy_policy" translatable="false">https://mrthegood.github.io/whib/privacypolicy</string>
+    <string name="url_github" translatable="false">https://github.com/MrTheGood/projectb_android</string>
 
     <!-- Menu -->
     <string name="menu_map">Map</string>
@@ -15,14 +16,20 @@
     <!-- Strings -->
     <string name="str_enter_adress">Enter address</string>
     <string name="str_search">Search…</string>
-    
+    <string name="string_enable_analytics">Send anonymous usage statistics</string>
+    <string name="string_enable_crashlytics">Send anonymous crash logs</string>
+    <string name="str_onboarding_map">See Where You Have Been</string>
+    <string name="str_onboarding_map_description">Easily view all the places where you have been on the map page!</string>
+    <string name="str_onboarding_share">Share Your Memories</string>
+    <string name="str_onboarding_share_description">Simply share your memories on WhatsApp, Telegram or Facebook!</string>
+    <string name="str_tutorial_longpress">Long press to add!</string>
+
     <!--Drawer-->
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="drawer_filter_location">location</string>
     <string name="drawer_filter_date">date</string>
     <string name="drawer_filter_marker">marker</string>
-
 
 
     <!-- Alert dialog -->
@@ -33,8 +40,6 @@
     <string name="dialog_remove_image_description">Are you sure you want to change this media?</string>
     <string name="dialog_discard_editmemory_title">Discard Memory</string>
     <string name="dialog_discard_editmemory_description">Are you sure you want to cancel editing or creating this memory? This action cannot be undone.</string>
-    <string name="dialog_discard_editmemory_pos_btn">Discard</string>
-    <string name="dialog_discard_editmemory_neg_btn">Cancel</string>
 
 
     <!-- Action -->
@@ -44,11 +49,17 @@
     <string name="action_image">Image</string>
     <string name="action_remove">Remove</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_discard">Discard</string>
     <string name="action_save">Save</string>
     <string name="action_ok">Got it!</string>
-    <string name="action_apply_theme">Apply Theme</string>
+    <string name="action_apply_settings">Apply Settings</string>
     <string name="action_change_memory_location">Change location</string>
-    <string name="action_privacy_policy">Privacy Policy</string>
+    <string name="action_privacy_policy">View Privacy Policy</string>
+    <string name="action_open_source">View Code on Github</string>
+    <string name="action_next">Next</string>
+    <string name="action_finish">Finish</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_restart_tutorial">Restart Tutorial</string>
 
 
     <!-- hint -->
@@ -62,4 +73,10 @@
     <string name="error_could_not_set_current_location">Could not set memory location to current.</string>
     <string name="warn_enable_permissions">Enable location permissions</string>
     <string name="warn_enable_permissions_message">WHIB needs to know your location to save memories near you!</string>
+
+    <!-- Other -->
+    <string name="desc_theme_preview">Theme Preview</string>
+    <string name="string_delete_memory">Delete Memory</string>
+    <string name="string_delete_memory_description">Are you sure you want to delete this memory? This action cannot be undone.</string>
+    <string name="action_delete">Delete</string>
 </resources>

@@ -1,4 +1,4 @@
-package nl.hogeschoolrotterdam.projectb;
+package nl.hogeschoolrotterdam.projectb.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.util.ConstantManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;

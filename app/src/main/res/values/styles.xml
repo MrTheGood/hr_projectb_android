@@ -67,4 +67,42 @@
         <item name="colorAccent">#4CAF50</item>
     </style>
 
+
+    <style name="AppTheme.Dark.Purple">
+        <!-- Primary colours -->
+        <item name="colorPrimary">#ffaa66cc</item>
+
+        <!-- Secondary colours -->
+        <item name="colorSecondary">#ffaa66cc</item>
+        <item name="colorSecondaryVariant">#ffaa66cc</item>
+
+        <item name="colorAccent">#ffaa66cc</item>
+    </style>
+
+
+    <style name="AppTheme.Light.Red">
+        <!-- Primary colours -->
+        <item name="colorPrimary">#D64C4C</item>
+        <item name="colorPrimaryVariant">#DD2828</item>
+
+        <!-- Secondary colours -->
+        <item name="colorSecondary">#D64C4C</item>
+        <item name="colorSecondaryVariant">#DD2828</item>
+
+        <item name="colorPrimaryDark">#DD2828</item>
+        <item name="colorAccent">#D64C4C</item>
+    </style>
+
+
+    <style name="AppTheme.Dark.Red">
+        <!-- Primary colours -->
+        <item name="colorPrimary">#DD2828</item>
+
+        <!-- Secondary colours -->
+        <item name="colorSecondary">#DD2828</item>
+        <item name="colorSecondaryVariant">#DD2828</item>
+
+        <item name="colorAccent">#DD2828</item>
+    </style>
+
 </resources>

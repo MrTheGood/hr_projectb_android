@@ -3,16 +3,16 @@ package nl.hogeschoolrotterdam.projectb.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import nl.hogeschoolrotterdam.projectb.BuildConfig;
+import nl.hogeschoolrotterdam.projectb.OnboardingActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.WhibApp;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
@@ -26,6 +26,9 @@ public class SettingsFragment extends Fragment {
     private static final int LIGHT = 0;
     private static final int DARK = 1;
     private static final int LIGHT_PURPLE = 2;
+    private static final int DARK_PURPLE = 3;
+    private static final int LIGHT_RED = 4;
+    private static final int DARK_RED = 5;
     private Spinner spinner;
     private ImageView previewImage;
 
@@ -41,8 +44,16 @@ public class SettingsFragment extends Fragment {
 
         spinner = getView().findViewById(R.id.theme_selector);
         previewImage = getView().findViewById(R.id.theme_preview);
-        Button applyButton = getView().findViewById(R.id.theme_apply);
+        final CheckBox enableAnalyticsBox = getView().findViewById(R.id.enable_analytics);
+        final CheckBox enableCrashlyticsBox = getView().findViewById(R.id.enable_crashlytics);
+        Button applyButton = getView().findViewById(R.id.settings_apply);
         Button privacyPolicyButton = getView().findViewById(R.id.privacy_policy);
+        Button restartTutorialButton = getView().findViewById(R.id.restart_tutorial);
+        Button openSourceButton = getView().findViewById(R.id.open_source_code);
+
+        enableAnalyticsBox.setChecked(!WhibApp.getInstance().isAnalyticsDisabled());
+        enableCrashlyticsBox.setChecked(!WhibApp.getInstance().isCrashlyticsDisabled());
+        enableCrashlyticsBox.setEnabled(!BuildConfig.DEBUG);
 
         privacyPolicyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +63,33 @@ public class SettingsFragment extends Fragment {
                 startActivity(i);
             }
         });
+        openSourceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(getString(R.string.url_github)));
+                startActivity(i);
+            }
+        });
+        restartTutorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), OnboardingActivity.class));
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean("hasShownMapTooltipTutorial", false).apply();
+            }
+        });
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 applyTheme();
+
+                boolean analyticsDisabled = !enableAnalyticsBox.isChecked();
+                WhibApp.getInstance().setAnalyticsDisabled(analyticsDisabled);
+                AnalyticsUtil.disableAnalytics(getContext(), analyticsDisabled);
+
+                boolean crashlyticsDisabled = !enableCrashlyticsBox.isChecked();
+                WhibApp.getInstance().setCrashlyticsDisabled(crashlyticsDisabled);
+                AnalyticsUtil.disableCrashlytics(getContext(), crashlyticsDisabled);
             }
         });
         spinner.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
@@ -78,6 +112,18 @@ public class SettingsFragment extends Fragment {
                 spinner.setSelection(LIGHT_PURPLE, true);
                 AnalyticsUtil.changeTheme(getContext(), "AppTheme_Light_Purple");
                 break;
+            case R.style.AppTheme_Dark_Purple:
+                spinner.setSelection(DARK_PURPLE, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Dark_Purple");
+                break;
+            case R.style.AppTheme_Dark_Red:
+                spinner.setSelection(DARK_RED, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Dark_Red");
+                break;
+            case R.style.AppTheme_Light_Red:
+                spinner.setSelection(LIGHT_RED, true);
+                AnalyticsUtil.changeTheme(getContext(), "AppTheme_Light_Red");
+                break;
         }
     }
 
@@ -91,6 +137,15 @@ public class SettingsFragment extends Fragment {
                 break;
             case LIGHT_PURPLE:
                 previewImage.setImageResource(R.drawable.img_theme_purple);
+                break;
+            case DARK_PURPLE:
+                previewImage.setImageResource(R.drawable.img_theme_purple_dark);
+                break;
+            case DARK_RED:
+                previewImage.setImageResource(R.drawable.img_theme_red_dark);
+                break;
+            case LIGHT_RED:
+                previewImage.setImageResource(R.drawable.img_theme_red);
                 break;
         }
     }
@@ -107,6 +162,18 @@ public class SettingsFragment extends Fragment {
                 break;
             case LIGHT_PURPLE:
                 WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Light_Purple, false);
+                requireActivity().recreate();
+                break;
+            case DARK_PURPLE:
+                WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Dark_Purple, true);
+                requireActivity().recreate();
+                break;
+            case LIGHT_RED:
+                WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Light_Red, false);
+                requireActivity().recreate();
+                break;
+            case DARK_RED:
+                WhibApp.getInstance().setCurrentTheme(R.style.AppTheme_Dark_Red, true);
                 requireActivity().recreate();
                 break;
         }

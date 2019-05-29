@@ -3,6 +3,7 @@ package nl.hogeschoolrotterdam.projectb;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
         setTheme(WhibApp.getInstance().getThemeId());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        boolean hasShownTutorial = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("hasShownTutorial", false);
+        if (!hasShownTutorial) {
+            Intent intent = new Intent(this, OnboardingActivity.class);
+            intent.putExtra("startMainActivity", true);
+            startActivity(intent);
+            finish();
+        }
 
         // This connects the bottom navigation bar with the navigation graph,
         // this way the navigation for the fragments is handled automatically,

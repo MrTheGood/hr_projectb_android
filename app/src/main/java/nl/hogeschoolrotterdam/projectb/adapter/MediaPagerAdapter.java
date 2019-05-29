@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.adapter.MediaPagerAdapter.ViewHolder;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Image;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Media;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
@@ -16,7 +17,7 @@ import nl.hogeschoolrotterdam.projectb.data.room.entities.Video;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.PagerVH> {
+public class MediaPagerAdapter extends RecyclerView.Adapter<ViewHolder> {
     final private int TYPE_VIDEO = 0;
     final private int TYPE_IMAGE = 1;
     private List<Media> media = new ArrayList<>();
@@ -28,11 +29,11 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.Page
 
     @NonNull
     @Override
-    public PagerVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_IMAGE)
-            return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, parent, false));
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page, parent, false));
         if (viewType == TYPE_VIDEO)
-            return new PagerVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false));
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false));
         throw new IllegalStateException("UNKOWN TYPE: " + viewType);
     }
 
@@ -51,7 +52,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.Page
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final PagerVH holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Media m = media.get(position);
         if (m instanceof Image)
             holder.pageImage.setImageBitmap(((Image) m).getImage());
@@ -68,11 +69,11 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.Page
         }
     }
 
-    class PagerVH extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         ImageView pageImage;
         View container;
 
-        PagerVH(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             pageImage = itemView.findViewById(R.id.pageImage);
             container = itemView.findViewById(R.id.container);

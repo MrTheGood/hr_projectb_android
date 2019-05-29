@@ -10,6 +10,13 @@
     <!-- Strings -->
     <string name="str_enter_adress">Adres invullen</string>
     <string name="str_search">Zoeken…</string>
+    <string name="string_enable_analytics">Stuur anonieme gebruik statistiek</string>
+    <string name="string_enable_crashlytics">Stuur anonieme crash logs</string>
+    <string name="str_onboarding_map">Zie Waar Je Bent Geweest</string>
+    <string name="str_onboarding_map_description">Bekijk makkelijk alle plekken waar u bent geweest op de kaart!</string>
+    <string name="str_onboarding_share">Deel Je Herinneringen</string>
+    <string name="str_onboarding_share_description">Deel gemakkelijk uw herinneringen via WhatsApp, Telegram of Facebook!</string>
+    <string name="str_tutorial_longpress">Druk lang om toe te voegen!</string>
 
     <!--Drawer-->
     <string name="open">open</string>
@@ -27,7 +34,6 @@
     <string name="dialog_remove_image_description">Weet u zeker dat u deze media wilt weghalen?</string>
     <string name="dialog_discard_editmemory_title">Verwijder Memory</string>
     <string name="dialog_discard_editmemory_description">Weet u zeker dat u het bewerken of creëren van deze Memory wilt annuleren. Deze actie kan niet ongedaan worden. </string>
-    <string name="dialog_discard_editmemory_pos_btn">Verwijderen</string>
 
     <!-- Action -->
     <string name="action_gallery">Galerij</string>
@@ -35,13 +41,18 @@
     <string name="action_video">Video</string>
     <string name="action_image">Foto</string>
     <string name="action_remove">Verwijder</string>
+    <string name="action_discard">Verwijder</string>
     <string name="action_cancel">Annuleren</string>
     <string name="action_save">Opslaan</string>
     <string name="action_ok">Snap \'m!</string>
-    <string name="action_apply_theme">Thema toepassen</string>
+    <string name="action_apply_settings">Instellingen toepassen</string>
     <string name="action_change_memory_location">Locatie veranderen</string>
-    <string name="action_privacy_policy">Privacy Policy</string>
-
+    <string name="action_privacy_policy">Bekijk Privacy Policy</string>
+    <string name="action_open_source">Bekijk Code op Github</string>
+    <string name="action_next">Volgende</string>
+    <string name="action_finish">Sluiten</string>
+    <string name="action_skip">Overslaan</string>
+    <string name="action_restart_tutorial">Herstart Uitleg</string>
 
 
     <!-- hint -->
@@ -55,4 +66,10 @@
     <string name="error_could_not_set_current_location">Kon de memory locatie niet op de huidige locatie zetten.</string>
     <string name="warn_enable_permissions">Sta locatie toe</string>
     <string name="warn_enable_permissions_message">WHIB moet je locatie weten om memories op je locatie op te slaan!</string>
+
+    <!-- Other -->
+    <string name="desc_theme_preview">Theme Preview</string>
+    <string name="string_delete_memory">Verwijder Herinnering</string>
+    <string name="string_delete_memory_description">Weet u zeker dat u de herinnering wilt verwijderen? Dit kan niet ongedaan worden</string>
+    <string name="action_delete">Verwijder</string>
 </resources>

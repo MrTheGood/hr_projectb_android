@@ -2,12 +2,11 @@ package nl.hogeschoolrotterdam.projectb.data.room.entities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.text.format.DateUtils;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -20,7 +19,10 @@ import com.google.android.gms.maps.model.LatLng;
 import nl.hogeschoolrotterdam.projectb.R;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by maartendegoede on 20/03/2019.
@@ -43,21 +45,20 @@ public class Memory {
     @NonNull
     @Ignore
     private ArrayList<Media> media;
-    @DrawableRes
-    private int memoryTypeIconId;
+    private int memoryType;
 
     public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description) {
         this(id, location, date, title, description, null, R.drawable.ic_map_adefault);
     }
 
-    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media, @DrawableRes int memoryTypeIconId) {
+    public Memory(@NonNull String id, @NonNull LatLng location, @NonNull Date date, @NonNull String title, @NonNull String description, @Nullable ArrayList<Media> media, int memoryType) {
         this.id = id;
         this.location = location;
         this.date = date;
         this.title = title;
         this.description = description;
         this.media = media != null ? media : new ArrayList<Media>();
-        this.memoryTypeIconId = memoryTypeIconId;
+        this.memoryType = memoryType;
     }
 
     @NonNull
@@ -169,12 +170,102 @@ public class Memory {
     }
 
     public int getMemoryTypeIconId() {
-        return memoryTypeIconId;
+        switch (getMemoryType()) {
+            case 1:
+                return R.drawable.ic_map_architecture;
+            case 2:
+                return R.drawable.ic_map_baby;
+            case 3:
+                return R.drawable.ic_map_bar;
+            case 4:
+                return R.drawable.ic_map_beach;
+            case 5:
+                return R.drawable.ic_map_birthday;
+            case 6:
+                return R.drawable.ic_map_cafe;
+            case 7:
+                return R.drawable.ic_map_camera;
+            case 8:
+                return R.drawable.ic_map_cart;
+            case 9:
+                return R.drawable.ic_map_city;
+            case 10:
+                return R.drawable.ic_map_flagged;
+            case 11:
+                return R.drawable.ic_map_games;
+            case 12:
+                return R.drawable.ic_map_golf;
+            case 13:
+                return R.drawable.ic_map_home;
+            case 14:
+                return R.drawable.ic_map_images;
+            case 15:
+                return R.drawable.ic_map_iron_throne;
+            case 16:
+                return R.drawable.ic_map_job;
+            case 17:
+                return R.drawable.ic_map_landscape;
+            case 18:
+                return R.drawable.ic_map_money;
+            case 19:
+                return R.drawable.ic_map_mood_extremely_happy;
+            case 20:
+                return R.drawable.ic_map_mood_extremely_sad;
+            case 21:
+                return R.drawable.ic_map_mood_happy;
+            case 22:
+                return R.drawable.ic_map_mood_sad;
+            case 23:
+                return R.drawable.ic_map_mood_very_happy;
+            case 24:
+                return R.drawable.ic_map_mood_very_sad;
+            case 25:
+                return R.drawable.ic_map_music;
+            case 26:
+                return R.drawable.ic_map_painting;
+            case 27:
+                return R.drawable.ic_map_party;
+            case 28:
+                return R.drawable.ic_map_pets;
+            case 29:
+                return R.drawable.ic_map_pool;
+            case 30:
+                return R.drawable.ic_map_restaurant;
+            case 31:
+                return R.drawable.ic_map_school;
+            case 32:
+                return R.drawable.ic_map_sexy;
+            case 33:
+                return R.drawable.ic_map_shield;
+            case 34:
+                return R.drawable.ic_map_spa;
+            case 35:
+                return R.drawable.ic_map_speakers;
+            case 36:
+                return R.drawable.ic_map_starred;
+            case 37:
+                return R.drawable.ic_map_store;
+            case 38:
+                return R.drawable.ic_map_styles;
+            case 39:
+                return R.drawable.ic_map_teathers;
+            case 40:
+                return R.drawable.ic_map_tourist;
+            case 41:
+                return R.drawable.ic_map_want_to_go;
+            case 42:
+                return R.drawable.ic_map_world;
+            default:
+                return R.drawable.ic_map_adefault;
+        }
     }
 
+    public int getMemoryType() {
+        return memoryType;
+    }
 
-    public void setMemoryTypeIconId(int memoryTypeIconId) {
-        this.memoryTypeIconId = memoryTypeIconId;
+    public void setMemoryType(int memoryType) {
+        this.memoryType = memoryType;
     }
 
     public BitmapDescriptor getTypeBitMap(Context context) {
@@ -187,7 +278,7 @@ public class Memory {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    public String getYear(){
+    public String getYear() {
         Calendar c = Calendar.getInstance();
         c.setTime(getDate());
         String year = c.get(Calendar.YEAR) + "";

@@ -1,8 +1,6 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.*;
@@ -28,12 +26,14 @@ import nl.hogeschoolrotterdam.projectb.ConstantManager;
 import nl.hogeschoolrotterdam.projectb.ExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.adapter.ExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.model.DataItem;
 import nl.hogeschoolrotterdam.projectb.model.SubCategoryItem;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
+import nl.hogeschoolrotterdam.projectb.util.ConstantManager;
 
 import java.util.*;
 
