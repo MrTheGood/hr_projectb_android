@@ -49,6 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LatLng latLng;
     private View tooltip;
     private ClusterManager<MyItem> clusterManager;
+    private List<MyItem>items = new ArrayList<>();
     CameraPosition cameraPosition;
     float zoomLevel;
 
@@ -147,7 +148,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(requireContext());
         mGoogleMap = googleMap;
-        clusterManager = new ClusterManager<>(getContext(),mGoogleMap);
+        clusterManager = new ClusterManager<>(this.getContext(),mGoogleMap);
+        googleMap.setOnCameraChangeListener(clusterManager);
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -185,6 +187,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     .snippet((String) memory.getDateText())
                     .icon(memory.bitmapDescriptorFromVector(getContext(), memory.getMemoryTypeIconId())));
             marker.setTag(memory.getId());
+            MyItem myItem = new MyItem(memory.getLocation());
+            clusterManager.addItem(myItem);
+            clusterManager.cluster();
+
 
         }
         inity();
