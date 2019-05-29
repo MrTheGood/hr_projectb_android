@@ -1,21 +1,29 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.snackbar.Snackbar;
 import nl.hogeschoolrotterdam.projectb.ConstantManager;
 import nl.hogeschoolrotterdam.projectb.ExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
@@ -45,6 +53,7 @@ public class MemoriesFragment extends Fragment {
     private ActionMode actionMode;
     private Toolbar toolbar;
     private List<Memory> items = new ArrayList<>();
+    private ConstraintLayout coordinatorLayout;
 
 
     @Nullable
@@ -86,7 +95,7 @@ public class MemoriesFragment extends Fragment {
         Toolbar tb = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(tb);
 
-
+        coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
         mDrawerLayout = view.findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
@@ -369,7 +378,7 @@ public class MemoriesFragment extends Fragment {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             int id = item.getItemId();
             if (id == R.id.action_delete) {
-                deleteInboxes();
+                deleteMemories();
                 mode.finish();
                 return true;
             }
@@ -383,13 +392,47 @@ public class MemoriesFragment extends Fragment {
         }
     }
 
-    private void deleteInboxes() {
-        List<Integer> selectedItemPositions = adapter.getSelectedItems();
-        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-            adapter.removeData(selectedItemPositions.get(i));
+    private void deleteMemories() {
+        final List<Memory> selectedMemories = adapter.getSelectedItems();
+        for (Memory m : selectedMemories) {
+            adapter.removeData(m);
+            Database.getInstance().deleteMemory(m);
+
         }
+/*
+        Snackbar.make(coordinatorLayout, "This is a Snackbar", Snackbar.LENGTH_INDEFINITE)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.setData(memories);
+                    }
+                });*/
+
+        Snackbar.make(coordinatorLayout, "This is a Snackbar", Snackbar.LENGTH_LONG)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (Memory m : selectedMemories) {
+                            Database.getInstance().addMemory(m);
+                        }
+
+                        adapter.setData(Database.getInstance().getMemories());
+
+                        Context context = getContext();
+                        CharSequence text = "Hello toast!";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
+                })
+                .setActionTextColor(Color.RED)
+                .show();
+
+
         adapter.notifyDataSetChanged();
     }
+
 
 }
 

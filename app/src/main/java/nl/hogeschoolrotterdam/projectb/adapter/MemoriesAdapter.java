@@ -108,7 +108,7 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
 
     private void toggleCheckedIcon(MemoriesViewholder holder, int position) {
         if (selected_items.get(position, false)) {
-            holder.imageView.setVisibility(View.GONE);
+            holder.imageView.setVisibility(View.INVISIBLE);
             holder.lyt_checked.setVisibility(View.VISIBLE);
             if (current_selected_idx == position) resetCurrentIndex();
         } else {
@@ -137,16 +137,16 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
         return selected_items.size();
     }
 
-    public List<Integer> getSelectedItems() {
-        List<Integer> items = new ArrayList<>(selected_items.size());
+    public List<Memory> getSelectedItems() {
+        List<Memory> items = new ArrayList<>(selected_items.size());
         for (int i = 0; i < selected_items.size(); i++) {
-            items.add(selected_items.keyAt(i));
+            items.add(data.get(selected_items.keyAt(i)));
         }
         return items;
     }
 
-    public void removeData(int position) {
-        data.remove(position);
+    public void removeData(Memory memory) {
+        data.remove(memory);
         resetCurrentIndex();
     }
 
