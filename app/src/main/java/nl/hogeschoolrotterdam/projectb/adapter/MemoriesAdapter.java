@@ -1,20 +1,15 @@
 package nl.hogeschoolrotterdam.projectb.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
-import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +18,14 @@ import java.util.List;
 public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.MemoriesViewholder> {
 
     private List<Memory> data;
-    //private List<Inbox> items;
-    private OnClickListener onClickListener = null;
+    private OnClickListener onClickListener;
 
     private SparseBooleanArray selected_items;
     private int current_selected_idx = -1;
 
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-    }
-
-    public MemoriesAdapter(List<Memory> data) {
+    public MemoriesAdapter(List<Memory> data, OnClickListener clickListener) {
         this.data = data;
+        onClickListener = clickListener;
         selected_items = new SparseBooleanArray();
 
     }
@@ -59,23 +50,11 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
         holder.Textviewtitle.setText(memory.getTitle());
         holder.Textviewdate.setText(memory.getDateText());
         holder.imageView.setImageBitmap(memory.getThumbnail());
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MemoryDetailActivity.class);
-                intent.putExtra("EXTRA_SESSION_ID", memory.getId());
-                v.getContext().startActivity(intent);
-                AnalyticsUtil.selectContent(v.getContext(), "SearchOrList");
-            }
-        });*/
-
 
         holder.itemView.setActivated(selected_items.get(position, false));
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onClickListener == null) return;
                 onClickListener.onItemClick(v, memory, position);
             }
         });
@@ -83,15 +62,12 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (onClickListener == null) return false;
                 onClickListener.onItemLongClick(v, memory, position);
                 return true;
             }
         });
 
         toggleCheckedIcon(holder, position);
-        //displayImage(holder, memory);
-
     }
 
     @Override
@@ -105,8 +81,7 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
         TextView Textviewtitle;
         TextView Textviewdate;
 
-        public RelativeLayout lyt_checked, lyt_image;
-        public View lyt_parent;
+        View lyt_checked;
 
         MemoriesViewholder(@NonNull View itemView) {
             super(itemView);
@@ -115,8 +90,6 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
             Textviewtitle = itemView.findViewById(R.id.Textviewtitle);
             Textviewdate = itemView.findViewById(R.id.Textviewdate);
             lyt_checked = itemView.findViewById(R.id.lyt_checked);
-            lyt_image = itemView.findViewById(R.id.lyt_image);
-            lyt_parent = itemView.findViewById(R.id.lyt_parent);
         }
     }
 
@@ -135,20 +108,15 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
 
     private void toggleCheckedIcon(MemoriesViewholder holder, int position) {
         if (selected_items.get(position, false)) {
-            holder.lyt_image.setVisibility(View.GONE);
+            holder.imageView.setVisibility(View.GONE);
             holder.lyt_checked.setVisibility(View.VISIBLE);
             if (current_selected_idx == position) resetCurrentIndex();
         } else {
             holder.lyt_checked.setVisibility(View.GONE);
-            holder.lyt_image.setVisibility(View.VISIBLE);
+            holder.imageView.setVisibility(View.VISIBLE);
             if (current_selected_idx == position) resetCurrentIndex();
         }
     }
-
-    public Memory getItem(int position) {
-        return data.get(position);
-    }
-
 
     public void toggleSelection(int pos) {
         current_selected_idx = pos;

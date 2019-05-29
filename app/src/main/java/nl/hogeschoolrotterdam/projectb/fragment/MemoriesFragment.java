@@ -1,17 +1,15 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -24,7 +22,6 @@ import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
-import androidx.appcompat.view.ActionMode;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.model.DataItem;
 import nl.hogeschoolrotterdam.projectb.model.SubCategoryItem;
@@ -50,7 +47,6 @@ public class MemoriesFragment extends Fragment {
     private List<Memory> items = new ArrayList<>();
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +54,25 @@ public class MemoriesFragment extends Fragment {
         setHasOptionsMenu(true);
 
         memories = Database.getInstance().getMemories();
-        adapter = new MemoriesAdapter(memories);
+        actionModeCallback = new ActionModeCallback();
+        adapter = new MemoriesAdapter(items, new MemoriesAdapter.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Memory obj, int pos) {
+                if (adapter.getSelectedItemCount() > 0) {
+                    enableActionMode(pos);
+                } else {
+                    Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
+                    intent.putExtra("EXTRA_SESSION_ID", obj.getId());
+                    view.getContext().startActivity(intent);
+                    AnalyticsUtil.selectContent(getContext(), "SearchOrList");
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, Memory obj, int pos) {
+                enableActionMode(pos);
+            }
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
         recyclerView.setAdapter(adapter);
@@ -80,9 +94,6 @@ public class MemoriesFragment extends Fragment {
         ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btn = view.findViewById(R.id.btn);
-
-        initComponent();
-
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,8 +132,6 @@ public class MemoriesFragment extends Fragment {
 
             }
         });
-
-        initComponent();
 
         return view;
     }
@@ -257,24 +266,6 @@ public class MemoriesFragment extends Fragment {
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
-        /*
-        dataItem = new DataItem();
-        dataItem.setCategoryId("3");
-        dataItem.setCategoryName("marker");
-        arSubCategory = new ArrayList<>();
-        for (int k = 0; k < memories.size(); k++) {
-
-            SubCategoryItem subCategoryItem = new SubCategoryItem();
-            subCategoryItem.setCategoryId(String.valueOf(k));
-            subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName(memories.get(k).getMemoryTypeIconId());
-            arSubCategory.add(subCategoryItem);
-        }
-
-        dataItem.setSubCategory(arSubCategory);
-        arCategory.add(dataItem);
-        */
-
         for (DataItem data : arCategory) {
 
             ArrayList<HashMap<String, String>> childArrayList = new ArrayList<>();
@@ -343,35 +334,6 @@ public class MemoriesFragment extends Fragment {
 
 //Mijn nieuwe shit code
 
-    private void initComponent() {
-
-        //set data and list adapter
-        adapter = new MemoriesAdapter(items);
-
-        adapter.setOnClickListener(new MemoriesAdapter.OnClickListener() {
-            @Override
-            public void onItemClick(View view, Memory obj, int pos) {
-                if (adapter.getSelectedItemCount() > 0) {
-                    enableActionMode(pos);
-                } else {
-                    Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
-                    intent.putExtra("EXTRA_SESSION_ID", obj.getId());
-                    getContext().startActivity(intent);
-                    AnalyticsUtil.selectContent(getContext(), "SearchOrList");
-                }
-            }
-
-            @Override
-            public void onItemLongClick(View view, Memory obj, int pos) {
-                enableActionMode(pos);
-            }
-        });
-
-        actionModeCallback = new ActionModeCallback();
-
-    }
-
-
     private void enableActionMode(int position) {
         if (actionMode == null) {
             actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(actionModeCallback);
@@ -428,15 +390,6 @@ public class MemoriesFragment extends Fragment {
         }
         adapter.notifyDataSetChanged();
     }
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_memory_listsort, menu);
-        return true;
-    }
-    */
-
 
 }
 
