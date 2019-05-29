@@ -23,19 +23,19 @@ import java.util.List;
 public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.MemoriesViewholder> {
 
     private List<Memory> data;
-    private Context ctx;
     //private List<Inbox> items;
-    private View.OnClickListener onClickListener = null;
+    private OnClickListener onClickListener = null;
 
     private SparseBooleanArray selected_items;
     private int current_selected_idx = -1;
 
-    public void setOnClickListener(View.OnClickListener onClickListener) {
+    public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
     public MemoriesAdapter(List<Memory> data) {
         this.data = data;
+        selected_items = new SparseBooleanArray();
 
     }
 
@@ -59,7 +59,7 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
         holder.Textviewtitle.setText(memory.getTitle());
         holder.Textviewdate.setText(memory.getDateText());
         holder.imageView.setImageBitmap(memory.getThumbnail());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), MemoryDetailActivity.class);
@@ -67,7 +67,7 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
                 v.getContext().startActivity(intent);
                 AnalyticsUtil.selectContent(v.getContext(), "SearchOrList");
             }
-        });
+        });*/
 
         holder.lyt_parent.setActivated(selected_items.get(position, false));
 
@@ -121,12 +121,6 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
 
 
     //Nieuwe shit code
-    public MemoriesAdapter(Context mContext, List<Memory> items) {
-        this.ctx = mContext;
-        this.data = items;
-        selected_items = new SparseBooleanArray();
-    }
-
     /*
     private void displayImage(MemoriesViewholder holder, Memory inbox) {
         if (inbox.image != null) {

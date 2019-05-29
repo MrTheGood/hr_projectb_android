@@ -1,6 +1,7 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -19,9 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import nl.hogeschoolrotterdam.projectb.ConstantManager;
 import nl.hogeschoolrotterdam.projectb.ExpandableListAdapter;
+import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
+import androidx.appcompat.view.ActionMode;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.model.DataItem;
 import nl.hogeschoolrotterdam.projectb.model.SubCategoryItem;
@@ -45,6 +48,7 @@ public class MemoriesFragment extends Fragment {
     private ActionMode actionMode;
     private Toolbar toolbar;
     private List<Memory> items = new ArrayList<>();
+
 
 
     @Nullable
@@ -77,7 +81,7 @@ public class MemoriesFragment extends Fragment {
 
         Button btn = view.findViewById(R.id.btn);
 
-        //initComponent();
+        initComponent();
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +121,8 @@ public class MemoriesFragment extends Fragment {
 
             }
         });
+
+        initComponent();
 
         return view;
     }
@@ -335,27 +341,42 @@ public class MemoriesFragment extends Fragment {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Mijn nieuwe shit code
+
+    private void initComponent() {
+
+        //set data and list adapter
+        adapter = new MemoriesAdapter(items);
+
+        adapter.setOnClickListener(new MemoriesAdapter.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Memory obj, int pos) {
+                if (adapter.getSelectedItemCount() > 0) {
+                    enableActionMode(pos);
+                    Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
+                    intent.putExtra("EXTRA_SESSION_ID", obj.getId());
+                    getContext().startActivity(intent);
+                    AnalyticsUtil.selectContent(getContext(), "SearchOrList");
+                } else {
+                    // read the inbox which removes bold from the row
+                    Memory memory = adapter.getItem(pos);
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, Memory obj, int pos) {
+                enableActionMode(pos);
+            }
+        });
+
+        actionModeCallback = new ActionModeCallback();
+
+    }
 
 
     private void enableActionMode(int position) {
         if (actionMode == null) {
-            actionMode = startSupportActionMode(actionModeCallback);
+            actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(actionModeCallback);
         }
         toggleSelection(position);
     }
@@ -417,38 +438,6 @@ public class MemoriesFragment extends Fragment {
         return true;
     }
     */
-
-    private void initComponent() {
-        RecyclerView recyclerView;
-        recyclerView = recyclerView.findViewById(recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setHasFixedSize(true);
-
-        //set data and list adapter
-        adapter = new MemoriesAdapter(getActivity(), memories);
-        recyclerView.setAdapter(adapter);
-
-        adapter.setOnClickListener(new MemoriesAdapter.OnClickListener() {
-            @Override
-            public void onItemClick(View view, Memory obj, int pos) {
-                if (adapter.getSelectedItemCount() > 0) {
-                    enableActionMode(pos);
-                } else {
-                    // read the inbox which removes bold from the row
-                    Memory memory = adapter.getItem(pos);
-                }
-            }
-
-            @Override
-            public void onItemLongClick(View view, Memory obj, int pos) {
-                enableActionMode(pos);
-            }
-        });
-
-        actionModeCallback = new ActionModeCallback();
-
-    }
-
 
 
 }
