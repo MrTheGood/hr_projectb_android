@@ -57,7 +57,7 @@
 
     <!-- snackbar -->
     <string name="snackbar_description">Weet u zeker dat u het wilt verwijderen?</string>
-    <string name="snackbar_undo">Ongd. maken</string>
+    <string name="snackbar_undo">Onged. maken</string>
 
     <!--toats-->
     <string name="Empty_adapter">Geen memories gevonden</string>
