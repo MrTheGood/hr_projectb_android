@@ -72,6 +72,7 @@ public class MemoriesFragment extends Fragment {
             @Override
             public void onItemLongClick(View view, Memory obj, int pos) {
                 enableActionMode(pos);
+                ((AppCompatActivity) requireActivity()).getSupportActionBar().hide();
             }
         });
 
@@ -377,6 +378,7 @@ public class MemoriesFragment extends Fragment {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
             adapter.clearSelections();
             actionMode = null;
         }
