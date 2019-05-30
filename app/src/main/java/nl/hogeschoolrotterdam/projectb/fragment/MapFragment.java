@@ -24,6 +24,7 @@ import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.MapStateManager;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.MyItem;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
@@ -48,6 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private ClusterManager<MyItem> clusterManager;
     CameraPosition cameraPosition;
     float zoomLevel;
+    MapStateManager mapStateManager;
 
 
     @Nullable
@@ -128,16 +130,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (mMapView != null) {
             mMapView.onResume();
             mMapView.getMapAsync(this);
-        }
-        if (cameraPosition != null) {
+            cameraPosition = mapStateManager.getSavedCameraPosition();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
+
     }
     @Override
     public void onPause(){
         super.onPause();
         cameraPosition = mGoogleMap.getCameraPosition();
         zoomLevel = mGoogleMap.getCameraPosition().zoom;
+        mapStateManager.saveMapState(mGoogleMap);
+
     }
 
     @Override
