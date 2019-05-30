@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -130,7 +131,6 @@ public class MemoriesFragment extends Fragment {
                 }
 
                 mDrawerLayout.closeDrawers();
-
 
             }
         });
@@ -329,6 +329,10 @@ public class MemoriesFragment extends Fragment {
             }
         }
 
+        if (filteredlist.size() == 0) {
+            Toast.makeText(getActivity(), R.string.Empty_adapter, Toast.LENGTH_SHORT).show();
+        }
+
         adapter.setData(filteredlist);
         AnalyticsUtil.search(getContext());
     }
@@ -378,9 +382,9 @@ public class MemoriesFragment extends Fragment {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
             adapter.clearSelections();
             actionMode = null;
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
         }
     }
 

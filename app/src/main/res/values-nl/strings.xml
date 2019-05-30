@@ -59,6 +59,9 @@
     <string name="snackbar_description">Weet u zeker dat u het wilt verwijderen?</string>
     <string name="snackbar_undo">Ongd. maken</string>
 
+    <!--toats-->
+    <string name="Empty_adapter">Geen memories gevonden</string>
+
 
     <!-- hint -->
     <string name="hint_description">Beschrijving</string>

@@ -65,6 +65,9 @@
     <string name="snackbar_description">Are you sure you want to delete?</string>
     <string name="snackbar_undo">Undo</string>
 
+    <!--toats-->
+    <string name="Empty_adapter">No memories found</string>
+
 
     <!-- hint -->
     <string name="hint_description">Description</string>
