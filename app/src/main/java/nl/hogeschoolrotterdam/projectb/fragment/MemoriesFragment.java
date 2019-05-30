@@ -65,7 +65,7 @@ public class MemoriesFragment extends Fragment {
                     Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
                     intent.putExtra("EXTRA_SESSION_ID", obj.getId());
                     view.getContext().startActivity(intent);
-                    AnalyticsUtil.selectContent(getContext(), "SearchOrList");
+                    AnalyticsUtil.selectContent(getContext(), "List");
                 }
             }
 

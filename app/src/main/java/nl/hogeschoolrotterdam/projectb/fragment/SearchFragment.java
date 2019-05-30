@@ -46,14 +46,13 @@ public class SearchFragment extends Fragment {
                 Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
                 intent.putExtra("EXTRA_SESSION_ID", obj.getId());
                 view.getContext().startActivity(intent);
-                AnalyticsUtil.selectContent(getContext(), "SearchOrList");
+                AnalyticsUtil.selectContent(getContext(), "List");
             }
 
             @Override
             public void onItemLongClick(View view, Memory obj, int pos) {
             }
         });
-
 
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
         recyclerView.setAdapter(adapter);
