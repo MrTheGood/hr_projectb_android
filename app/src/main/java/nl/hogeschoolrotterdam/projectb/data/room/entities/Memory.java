@@ -270,17 +270,30 @@ public class Memory {
     }
 
     public BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+        if (vectorDrawableResourceId == R.drawable.ic_map_adefault){
+            Drawable background = ContextCompat.getDrawable(context, getIconBackground());
+            Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+            background.setBounds((background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth())/2 ,( background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) /3
+                    , background.getIntrinsicWidth(), background.getIntrinsicHeight());
+            vectorDrawable.setBounds(55, 35, vectorDrawable.getIntrinsicWidth() + 50, vectorDrawable.getIntrinsicHeight() + 25);
+            Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            background.draw(canvas);
+            vectorDrawable.draw(canvas);
+            return BitmapDescriptorFactory.fromBitmap(bitmap);
+        }
+        else{
         Drawable background = ContextCompat.getDrawable(context, getIconBackground());
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
         background.setBounds((background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth())/2 ,( background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) /3
                 , background.getIntrinsicWidth(), background.getIntrinsicHeight());
-        vectorDrawable.setBounds(55, 35, vectorDrawable.getIntrinsicWidth() + 55, vectorDrawable.getIntrinsicHeight() + 25);
+        vectorDrawable.setBounds(55, 35, vectorDrawable.getIntrinsicWidth() + 50, vectorDrawable.getIntrinsicHeight() + 25);
         Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         background.draw(canvas);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
+    }}
     public int getIconBackground(){
         if (getMemoryType() <=10){
             return R.drawable.ic_backround_red_pointer;
