@@ -46,7 +46,7 @@ public class SearchFragment extends Fragment {
                 Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
                 intent.putExtra("EXTRA_SESSION_ID", obj.getId());
                 view.getContext().startActivity(intent);
-                AnalyticsUtil.selectContent(getContext(), "List");
+                AnalyticsUtil.selectContent(getContext(), "Search");
             }
 
             @Override
