@@ -63,7 +63,7 @@
 
 
     <!-- hint -->
-    <string name="hint_description">Description</string>
+    <string name="hint_description">Description, add the description of your memory here.</string>
     <string name="hint_date">Date</string>
     <string name="hint_title">Memory Title</string>
 

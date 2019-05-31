@@ -48,7 +48,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private View tooltip;
     private ClusterManager<MyItem> clusterManager;
     float zoomLevel;
-    MapStateManager mapStateManager;
 
 
     @Nullable
