@@ -160,7 +160,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 AnalyticsUtil.selectContent(getContext(), "Map");
             }
         });
-
+        //night mode map
+        //MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenight);
+        //googleMap.setMapStyle(style);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         MapStateManager mgr = new MapStateManager(getContext());
         final CameraPosition position = mgr.getSavedCameraPosition();
