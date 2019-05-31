@@ -47,7 +47,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LatLng latLng;
     private View tooltip;
     private ClusterManager<MyItem> clusterManager;
-    float zoomLevel;
 
 
     @Nullable
@@ -135,7 +134,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onPause(){
         super.onPause();
-        zoomLevel = mGoogleMap.getCameraPosition().zoom;
         MapStateManager mgr = new MapStateManager(getContext());
         mgr.saveMapState(mGoogleMap);
     }
