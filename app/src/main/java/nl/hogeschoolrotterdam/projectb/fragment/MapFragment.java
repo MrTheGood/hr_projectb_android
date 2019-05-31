@@ -47,7 +47,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LatLng latLng;
     private View tooltip;
     private ClusterManager<MyItem> clusterManager;
-    CameraPosition cameraPosition;
     float zoomLevel;
     MapStateManager mapStateManager;
 
@@ -130,18 +129,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (mMapView != null) {
             mMapView.onResume();
             mMapView.getMapAsync(this);
-            cameraPosition = mapStateManager.getSavedCameraPosition();
-            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
         }
 
     }
     @Override
     public void onPause(){
         super.onPause();
-        cameraPosition = mGoogleMap.getCameraPosition();
         zoomLevel = mGoogleMap.getCameraPosition().zoom;
-        mapStateManager.saveMapState(mGoogleMap);
-
+        MapStateManager mgr = new MapStateManager(getContext());
+        mgr.saveMapState(mGoogleMap);
     }
 
     @Override
@@ -165,6 +162,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
 
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        MapStateManager mgr = new MapStateManager(getContext());
+        final CameraPosition position = mgr.getSavedCameraPosition();
 
         final GoogleMap map = googleMap;
         LocationManager.getInstance().updateLocation(getActivity(), new LocationManager.OnLocationResultListener() {
@@ -178,7 +177,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             .bearing(0)
                             .tilt(0)
                             .build();
-                    map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+                    if (position == null){
+                        map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+                }else{
+                        CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+                        map.moveCamera(update);
+                    }
                     map.setMyLocationEnabled(true);
                 }
             }
