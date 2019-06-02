@@ -58,7 +58,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         mSearchText = view.findViewById(R.id.input_search);
         mMapView = view.findViewById(R.id.map);
-
         tooltip = view.findViewById(R.id.tooltip);
         View tooltipClose = view.findViewById(R.id.tooltipClose);
         tooltipClose.setOnClickListener(new View.OnClickListener() {
