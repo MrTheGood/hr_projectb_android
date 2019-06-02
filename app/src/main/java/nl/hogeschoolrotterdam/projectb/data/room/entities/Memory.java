@@ -162,8 +162,9 @@ public class Memory {
         try {
             List<Address> listAddresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
             if (null != listAddresses && listAddresses.size() > 0) {
+                if (listAddresses.get(0).getCountryName() != "" && listAddresses.get(0).getCountryName() != null){
                 return listAddresses.get(0).getCountryName();
-            }
+            }}
         } catch (IOException e) {
             e.printStackTrace();
         }
