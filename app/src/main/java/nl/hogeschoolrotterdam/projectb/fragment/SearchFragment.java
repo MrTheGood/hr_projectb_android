@@ -1,8 +1,8 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
 import nl.hogeschoolrotterdam.projectb.data.Database;
@@ -39,8 +40,19 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         memories = Database.getInstance().getMemories();
-        adapter = new MemoriesAdapter(memories);
+        adapter = new MemoriesAdapter(memories, new MemoriesAdapter.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Memory obj, int pos) {
+                Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
+                intent.putExtra("EXTRA_SESSION_ID", obj.getId());
+                view.getContext().startActivity(intent);
+                AnalyticsUtil.selectContent(getContext(), "Search");
+            }
 
+            @Override
+            public void onItemLongClick(View view, Memory obj, int pos) {
+            }
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
         recyclerView.setAdapter(adapter);

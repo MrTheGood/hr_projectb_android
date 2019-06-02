@@ -1,19 +1,26 @@
 package nl.hogeschoolrotterdam.projectb.fragment;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.snackbar.Snackbar;
+import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.adapter.ExpandableListAdapter;
 import nl.hogeschoolrotterdam.projectb.adapter.MemoriesAdapter;
@@ -36,6 +43,11 @@ public class MemoriesFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
+    private ActionModeCallback actionModeCallback;
+    private ActionMode actionMode;
+    private List<Memory> items = new ArrayList<>();
+    private ConstraintLayout coordinatorLayout;
+
 
     @Nullable
     @Override
@@ -44,7 +56,26 @@ public class MemoriesFragment extends Fragment {
         setHasOptionsMenu(true);
 
         memories = Database.getInstance().getMemories();
-        adapter = new MemoriesAdapter(memories);
+        actionModeCallback = new ActionModeCallback();
+        adapter = new MemoriesAdapter(items, new MemoriesAdapter.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Memory obj, int pos) {
+                if (adapter.getSelectedItemCount() > 0) {
+                    enableActionMode(pos);
+                } else {
+                    Intent intent = new Intent(getContext(), MemoryDetailActivity.class);
+                    intent.putExtra("EXTRA_SESSION_ID", obj.getId());
+                    view.getContext().startActivity(intent);
+                    AnalyticsUtil.selectContent(getContext(), "List");
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, Memory obj, int pos) {
+                enableActionMode(pos);
+                ((AppCompatActivity) requireActivity()).getSupportActionBar().hide();
+            }
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
         recyclerView.setAdapter(adapter);
@@ -58,7 +89,7 @@ public class MemoriesFragment extends Fragment {
         Toolbar tb = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(tb);
 
-
+        coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
         mDrawerLayout = view.findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
@@ -66,7 +97,6 @@ public class MemoriesFragment extends Fragment {
         ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btn = view.findViewById(R.id.btn);
-
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +131,6 @@ public class MemoriesFragment extends Fragment {
                 }
 
                 mDrawerLayout.closeDrawers();
-
 
             }
         });
@@ -239,24 +268,6 @@ public class MemoriesFragment extends Fragment {
         dataItem.setSubCategory(arSubCategory);
         arCategory.add(dataItem);
 
-        /*
-        dataItem = new DataItem();
-        dataItem.setCategoryId("3");
-        dataItem.setCategoryName("marker");
-        arSubCategory = new ArrayList<>();
-        for (int k = 0; k < memories.size(); k++) {
-
-            SubCategoryItem subCategoryItem = new SubCategoryItem();
-            subCategoryItem.setCategoryId(String.valueOf(k));
-            subCategoryItem.setIsChecked(ConstantManager.CHECK_BOX_CHECKED_FALSE);
-            subCategoryItem.setSubCategoryName(memories.get(k).getMemoryTypeIconId());
-            arSubCategory.add(subCategoryItem);
-        }
-
-        dataItem.setSubCategory(arSubCategory);
-        arCategory.add(dataItem);
-        */
-
         for (DataItem data : arCategory) {
 
             ArrayList<HashMap<String, String>> childArrayList = new ArrayList<>();
@@ -318,9 +329,91 @@ public class MemoriesFragment extends Fragment {
             }
         }
 
+        if (filteredlist.size() == 0) {
+            Toast.makeText(getActivity(), R.string.Empty_adapter, Toast.LENGTH_SHORT).show();
+        }
+
         adapter.setData(filteredlist);
         AnalyticsUtil.search(getContext());
     }
+
+
+    private void enableActionMode(int position) {
+        if (actionMode == null) {
+            actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(actionModeCallback);
+        }
+        toggleSelection(position);
+    }
+
+    private void toggleSelection(int position) {
+        adapter.toggleSelection(position);
+        int count = adapter.getSelectedItemCount();
+
+        if (count == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(String.valueOf(count));
+            actionMode.invalidate();
+        }
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int id = item.getItemId();
+            if (id == R.id.action_delete) {
+                deleteMemories();
+                mode.finish();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            adapter.clearSelections();
+            actionMode = null;
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
+        }
+    }
+
+    private void deleteMemories() {
+        final List<Memory> selectedMemories = adapter.getSelectedItems();
+        for (Memory m : selectedMemories) {
+            adapter.removeData(m);
+            Database.getInstance().deleteMemory(m);
+
+        }
+
+        Snackbar.make(coordinatorLayout, R.string.snackbar_description, Snackbar.LENGTH_LONG)
+                .setAction(R.string.snackbar_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (Memory m : selectedMemories) {
+                            Database.getInstance().addMemory(m);
+                        }
+                        adapter.setData(Database.getInstance().getMemories());
+                    }
+                })
+                .setActionTextColor(Color.RED)
+                .show();
+
+
+        adapter.notifyDataSetChanged();
+    }
+
+
 }
 
 

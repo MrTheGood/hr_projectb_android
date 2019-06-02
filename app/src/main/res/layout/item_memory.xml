@@ -9,11 +9,20 @@
     >
 
     <ImageView
+        android:id="@+id/lyt_checked"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_done_black_24dp"
+        tools:ignore="ContentDescription,VectorDrawableCompat"
+        />
+
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
+        tools:ignore="ContentDescription"
         tools:src="@tools:sample/backgrounds/scenic"
         />
 
@@ -23,10 +32,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/imageView"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@id/imageView"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/imageView"
         android:ellipsize="end"
         android:maxLines="1"
+        tools:ignore="NotSibling"
         tools:text="@tools:sample/lorem"
         />
 
@@ -36,11 +46,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/Textviewtitle"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="0dp"
-        android:layout_toRightOf="@id/imageView"
+        android:layout_toEndOf="@id/imageView"
+        tools:ignore="NotSibling"
         tools:text="@tools:sample/date/day_of_week"
         />
-
 
 </RelativeLayout>

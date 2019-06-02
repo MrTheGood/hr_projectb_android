@@ -35,6 +35,7 @@
     <string name="dialog_discard_editmemory_title">Verwijder Memory</string>
     <string name="dialog_discard_editmemory_description">Weet u zeker dat u het bewerken of creëren van deze Memory wilt annuleren. Deze actie kan niet ongedaan worden. </string>
 
+
     <!-- Action -->
     <string name="action_gallery">Galerij</string>
     <string name="action_camera">Camera</string>
@@ -53,6 +54,13 @@
     <string name="action_finish">Sluiten</string>
     <string name="action_skip">Overslaan</string>
     <string name="action_restart_tutorial">Herstart Uitleg</string>
+
+    <!-- snackbar -->
+    <string name="snackbar_description">Weet u zeker dat u het wilt verwijderen?</string>
+    <string name="snackbar_undo">Onged. maken</string>
+
+    <!--toats-->
+    <string name="Empty_adapter">Geen memories gevonden</string>
 
 
     <!-- hint -->
