@@ -131,9 +131,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMapView.getMapAsync(this);
 
         }
-
-
     }
+    
     @Override
     public void onPause(){
         super.onPause();
