@@ -35,6 +35,7 @@ public class MemoriesFragment extends Fragment {
     private MemoriesAdapter adapter;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    public LinearLayoutManager layoutManager;
 
 
     @Nullable
@@ -49,7 +50,7 @@ public class MemoriesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.memorylist);
         recyclerView.setAdapter(adapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -133,6 +134,7 @@ public class MemoriesFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.Newest:
+                layoutManager.scrollToPositionWithOffset(0,0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -146,6 +148,7 @@ public class MemoriesFragment extends Fragment {
                 adapter.setData(memories);
                 return true;
             case R.id.Oldest:
+                layoutManager.scrollToPositionWithOffset(0,0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -159,6 +162,7 @@ public class MemoriesFragment extends Fragment {
                 adapter.setData(memories);
                 return true;
             case R.id.Alphabetical:
+                layoutManager.scrollToPositionWithOffset(0,0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -169,6 +173,7 @@ public class MemoriesFragment extends Fragment {
                 return true;
 
             case R.id.Country:
+                layoutManager.scrollToPositionWithOffset(0,0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {

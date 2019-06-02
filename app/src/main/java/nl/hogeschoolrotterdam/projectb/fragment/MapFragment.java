@@ -130,12 +130,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         }
 
+
     }
     @Override
     public void onPause(){
         super.onPause();
         MapStateManager mgr = new MapStateManager(getContext());
         mgr.saveMapState(mGoogleMap);
+    }
+    public void SetMarkerOnMap(){
+        mGoogleMap.clear();
+        for (Memory memory : Database.getInstance().getMemories()) {
+
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle())
+                    .snippet((String) memory.getDateText())
+                    .icon(memory.bitmapDescriptorFromVector(getContext(), memory.getMemoryTypeIconId())));
+            marker.setTag(memory.getId());
+            //cluster items
+            //MyItem myItem = new MyItem(memory.getLocation());
+            //clusterManager.addItem(myItem);
+
+        }
     }
 
     @Override
@@ -186,17 +201,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
-        for (Memory memory : Database.getInstance().getMemories()) {
-
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle())
-                    .snippet((String) memory.getDateText())
-                    .icon(memory.bitmapDescriptorFromVector(getContext(), memory.getMemoryTypeIconId())));
-            marker.setTag(memory.getId());
-            //cluster items
-            //MyItem myItem = new MyItem(memory.getLocation());
-            //clusterManager.addItem(myItem);
-
-        }
+        SetMarkerOnMap();
         //clusterManager.cluster();
         inity();
     }
