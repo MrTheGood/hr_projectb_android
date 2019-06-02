@@ -18,15 +18,15 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.*;
+import com.google.maps.android.clustering.ClusterManager;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
 import nl.hogeschoolrotterdam.projectb.data.Database;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.MapStateManager;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
+import nl.hogeschoolrotterdam.projectb.data.room.entities.MyItem;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleAnimatorListener;
@@ -38,6 +38,8 @@ import java.util.List;
 /**
  * Created by maartendegoede on 20/03/2019.
  * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Wesley de Man, Maarten de Goede all rights reserved.
+ * memories and search buttons are to close to add memory button
+ * When you press away form the camera permission the app gets stuck until a back press
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static float MIN_TOOLTIP_DISTANCE_MOVED = 50;
@@ -46,15 +48,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private EditText mSearchText;
     private LatLng latLng;
     private View tooltip;
+    private ClusterManager<MyItem> clusterManager;
+    private boolean bool = false;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-
         mSearchText = view.findViewById(R.id.input_search);
         mMapView = view.findViewById(R.id.map);
-
         tooltip = view.findViewById(R.id.tooltip);
         View tooltipClose = view.findViewById(R.id.tooltipClose);
         tooltipClose.setOnClickListener(new View.OnClickListener() {
@@ -126,14 +129,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (mMapView != null) {
             mMapView.onResume();
             mMapView.getMapAsync(this);
+
         }
+    }
+    
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (bool == true) {
+            MapStateManager mgr = new MapStateManager(getContext());
+            mgr.saveMapState(mGoogleMap);
+        }
+    }
+    public void SetMarkerOnMap(){
+        mGoogleMap.clear();
+        for (Memory memory : Database.getInstance().getMemories()) {
+
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle())
+                    .snippet((String) memory.getDateText())
+                    .icon(memory.bitmapDescriptorFromVector(getContext(), memory.getMemoryTypeIconId())));
+            marker.setTag(memory.getId());
+            //cluster items
+            //MyItem myItem = new MyItem(memory.getLocation());
+            //clusterManager.addItem(myItem);
+
+        }
+        bool = true;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(requireContext());
-
         mGoogleMap = googleMap;
+        //cluster things
+        //clusterManager = new ClusterManager<>(this.getContext(),mGoogleMap);
+        //googleMap.setOnCameraChangeListener(clusterManager);
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -146,8 +176,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 AnalyticsUtil.selectContent(getContext(), "Map");
             }
         });
-
+        //night mode map
+        //MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenight);
+        //googleMap.setMapStyle(style);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        MapStateManager mgr = new MapStateManager(getContext());
+        final CameraPosition position = mgr.getSavedCameraPosition();
 
         final GoogleMap map = googleMap;
         LocationManager.getInstance().updateLocation(getActivity(), new LocationManager.OnLocationResultListener() {
@@ -161,17 +195,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             .bearing(0)
                             .tilt(0)
                             .build();
-                    map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+                    if (position == null){
+                        map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+                }else{
+                        CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+                        map.moveCamera(update);
+                    }
                     map.setMyLocationEnabled(true);
                 }
             }
         });
-        for (Memory memory : Database.getInstance().getMemories()) {
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(memory.getLocation()).title(memory.getTitle())
-                    .snippet((String) memory.getDateText())
-                    .icon(memory.getTypeBitMap(getActivity())));
-            marker.setTag(memory.getId());
-        }
+        SetMarkerOnMap();
+        //clusterManager.cluster();
         inity();
     }
 

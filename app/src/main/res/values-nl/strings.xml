@@ -64,7 +64,7 @@
 
 
     <!-- hint -->
-    <string name="hint_description">Beschrijving</string>
+    <string name="hint_description">Beschrijving, voeg hier de beschrijving van uw herrinering toe.</string>
     <string name="hint_date">Datum</string>
     <string name="hint_title">Herinnering Titel</string>
 

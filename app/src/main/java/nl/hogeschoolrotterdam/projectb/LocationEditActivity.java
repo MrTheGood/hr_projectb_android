@@ -1,10 +1,12 @@
 
 package nl.hogeschoolrotterdam.projectb;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -13,11 +15,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.internal.impl.net.pablo.PlaceResult;
+import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +39,7 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
     private EditText mSearchText;
     private Button button;
     LatLng latLng;
+
 
 
     private void inity() {
@@ -82,8 +88,11 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
 
     private void setMarker(LatLng latLng) {
         float zoomLevel = mGoogleMap.getCameraPosition().zoom;
-        CameraPosition search = CameraPosition.builder().target(latLng
-                ).zoom(zoomLevel).bearing(0).tilt(0).build();
+        CameraPosition search = CameraPosition.builder().target(latLng)
+                .zoom(zoomLevel)
+                .bearing(0)
+                .tilt(0)
+                .build();
         mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(search));
         mGoogleMap.clear();
         MarkerOptions options = new MarkerOptions().position(latLng);
@@ -124,7 +133,25 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
         latLng = (LatLng) getIntent().getExtras().get("location");
         mGoogleMap = googleMap;
         setMarker(latLng);
+        final GoogleMap map = googleMap;
+        nl.hogeschoolrotterdam.projectb.util.LocationManager.getInstance().updateLocation(this, new LocationManager.OnLocationResultListener() {
+                    @SuppressLint("MissingPermission")
+                    @Override
+                    public void onLocationResult(@Nullable Location location) {
+                        if (location != null) {
+                            CameraPosition currentPosition = CameraPosition.builder()
+                                    .target(latLng)
+                                    .zoom(15)
+                                    .bearing(0)
+                                    .tilt(0)
+                                    .build();
+                            map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+                            map.setMyLocationEnabled(true);
+                        }
+                    }
+                });
         inity();
+
     }
 }
 
