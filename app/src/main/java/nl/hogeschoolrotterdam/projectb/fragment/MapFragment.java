@@ -38,6 +38,8 @@ import java.util.List;
 /**
  * Created by maartendegoede on 20/03/2019.
  * Copyright © 2019 Anass El Mahdaoui, Hicham El Marzgioui, Wesley de Man, Maarten de Goede all rights reserved.
+ * memories and search buttons are to close to add memory button
+ * When you press away form the camera permission the app gets stuck until a back press
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static float MIN_TOOLTIP_DISTANCE_MOVED = 50;
@@ -47,6 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LatLng latLng;
     private View tooltip;
     private ClusterManager<MyItem> clusterManager;
+    private boolean bool = false;
 
 
     @Nullable
@@ -135,8 +138,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onPause(){
         super.onPause();
-        MapStateManager mgr = new MapStateManager(getContext());
-        mgr.saveMapState(mGoogleMap);
+        if (bool == true) {
+            MapStateManager mgr = new MapStateManager(getContext());
+            mgr.saveMapState(mGoogleMap);
+        }
     }
     public void SetMarkerOnMap(){
         mGoogleMap.clear();
@@ -151,6 +156,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             //clusterManager.addItem(myItem);
 
         }
+        bool = true;
     }
 
     @Override

@@ -304,6 +304,7 @@ public class MemoriesFragment extends Fragment {
         ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(requireActivity(), parentItems, childItems);
         lvCategory.setAdapter(expandableListAdapter);
 
+
     }
 
     private void filter(ArrayList<String> selectedYears, ArrayList<String> selectedCountries) {

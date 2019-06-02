@@ -26,7 +26,6 @@ public class MapStateManager {
     public void saveMapState(GoogleMap mapMie) {
         SharedPreferences.Editor editor = mapStatePrefs.edit();
         CameraPosition position = mapMie.getCameraPosition();
-
         editor.putFloat(LATITUDE, (float) position.target.latitude);
         editor.putFloat(LONGITUDE, (float) position.target.longitude);
         editor.putFloat(ZOOM, position.zoom);
