@@ -139,6 +139,14 @@ public class MemoriesFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (actionMode != null) {
+            actionMode.finish();
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -146,7 +154,6 @@ public class MemoriesFragment extends Fragment {
         memories = Database.getInstance().getMemories();
         adapter.setData(memories);
         setupReferences();
-
     }
 
     @Override
@@ -163,7 +170,7 @@ public class MemoriesFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.Newest:
-                layoutManager.scrollToPositionWithOffset(0,0);
+                layoutManager.scrollToPositionWithOffset(0, 0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -177,7 +184,7 @@ public class MemoriesFragment extends Fragment {
                 adapter.setData(memories);
                 return true;
             case R.id.Oldest:
-                layoutManager.scrollToPositionWithOffset(0,0);
+                layoutManager.scrollToPositionWithOffset(0, 0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -191,7 +198,7 @@ public class MemoriesFragment extends Fragment {
                 adapter.setData(memories);
                 return true;
             case R.id.Alphabetical:
-                layoutManager.scrollToPositionWithOffset(0,0);
+                layoutManager.scrollToPositionWithOffset(0, 0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -202,7 +209,7 @@ public class MemoriesFragment extends Fragment {
                 return true;
 
             case R.id.Country:
-                layoutManager.scrollToPositionWithOffset(0,0);
+                layoutManager.scrollToPositionWithOffset(0, 0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -418,7 +425,6 @@ public class MemoriesFragment extends Fragment {
 
         adapter.notifyDataSetChanged();
     }
-
 
 }
 
