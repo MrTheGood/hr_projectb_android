@@ -142,6 +142,7 @@ public class MemoriesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if(actionMode != null)
         actionMode.finish();
     }
 
