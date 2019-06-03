@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -42,7 +42,10 @@ public class MemoriesFragment extends Fragment {
     private MemoriesAdapter adapter;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
-    public LinearLayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
+
+    private View emptyStateWarning;
+    private TextView emptyStateWarningText;
 
     private ActionModeCallback actionModeCallback;
     private ActionMode actionMode;
@@ -92,6 +95,9 @@ public class MemoriesFragment extends Fragment {
 
         coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
         mDrawerLayout = view.findViewById(R.id.drawer);
+        emptyStateWarning = view.findViewById(R.id.empty_list);
+        emptyStateWarningText = view.findViewById(R.id.empty_list_text);
+
         mToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
@@ -147,6 +153,16 @@ public class MemoriesFragment extends Fragment {
         adapter.setData(memories);
         setupReferences();
 
+        showEmptyState(memories.isEmpty(), getString(R.string.error_no_memories));
+    }
+
+    private void showEmptyState(Boolean show) {
+        showEmptyState(show, emptyStateWarningText.getText().toString());
+    }
+
+    private void showEmptyState(Boolean show, String warningText) {
+        emptyStateWarning.setVisibility(show ? View.VISIBLE : View.GONE);
+        emptyStateWarningText.setText(warningText);
     }
 
     @Override
@@ -163,7 +179,7 @@ public class MemoriesFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.Newest:
-                layoutManager.scrollToPositionWithOffset(0,0);
+                layoutManager.scrollToPositionWithOffset(0, 0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -177,7 +193,7 @@ public class MemoriesFragment extends Fragment {
                 adapter.setData(memories);
                 return true;
             case R.id.Oldest:
-                layoutManager.scrollToPositionWithOffset(0,0);
+                layoutManager.scrollToPositionWithOffset(0, 0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -191,7 +207,7 @@ public class MemoriesFragment extends Fragment {
                 adapter.setData(memories);
                 return true;
             case R.id.Alphabetical:
-                layoutManager.scrollToPositionWithOffset(0,0);
+                layoutManager.scrollToPositionWithOffset(0, 0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -202,7 +218,7 @@ public class MemoriesFragment extends Fragment {
                 return true;
 
             case R.id.Country:
-                layoutManager.scrollToPositionWithOffset(0,0);
+                layoutManager.scrollToPositionWithOffset(0, 0);
                 Collections.sort(memories, new Comparator<Memory>() {
                     @Override
                     public int compare(Memory a, Memory b) {
@@ -335,11 +351,8 @@ public class MemoriesFragment extends Fragment {
             }
         }
 
-        if (filteredlist.size() == 0) {
-            Toast.makeText(getActivity(), R.string.Empty_adapter, Toast.LENGTH_SHORT).show();
-        }
-
         adapter.setData(filteredlist);
+        showEmptyState(filteredlist.isEmpty(), getString(R.string.error_no_filter_match));
         AnalyticsUtil.search(getContext());
     }
 
@@ -399,9 +412,9 @@ public class MemoriesFragment extends Fragment {
         for (Memory m : selectedMemories) {
             adapter.removeData(m);
             Database.getInstance().deleteMemory(m);
-
         }
 
+        showEmptyState(adapter.getItemCount() == 0);
         Snackbar.make(coordinatorLayout, R.string.snackbar_description, Snackbar.LENGTH_LONG)
                 .setAction(R.string.snackbar_undo, new View.OnClickListener() {
                     @Override
@@ -410,6 +423,7 @@ public class MemoriesFragment extends Fragment {
                             Database.getInstance().addMemory(m);
                         }
                         adapter.setData(Database.getInstance().getMemories());
+                        showEmptyState(adapter.getItemCount() == 0);
                     }
                 })
                 .setActionTextColor(Color.RED)

@@ -84,6 +84,10 @@ public class SearchFragment extends Fragment {
             filter(input_search.getText().toString());
     }
 
+    private void showEmptyState(Boolean show) {
+        getView().findViewById(R.id.empty_search).setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     private void filter(String text) {
         ArrayList<Memory> filteredlist = new ArrayList<>();
 
@@ -94,6 +98,7 @@ public class SearchFragment extends Fragment {
                 filteredlist.add(item);
             }
         }
+        showEmptyState(filteredlist.isEmpty());
         adapter.setData(filteredlist);
         AnalyticsUtil.search(getContext());
     }

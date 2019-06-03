@@ -81,6 +81,10 @@
     <string name="warn_enable_permissions">Enable location permissions</string>
     <string name="warn_enable_permissions_message">WHIB needs to know your location to save memories near you!</string>
 
+    <string name="error_no_filter_match">No memories matching your filter</string>
+    <string name="error_no_memories">No memories here yet!  Go out there and make some amazing ones!</string>
+    <string name="error_no_search_match">No memories matching your query</string>
+
     <!-- Other -->
     <string name="desc_theme_preview">Theme Preview</string>
     <string name="string_delete_memory">Delete Memory</string>
