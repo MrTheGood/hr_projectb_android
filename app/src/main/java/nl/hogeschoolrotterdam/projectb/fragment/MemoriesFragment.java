@@ -145,6 +145,14 @@ public class MemoriesFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (actionMode != null) {
+            actionMode.finish();
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -432,7 +440,6 @@ public class MemoriesFragment extends Fragment {
 
         adapter.notifyDataSetChanged();
     }
-
 
 }
 
