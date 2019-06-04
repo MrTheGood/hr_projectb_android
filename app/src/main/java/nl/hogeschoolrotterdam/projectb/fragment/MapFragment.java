@@ -49,8 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private EditText mSearchText;
     private LatLng latLng;
     private View tooltip;
-    private ClusterManager<MyItem> clusterManager;
-    private boolean bool = false;
+    private boolean boolMapInitializer = false;
 
 
     @Nullable
@@ -150,22 +149,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     .snippet((String) memory.getDateText())
                     .icon(memory.bitmapDescriptorFromVector(getContext(), memory.getMemoryTypeIconId())));
             marker.setTag(memory.getId());
-            //cluster items
-            //MyItem myItem = new MyItem(memory.getLocation());
-            //clusterManager.addItem(myItem);
+
 
         }
-        bool = true;
+        boolMapInitializer = true;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(requireContext());
         mGoogleMap = googleMap;
-        //cluster things
-        //clusterManager = new ClusterManager<>(this.getContext(),mGoogleMap);
-        //googleMap.setOnCameraChangeListener(clusterManager);
-        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 String memoryId = (String) marker.getTag();
@@ -177,7 +171,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 AnalyticsUtil.selectContent(getContext(), "Map");
             }
         });
-        //night mode map
+        //style mode mode map
         if (WhibApp.getInstance().getThemeId()== R.style.AppTheme_Dark){
             MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenight);
             googleMap.setMapStyle(style);
@@ -191,8 +185,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         }
         else {
-            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenormal);
+            googleMap.setMapStyle(style);;
         }
+
 
         MapStateManager mgr = new MapStateManager(getContext());
         final CameraPosition position = mgr.getSavedCameraPosition();
@@ -220,7 +216,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         SetMarkerOnMap();
-        //clusterManager.cluster();
         inity();
     }
 
