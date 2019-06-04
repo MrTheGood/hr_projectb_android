@@ -54,6 +54,7 @@ public class MemoryEditActivity extends AppCompatActivity {
     private Memory memory = null;
     LatLng latLng;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(WhibApp.getInstance().getThemeId());
@@ -77,8 +78,9 @@ public class MemoryEditActivity extends AppCompatActivity {
         addMediaButton = findViewById(R.id.add_media);
         mediaList = findViewById(R.id.images);
         spinner = findViewById(R.id.Marker_selector);
-
         dateInput.getEditText().setKeyListener(null);
+
+
 
         final Calendar calendar = Calendar.getInstance();
         if (getIntent().getStringExtra("ID") != null) {
@@ -331,6 +333,7 @@ public class MemoryEditActivity extends AppCompatActivity {
 
 
     private void setButtonEnabled() {
+
         saveButton.setEnabled(isDescriptionValid && isTitleValid);
     }
 

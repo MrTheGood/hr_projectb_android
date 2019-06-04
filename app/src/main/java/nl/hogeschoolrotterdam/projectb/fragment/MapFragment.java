@@ -23,6 +23,7 @@ import com.google.maps.android.clustering.ClusterManager;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
+import nl.hogeschoolrotterdam.projectb.WhibApp;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.MapStateManager;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
@@ -132,7 +133,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         }
     }
-    
+
     @Override
     public void onPause(){
         super.onPause();
@@ -177,9 +178,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         //night mode map
-        //MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenight);
-        //googleMap.setMapStyle(style);
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if (WhibApp.getInstance().getThemeId()== R.style.AppTheme_Dark){
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenight);
+            googleMap.setMapStyle(style);
+        }else if(WhibApp.getInstance().getThemeId()== R.style.AppTheme_Dark_Purple){
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstyleaubergine);
+            googleMap.setMapStyle(style);
+
+        }else if(WhibApp.getInstance().getThemeId()== R.style.AppTheme_Dark_Red){
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylered);
+            googleMap.setMapStyle(style);
+
+        }
+        else {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }
+
         MapStateManager mgr = new MapStateManager(getContext());
         final CameraPosition position = mgr.getSavedCameraPosition();
 
