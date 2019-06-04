@@ -42,6 +42,17 @@
             android:textSize="15sp"
             tools:ignore="RtlHardcoded"
             />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/input_search"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/ic_gps"
+            android:src="@drawable/ic_gps"
+            />
+
 
     </RelativeLayout>
 
@@ -86,7 +97,9 @@
             android:src="@drawable/ic_action_close"
             android:tint="?colorOnSecondary"
             />
+
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

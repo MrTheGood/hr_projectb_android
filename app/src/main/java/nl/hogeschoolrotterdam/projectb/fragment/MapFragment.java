@@ -12,6 +12,7 @@ import android.view.*;
 import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,6 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LatLng latLng;
     private View tooltip;
     private boolean boolMapInitializer = false;
+    private ImageView mGps;
 
 
     @Nullable
@@ -57,6 +59,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mSearchText = view.findViewById(R.id.input_search);
         mMapView = view.findViewById(R.id.map);
         tooltip = view.findViewById(R.id.tooltip);
+        mGps =  view.findViewById(R.id.ic_gps);
         View tooltipClose = view.findViewById(R.id.tooltipClose);
         tooltipClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,6 +242,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     geoLocate();
                 }
                 return false;
+            }
+        });
+        mGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v,) {
+                CameraPosition currentPosition = CameraPosition.builder()
+                        .target(new LatLng(getLatitude(), getLongitude()))
+                        .zoom(15)
+                        .bearing(0)
+                        .tilt(0)
+                        .build();
+                mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
             }
         });
     }
