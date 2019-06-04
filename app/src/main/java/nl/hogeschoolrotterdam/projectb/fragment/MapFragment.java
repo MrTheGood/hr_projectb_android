@@ -19,7 +19,6 @@ import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-import com.google.maps.android.clustering.ClusterManager;
 import nl.hogeschoolrotterdam.projectb.MemoryDetailActivity;
 import nl.hogeschoolrotterdam.projectb.MemoryEditActivity;
 import nl.hogeschoolrotterdam.projectb.R;
@@ -27,7 +26,6 @@ import nl.hogeschoolrotterdam.projectb.WhibApp;
 import nl.hogeschoolrotterdam.projectb.data.Database;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.MapStateManager;
 import nl.hogeschoolrotterdam.projectb.data.room.entities.Memory;
-import nl.hogeschoolrotterdam.projectb.data.room.entities.MyItem;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.LocationManager;
 import nl.hogeschoolrotterdam.projectb.util.SimpleAnimatorListener;
@@ -136,7 +134,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onPause(){
         super.onPause();
-        if (bool == true) {
+        if (boolMapInitializer == true) {
             MapStateManager mgr = new MapStateManager(getContext());
             mgr.saveMapState(mGoogleMap);
         }
