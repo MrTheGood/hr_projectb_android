@@ -105,4 +105,30 @@
         <item name="colorAccent">#DD2828</item>
     </style>
 
+
+    <style name="AppTheme.Light.Green">
+        <!-- Primary colours -->
+        <item name="colorPrimary">#3E9634</item>
+        <item name="colorPrimaryVariant">#397732</item>
+
+        <!-- Secondary colours -->
+        <item name="colorSecondary">#3E9634</item>
+        <item name="colorSecondaryVariant">#397732</item>
+
+        <item name="colorPrimaryDark">#397732</item>
+        <item name="colorAccent">#3E9634</item>
+    </style>
+
+
+    <style name="AppTheme.Dark.Green">
+        <!-- Primary colours -->
+        <item name="colorPrimary">#397732</item>
+
+        <!-- Secondary colours -->
+        <item name="colorSecondary">#397732</item>
+        <item name="colorSecondaryVariant">#397732</item>
+
+        <item name="colorAccent">#397732</item>
+    </style>
+
 </resources>
