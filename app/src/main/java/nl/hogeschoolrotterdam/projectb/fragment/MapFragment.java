@@ -246,14 +246,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v,) {
-                CameraPosition currentPosition = CameraPosition.builder()
-                        .target(new LatLng(getLatitude(), getLongitude()))
-                        .zoom(15)
-                        .bearing(0)
-                        .tilt(0)
-                        .build();
-                mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+            public void onClick(View v) {
+                LocationManager.getInstance().updateLocation(getActivity(), new LocationManager.OnLocationResultListener() {
+                    @SuppressLint("MissingPermission")
+                    @Override
+                    public void onLocationResult(@Nullable Location location) {
+                        if (location != null) {
+                            CameraPosition currentPosition = CameraPosition.builder()
+                                    .target(new LatLng(location.getLatitude(),location.getLongitude()))
+                                    .zoom(15)
+                                    .bearing(0)
+                                    .tilt(0)
+                                    .build();
+                            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+
+                        }
+                    }
+                });
             }
         });
     }
