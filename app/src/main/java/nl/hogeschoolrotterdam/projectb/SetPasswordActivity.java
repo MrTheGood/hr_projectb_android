@@ -29,7 +29,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                 repeatPassword.setError(null);
                 oldPassword.setError(null);
 
-                if (WhibApp.getInstance().hasPassword() && WhibApp.getInstance().checkPassword(oldPassword.getText().toString())) {
+                if (WhibApp.getInstance().hasPassword() && !WhibApp.getInstance().checkPassword(oldPassword.getText().toString())) {
                     oldPassword.setError(getString(R.string.error_invalid_password));
                     return;
                 }
