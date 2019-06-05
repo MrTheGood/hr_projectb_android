@@ -77,6 +77,7 @@
     <string name="hint_title">Herinnering Titel</string>
     <string name="hint_password">Wachtwoord</string>
     <string name="hint_repeat_password">Herhaal Wachtwoord</string>
+    <string name="hint_current_password">Huidige wachtwoord</string>
 
     <!-- errors -->
     <string name="error_title_too_short">Titel mag niet korter zijn dan 2 characters.</string>

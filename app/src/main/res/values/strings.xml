@@ -83,6 +83,7 @@
     <string name="hint_title">Memory Title</string>
     <string name="hint_password">Password</string>
     <string name="hint_repeat_password">Repeat Password</string>
+    <string name="hint_current_password">Current Password</string>
 
     <!-- errors -->
     <string name="error_title_too_short">Title cannot be shorter than 2 characters.</string>
