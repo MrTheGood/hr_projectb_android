@@ -59,7 +59,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mSearchText = view.findViewById(R.id.input_search);
         mMapView = view.findViewById(R.id.map);
         tooltip = view.findViewById(R.id.tooltip);
-        mGps =  view.findViewById(R.id.ic_gps);
+        mGps = view.findViewById(R.id.ic_gps);
         View tooltipClose = view.findViewById(R.id.tooltipClose);
         tooltipClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,14 +135,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         if (boolMapInitializer == true) {
             MapStateManager mgr = new MapStateManager(getContext());
             mgr.saveMapState(mGoogleMap);
         }
     }
-    public void SetMarkerOnMap(){
+
+    public void SetMarkerOnMap() {
         mGoogleMap.clear();
         for (Memory memory : Database.getInstance().getMemories()) {
 
@@ -160,7 +161,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(requireContext());
         mGoogleMap = googleMap;
-                mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 String memoryId = (String) marker.getTag();
@@ -173,20 +174,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         //style mode mode map
-        if (WhibApp.getInstance().getThemeId()== R.style.AppTheme_Dark){
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenight);
-            googleMap.setMapStyle(style);
-        }else if(WhibApp.getInstance().getThemeId()== R.style.AppTheme_Dark_Purple){
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstyleaubergine);
+        if (WhibApp.getInstance().getThemeId() == R.style.AppTheme_Dark_Purple) {
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapstyleaubergine);
             googleMap.setMapStyle(style);
 
-        }else if(WhibApp.getInstance().getThemeId()== R.style.AppTheme_Dark_Red){
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylered);
+        } else if (WhibApp.getInstance().getThemeId() == R.style.AppTheme_Dark_Red) {
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapstylered);
             googleMap.setMapStyle(style);
 
-        }
-        else {
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenormal);
+        } else if (WhibApp.getInstance().isDarkTheme()) {
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapstylenight);
+            googleMap.setMapStyle(style);
+
+        } else {
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapstylenormal);
             googleMap.setMapStyle(style);
         }
 
@@ -206,9 +207,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             .bearing(0)
                             .tilt(0)
                             .build();
-                    if (position == null){
+                    if (position == null) {
                         map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
-                }else{
+                    } else {
                         CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
                         map.moveCamera(update);
                     }
@@ -253,7 +254,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void onLocationResult(@Nullable Location location) {
                         if (location != null) {
                             CameraPosition currentPosition = CameraPosition.builder()
-                                    .target(new LatLng(location.getLatitude(),location.getLongitude()))
+                                    .target(new LatLng(location.getLatitude(), location.getLongitude()))
                                     .zoom(15)
                                     .bearing(0)
                                     .tilt(0)

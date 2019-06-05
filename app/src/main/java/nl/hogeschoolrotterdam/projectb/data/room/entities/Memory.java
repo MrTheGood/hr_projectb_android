@@ -162,9 +162,10 @@ public class Memory {
         try {
             List<Address> listAddresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
             if (null != listAddresses && listAddresses.size() > 0) {
-                if (listAddresses.get(0).getCountryName() != "" && listAddresses.get(0).getCountryName() != null){
-                return listAddresses.get(0).getCountryName();
-            }}
+                if (listAddresses.get(0).getCountryName() != "" && listAddresses.get(0).getCountryName() != null) {
+                    return listAddresses.get(0).getCountryName();
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -271,10 +272,21 @@ public class Memory {
     }
 
     public BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
-        if (vectorDrawableResourceId == R.drawable.ic_map_adefault){
+        if (vectorDrawableResourceId == R.drawable.ic_map_adefault) {
             Drawable background = ContextCompat.getDrawable(context, getIconBackground());
             Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-            background.setBounds((background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth())/2 ,( background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) /3
+            background.setBounds((background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth()) / 2, (background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) / 3
+                    , background.getIntrinsicWidth(), background.getIntrinsicHeight());
+            vectorDrawable.setBounds(55, 35, vectorDrawable.getIntrinsicWidth() + 50, vectorDrawable.getIntrinsicHeight() + 25);
+            Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            background.draw(canvas);
+            vectorDrawable.draw(canvas);
+            return BitmapDescriptorFactory.fromBitmap(bitmap);
+        } else {
+            Drawable background = ContextCompat.getDrawable(context, getIconBackground());
+            Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+            background.setBounds((background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth()) / 2, (background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) / 3
                     , background.getIntrinsicWidth(), background.getIntrinsicHeight());
             vectorDrawable.setBounds(55, 35, vectorDrawable.getIntrinsicWidth() + 50, vectorDrawable.getIntrinsicHeight() + 25);
             Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -283,30 +295,19 @@ public class Memory {
             vectorDrawable.draw(canvas);
             return BitmapDescriptorFactory.fromBitmap(bitmap);
         }
-        else{
-        Drawable background = ContextCompat.getDrawable(context, getIconBackground());
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-        background.setBounds((background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth())/2 ,( background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) /3
-                , background.getIntrinsicWidth(), background.getIntrinsicHeight());
-        vectorDrawable.setBounds(55, 35, vectorDrawable.getIntrinsicWidth() + 50, vectorDrawable.getIntrinsicHeight() + 25);
-        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        background.draw(canvas);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }}
-    public int getIconBackground(){
-        if (getMemoryType() <=10){
+    }
+
+    public int getIconBackground() {
+        if (getMemoryType() <= 10) {
             return R.drawable.ic_backround_red_pointer;
 
-        } else if (getMemoryType() >10 && getMemoryType() <=20){
+        } else if (getMemoryType() > 10 && getMemoryType() <= 20) {
             return R.drawable.ic_backround_purple_pointer;
-                }
-        else if (getMemoryType() >20 && getMemoryType()<=30){
+        } else if (getMemoryType() > 20 && getMemoryType() <= 30) {
             return R.drawable.ic_backround_orange_pointer;
-              }
-        else return R.drawable.ic_backround_blue_pointer;
+        } else return R.drawable.ic_backround_blue_pointer;
     }
+
     public String getYear() {
         Calendar c = Calendar.getInstance();
         c.setTime(getDate());

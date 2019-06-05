@@ -81,7 +81,6 @@ public class MemoryEditActivity extends AppCompatActivity {
         dateInput.getEditText().setKeyListener(null);
 
 
-
         final Calendar calendar = Calendar.getInstance();
         if (getIntent().getStringExtra("ID") != null) {
             isEditMode = true;

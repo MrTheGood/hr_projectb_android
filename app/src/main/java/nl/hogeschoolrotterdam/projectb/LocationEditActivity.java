@@ -41,7 +41,6 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
     LatLng latLng;
 
 
-
     private void inity() {
         mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
@@ -135,21 +134,21 @@ public class LocationEditActivity extends AppCompatActivity implements OnMapRead
         setMarker(latLng);
         final GoogleMap map = googleMap;
         nl.hogeschoolrotterdam.projectb.util.LocationManager.getInstance().updateLocation(this, new LocationManager.OnLocationResultListener() {
-                    @SuppressLint("MissingPermission")
-                    @Override
-                    public void onLocationResult(@Nullable Location location) {
-                        if (location != null) {
-                            CameraPosition currentPosition = CameraPosition.builder()
-                                    .target(latLng)
-                                    .zoom(15)
-                                    .bearing(0)
-                                    .tilt(0)
-                                    .build();
-                            map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
-                            map.setMyLocationEnabled(true);
-                        }
-                    }
-                });
+            @SuppressLint("MissingPermission")
+            @Override
+            public void onLocationResult(@Nullable Location location) {
+                if (location != null) {
+                    CameraPosition currentPosition = CameraPosition.builder()
+                            .target(latLng)
+                            .zoom(15)
+                            .bearing(0)
+                            .tilt(0)
+                            .build();
+                    map.moveCamera(CameraUpdateFactory.newCameraPosition(currentPosition));
+                    map.setMyLocationEnabled(true);
+                }
+            }
+        });
         inity();
 
     }
