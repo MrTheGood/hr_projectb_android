@@ -20,6 +20,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         final EditText repeatPassword = findViewById(R.id.set_password_repeat_input);
         final CheckBox useFingerprint = findViewById(R.id.use_fingerprint);
         useFingerprint.setVisibility(Build.VERSION.SDK_INT >= 28 ? View.VISIBLE : View.GONE);
+        useFingerprint.setChecked(Build.VERSION.SDK_INT >= 28);
         oldPassword.setVisibility(WhibApp.getInstance().hasPassword() ? View.VISIBLE : View.GONE);
 
         findViewById(R.id.set_password_button).setOnClickListener(new View.OnClickListener() {
