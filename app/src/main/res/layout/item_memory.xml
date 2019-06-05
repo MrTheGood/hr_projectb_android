@@ -12,6 +12,7 @@
         android:id="@+id/lyt_checked"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:tint="?colorOnSurface"
         android:src="@drawable/ic_done_black_24dp"
         tools:ignore="ContentDescription,VectorDrawableCompat"
         />

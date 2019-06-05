@@ -22,7 +22,7 @@
     <string name="str_onboarding_map_description">Easily view all the places where you have been on the map page!</string>
     <string name="str_onboarding_share">Share Your Memories</string>
     <string name="str_onboarding_share_description">Simply share your memories on WhatsApp, Telegram or Facebook!</string>
-    <string name="str_tutorial_longpress">Long press to add!</string>
+    <string name="str_tutorial_longpress">Long press to add memories</string>
 
     <!--Drawer-->
     <string name="open">open</string>
@@ -38,8 +38,10 @@
     <string name="dialog_add_media_camera_description">How would you like to capture the media?</string>
     <string name="dialog_remove_image">Change Media</string>
     <string name="dialog_remove_image_description">Are you sure you want to change this media?</string>
-    <string name="dialog_discard_editmemory_title">Discard Memory</string>
-    <string name="dialog_discard_editmemory_description">Are you sure you want to cancel editing or creating this memory? This action cannot be undone.</string>
+    <string name="dialog_discard_editmemory_title">Discard Edits</string>
+    <string name="dialog_discard_editmemory_description">Are you sure you want to cancel editing this memory? This action cannot be undone.</string>
+    <string name="dialog_discard_addmemory_title">Discard Memory</string>
+    <string name="dialog_discard_addmemory_description">Are you sure you want to cancel creating this memory? This action cannot be undone.</string>
 
 
     <!-- Action -->
@@ -62,7 +64,7 @@
     <string name="action_restart_tutorial">Restart Tutorial</string>
 
     <!-- snackbar -->
-    <string name="snackbar_description">Are you sure you want to delete?</string>
+    <string name="snackbar_description">Memories deleted</string>
     <string name="snackbar_undo">Undo</string>
 
     <!--toats-->
