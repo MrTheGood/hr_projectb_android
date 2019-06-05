@@ -27,6 +27,7 @@ public class WhibApp extends Application {
     private boolean passwordEnabled = false;
     private String password = null;
     private boolean loggedIn = false;
+    private boolean useFingerprint = false;
 
     public static WhibApp getInstance() {
         return instance;
@@ -44,6 +45,7 @@ public class WhibApp extends Application {
 
         passwordEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("passwordEnabled", false);
         password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
+        useFingerprint = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("useFingerprint", false);
 
         themeId = PreferenceManager.getDefaultSharedPreferences(this).getInt("themeId", R.style.AppTheme_Light);
         isDarkTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isDarkTheme", false);
@@ -152,5 +154,17 @@ public class WhibApp extends Application {
 
     public void logIn() {
         loggedIn = true;
+    }
+
+    public boolean useFingerprint() {
+        return useFingerprint;
+    }
+
+    public void setUseFingerprint(boolean value) {
+        useFingerprint = value;
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putBoolean("useFingerprint", useFingerprint)
+                .apply();
     }
 }

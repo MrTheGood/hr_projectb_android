@@ -26,6 +26,7 @@
     <string name="str_log_in">Log In</string>
     <string name="str_set_password">Set Password</string>
     <string name="str_enable_password">Enable password</string>
+    <string name="str_use_fingerprint">Use fingerprint</string>
 
     <!--Drawer-->
     <string name="open">open</string>
@@ -95,6 +96,7 @@
     <string name="error_no_search_match">No memories matching your query</string>
     <string name="error_passwords_dont_match">The passwords to not match</string>
     <string name="error_invalid_password">You did not enter the correct password!</string>
+    <string name="error_password_empty">Your password cannot be empty!</string>
 
     <!-- Other -->
     <string name="desc_theme_preview">Theme Preview</string>
