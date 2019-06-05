@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        if (WhibApp.getInstance().shouldLogIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
 
         // This connects the bottom navigation bar with the navigation graph,
         // this way the navigation for the fragments is handled automatically,

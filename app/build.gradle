@@ -54,7 +54,6 @@ dependencies {
 
     //map
     implementation 'com.google.android.libraries.places:places:1.1.0'
-    implementation 'com.google.maps.android:android-maps-utils:0.4.3'
 
     // other
     implementation project(":mediapickerfixed")

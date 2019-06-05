@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <uses-feature
         android:glEsVersion="0x0020000"
@@ -24,6 +25,8 @@
         tools:ignore="GoogleAppIndexingWarning"
         >
         <activity android:name=".LocationEditActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SetPasswordActivity" />
         <provider
             android:name=".util.GenericFileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -44,9 +47,7 @@
             android:name=".MemoryDetailActivity"
             android:label="@string/menu_memory"
             />
-        <activity
-            android:name=".OnboardingActivity"
-            >
+        <activity android:name=".OnboardingActivity">
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

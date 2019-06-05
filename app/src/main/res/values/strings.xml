@@ -23,6 +23,10 @@
     <string name="str_onboarding_share">Share Your Memories</string>
     <string name="str_onboarding_share_description">Simply share your memories on WhatsApp, Telegram or Facebook!</string>
     <string name="str_tutorial_longpress">Long press to add memories</string>
+    <string name="str_log_in">Log In</string>
+    <string name="str_set_password">Set Password</string>
+    <string name="str_enable_password">Enable password</string>
+    <string name="str_use_fingerprint">Use fingerprint</string>
 
     <!--Drawer-->
     <string name="open">open</string>
@@ -62,6 +66,8 @@
     <string name="action_finish">Finish</string>
     <string name="action_skip">Skip</string>
     <string name="action_restart_tutorial">Restart Tutorial</string>
+    <string name="action_set_password">Set Password</string>
+    <string name="action_log_in">Log In</string>
 
     <!-- snackbar -->
     <string name="snackbar_description">Memories deleted</string>
@@ -75,6 +81,9 @@
     <string name="hint_description">Description, add the description of your memory here.</string>
     <string name="hint_date">Date</string>
     <string name="hint_title">Memory Title</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_repeat_password">Repeat Password</string>
+    <string name="hint_current_password">Current Password</string>
 
     <!-- errors -->
     <string name="error_title_too_short">Title cannot be shorter than 2 characters.</string>
@@ -86,6 +95,9 @@
     <string name="error_no_filter_match">No memories matching your filter</string>
     <string name="error_no_memories">No memories here yet!  Go out there and make some amazing ones!</string>
     <string name="error_no_search_match">No memories matching your query</string>
+    <string name="error_passwords_dont_match">The passwords to not match</string>
+    <string name="error_invalid_password">You did not enter the correct password!</string>
+    <string name="error_password_empty">Your password cannot be empty!</string>
 
     <!-- Other -->
     <string name="desc_theme_preview">Theme Preview</string>

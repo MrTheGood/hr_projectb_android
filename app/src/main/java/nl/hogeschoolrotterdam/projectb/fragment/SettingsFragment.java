@@ -11,10 +11,7 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import nl.hogeschoolrotterdam.projectb.BuildConfig;
-import nl.hogeschoolrotterdam.projectb.OnboardingActivity;
-import nl.hogeschoolrotterdam.projectb.R;
-import nl.hogeschoolrotterdam.projectb.WhibApp;
+import nl.hogeschoolrotterdam.projectb.*;
 import nl.hogeschoolrotterdam.projectb.util.AnalyticsUtil;
 import nl.hogeschoolrotterdam.projectb.util.SimpleOnItemSelectedListener;
 
@@ -49,6 +46,10 @@ public class SettingsFragment extends Fragment {
         final CheckBox enableAnalyticsBox = getView().findViewById(R.id.enable_analytics);
         final CheckBox enableCrashlyticsBox = getView().findViewById(R.id.enable_crashlytics);
         Button applyButton = getView().findViewById(R.id.settings_apply);
+
+        final CheckBox enablePassword = getView().findViewById(R.id.enable_password);
+        final Button setPassword = getView().findViewById(R.id.set_password);
+
         Button privacyPolicyButton = getView().findViewById(R.id.privacy_policy);
         Button restartTutorialButton = getView().findViewById(R.id.restart_tutorial);
         Button openSourceButton = getView().findViewById(R.id.open_source_code);
@@ -80,6 +81,24 @@ public class SettingsFragment extends Fragment {
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean("hasShownMapTooltipTutorial", false).apply();
             }
         });
+
+
+        enablePassword.setChecked(WhibApp.getInstance().isPasswordEnabled());
+        setPassword.setEnabled(WhibApp.getInstance().isPasswordEnabled());
+        enablePassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setPassword.setEnabled(isChecked);
+                WhibApp.getInstance().setPasswordEnabled(isChecked);
+            }
+        });
+        setPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SetPasswordActivity.class));
+            }
+        });
+
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
