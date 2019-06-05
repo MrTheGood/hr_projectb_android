@@ -187,7 +187,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         else {
             MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.mapstylenormal);
-            googleMap.setMapStyle(style);;
+            googleMap.setMapStyle(style);
         }
 
 
