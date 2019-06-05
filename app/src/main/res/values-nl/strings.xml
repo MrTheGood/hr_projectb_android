@@ -17,6 +17,9 @@
     <string name="str_onboarding_share">Deel Je Herinneringen</string>
     <string name="str_onboarding_share_description">Deel gemakkelijk uw herinneringen via WhatsApp, Telegram of Facebook!</string>
     <string name="str_tutorial_longpress">Druk lang om herinneringen toe te voegen</string>
+    <string name="str_log_in">Log In</string>
+    <string name="str_set_password">Set Wachtwoord</string>
+    <string name="str_enable_password">Gebruik wachtwoord</string>
 
     <!--Drawer-->
     <string name="open">open</string>
@@ -56,6 +59,8 @@
     <string name="action_finish">Sluiten</string>
     <string name="action_skip">Overslaan</string>
     <string name="action_restart_tutorial">Herstart Uitleg</string>
+    <string name="action_set_password">Set wachtwoord</string>
+    <string name="action_log_in">Log In</string>
 
     <!-- snackbar -->
     <string name="snackbar_description">Herinneringen verwijderd.</string>
@@ -69,6 +74,8 @@
     <string name="hint_description">Beschrijving, voeg hier de beschrijving van uw herrinering toe.</string>
     <string name="hint_date">Datum</string>
     <string name="hint_title">Herinnering Titel</string>
+    <string name="hint_password">Wachtwoord</string>
+    <string name="hint_repeat_password">Herhaal Wachtwoord</string>
 
     <!-- errors -->
     <string name="error_title_too_short">Titel mag niet korter zijn dan 2 characters.</string>
@@ -80,6 +87,8 @@
     <string name="error_no_filter_match">Geen herinneringen die aan uw filter voldoen</string>
     <string name="error_no_memories">Nog geen hernineringen! Maak snel een paar geweldige herinneringen!</string>
     <string name="error_no_search_match">Geen memories met die text</string>
+    <string name="error_passwords_dont_match">De wachtwoorden komen niet met elkaar over</string>
+    <string name="error_invalid_password">U heeft niet het correcte wachtwoord ingevuld!</string>
 
     <!-- Other -->
     <string name="desc_theme_preview">Theme Preview</string>

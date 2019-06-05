@@ -89,17 +89,39 @@
                 app:layout_constraintTop_toBottomOf="@id/enable_crashlytics"
                 />
 
+            <CheckBox
+                android:id="@+id/enable_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/str_enable_password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_apply"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/set_password"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_set_password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/enable_password"
+                />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/privacy_policy"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/action_privacy_policy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/settings_apply"
+                app:layout_constraintTop_toBottomOf="@id/set_password"
                 />
 
 

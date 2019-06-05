@@ -24,6 +24,8 @@
         tools:ignore="GoogleAppIndexingWarning"
         >
         <activity android:name=".LocationEditActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SetPasswordActivity" />
         <provider
             android:name=".util.GenericFileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -44,9 +46,7 @@
             android:name=".MemoryDetailActivity"
             android:label="@string/menu_memory"
             />
-        <activity
-            android:name=".OnboardingActivity"
-            >
+        <activity android:name=".OnboardingActivity">
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
