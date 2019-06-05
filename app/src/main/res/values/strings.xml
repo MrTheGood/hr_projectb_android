@@ -15,7 +15,7 @@
 
     <!-- Strings -->
     <string name="str_enter_adress">Enter address</string>
-    <string name="str_search">Search…</string>
+    <string name="str_search">Search by title, country or description</string>
     <string name="string_enable_analytics">Send anonymous usage statistics</string>
     <string name="string_enable_crashlytics">Send anonymous crash logs</string>
     <string name="str_onboarding_map">See Where You Have Been</string>
