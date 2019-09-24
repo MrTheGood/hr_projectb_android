@@ -65,7 +65,7 @@
 
     <!-- snackbar -->
     <string name="snackbar_description">Herinneringen verwijderd.</string>
-    <string name="snackbar_undo">Onged. maken</string>
+    <string name="snackbar_undo">Ongedaan maken</string>
 
     <!--toats-->
     <string name="Empty_adapter">Geen memories gevonden</string>
