@@ -61,7 +61,7 @@
     <string name="action_skip">Overslaan</string>
     <string name="action_restart_tutorial">Herstart Uitleg</string>
     <string name="action_set_password">Set wachtwoord</string>
-    <string name="action_log_in">Log In</string>
+    <string name="action_log_in">Log in</string>
 
     <!-- snackbar -->
     <string name="snackbar_description">Herinneringen verwijderd.</string>
